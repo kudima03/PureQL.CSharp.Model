@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.3.11222.16 d18.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PureQL.CSharp.Model", "PureQL.CSharp.Model\PureQL.CSharp.Model.csproj", "{5221A1B9-F383-4DA7-9017-1332B200D114}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{67CCC379-FA95-4005-9D24-223DED264A21}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1731E2DE-7711-43DE-AB9D-0605400E2CF9}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PureQL.CSharp.Model.Tests", "Tests\PureQL.CSharp.Model.Tests\PureQL.CSharp.Model.Tests.csproj", "{610FB6B4-EC0C-4D31-8EB1-95E587A87DED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5221A1B9-F383-4DA7-9017-1332B200D114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5221A1B9-F383-4DA7-9017-1332B200D114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5221A1B9-F383-4DA7-9017-1332B200D114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5221A1B9-F383-4DA7-9017-1332B200D114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{610FB6B4-EC0C-4D31-8EB1-95E587A87DED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{610FB6B4-EC0C-4D31-8EB1-95E587A87DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{610FB6B4-EC0C-4D31-8EB1-95E587A87DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{610FB6B4-EC0C-4D31-8EB1-95E587A87DED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{610FB6B4-EC0C-4D31-8EB1-95E587A87DED} = {67CCC379-FA95-4005-9D24-223DED264A21}
+	EndGlobalSection
+EndGlobal
