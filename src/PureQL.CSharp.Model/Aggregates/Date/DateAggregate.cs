@@ -2,7 +2,8 @@ using OneOf;
 
 namespace PureQL.CSharp.Model.Aggregates.Date;
 
-public sealed class DateAggregate : OneOfBase<MaxDate, MinDate, AverageDate>
+public sealed class DateAggregate
+    : OneOfBase<MaxDate, MinDate, AverageDate>
 {
     public DateAggregate(AverageDate averageDate)
         : this((OneOf<MaxDate, MinDate, AverageDate>)averageDate) { }
