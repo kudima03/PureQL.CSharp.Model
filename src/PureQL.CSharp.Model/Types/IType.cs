@@ -1,4 +1,4 @@
-namespace PureQL.CSharp.Model;
+namespace PureQL.CSharp.Model.Types;
 
 public interface IType
 {
