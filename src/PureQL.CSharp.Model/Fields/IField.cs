@@ -1,6 +1,6 @@
 using PureQL.CSharp.Model.Types;
 
-namespace PureQL.CSharp.Model;
+namespace PureQL.CSharp.Model.Fields;
 
 public interface IField
 {
