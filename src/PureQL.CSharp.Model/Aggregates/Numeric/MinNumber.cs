@@ -9,5 +9,5 @@ public sealed record MinNumber
         Argument = argument;
     }
 
-    public NumberReturning Argument { get; private set; }
+    public NumberReturning Argument { get; }
 }

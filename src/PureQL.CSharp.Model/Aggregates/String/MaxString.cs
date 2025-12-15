@@ -9,5 +9,5 @@ public sealed record MaxString
         Argument = argument;
     }
 
-    public StringReturning Argument { get; private set; }
+    public StringReturning Argument { get; }
 }

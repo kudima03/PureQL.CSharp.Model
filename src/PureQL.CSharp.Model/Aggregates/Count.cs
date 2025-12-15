@@ -9,5 +9,5 @@ public sealed record Count
         Argument = argument;
     }
 
-    public Field Argument { get; private set; }
+    public Field Argument { get; }
 }

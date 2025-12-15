@@ -9,5 +9,5 @@ public sealed record AverageNumber
         Argument = argument;
     }
 
-    public NumberReturning Argument { get; private set; }
+    public NumberReturning Argument { get; }
 }
