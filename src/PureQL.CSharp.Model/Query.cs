@@ -5,18 +5,18 @@ namespace PureQL.CSharp.Model;
 
 public sealed record Query
 {
-    public Query(IFromExpression from, SelectExpression select)
+    public Query(FromExpression from, SelectExpression select)
         : this(from, select, null, null, null, null, null, null) { }
 
     public Query(
-        IFromExpression from,
+        FromExpression from,
         SelectExpression select,
         BooleanReturning? where,
         IEnumerable<Join>? join,
         IEnumerable<Field>? groupBy,
         BooleanReturning? having,
         IEnumerable<Field>? orderBy,
-        IPagination? pagination
+        Pagination? pagination
     )
     {
         From = from;
@@ -29,7 +29,7 @@ public sealed record Query
         Pagination = pagination;
     }
 
-    public IFromExpression From { get; }
+    public FromExpression From { get; }
 
     public SelectExpression Select { get; }
 
@@ -43,5 +43,5 @@ public sealed record Query
 
     public IEnumerable<Field>? OrderBy { get; }
 
-    public IPagination? Pagination { get; }
+    public Pagination? Pagination { get; }
 }
