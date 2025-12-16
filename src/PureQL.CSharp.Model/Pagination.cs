@@ -1,6 +1,6 @@
 namespace PureQL.CSharp.Model;
 
-public interface IPagination
+public sealed record Pagination
 {
     public long Skip { get; }
 
