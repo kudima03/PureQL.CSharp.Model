@@ -3,7 +3,15 @@ using OneOf;
 namespace PureQL.CSharp.Model.Fields;
 
 public sealed class Field
-    : OneOfBase<BooleanField, DateField, DateTimeField, NumberField, TimeField, UuidField>
+    : OneOfBase<
+        BooleanField,
+        DateField,
+        DateTimeField,
+        NumberField,
+        TimeField,
+        UuidField,
+        StringField
+    >
 {
     public Field(BooleanField field)
         : this(
@@ -13,7 +21,8 @@ public sealed class Field
                 DateTimeField,
                 NumberField,
                 TimeField,
-                UuidField
+                UuidField,
+                StringField
             >)
                 field
         )
@@ -27,7 +36,8 @@ public sealed class Field
                 DateTimeField,
                 NumberField,
                 TimeField,
-                UuidField
+                UuidField,
+                StringField
             >)
                 field
         )
@@ -41,7 +51,8 @@ public sealed class Field
                 DateTimeField,
                 NumberField,
                 TimeField,
-                UuidField
+                UuidField,
+                StringField
             >)
                 field
         )
@@ -55,7 +66,8 @@ public sealed class Field
                 DateTimeField,
                 NumberField,
                 TimeField,
-                UuidField
+                UuidField,
+                StringField
             >)
                 field
         )
@@ -69,7 +81,8 @@ public sealed class Field
                 DateTimeField,
                 NumberField,
                 TimeField,
-                UuidField
+                UuidField,
+                StringField
             >)
                 field
         )
@@ -83,7 +96,23 @@ public sealed class Field
                 DateTimeField,
                 NumberField,
                 TimeField,
-                UuidField
+                UuidField,
+                StringField
+            >)
+                field
+        )
+    { }
+
+    public Field(StringField field)
+        : this(
+            (OneOf<
+                BooleanField,
+                DateField,
+                DateTimeField,
+                NumberField,
+                TimeField,
+                UuidField,
+                StringField
             >)
                 field
         )
@@ -96,7 +125,8 @@ public sealed class Field
             DateTimeField,
             NumberField,
             TimeField,
-            UuidField
+            UuidField,
+            StringField
         > input
     )
         : base(input) { }
