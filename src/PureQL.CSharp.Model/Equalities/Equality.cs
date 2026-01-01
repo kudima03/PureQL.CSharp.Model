@@ -11,7 +11,7 @@ public sealed class Equality
         NumberEquality,
         StringEquality,
         TimeEquality,
-        UuidReturning
+        UuidEquality
     >
 {
     public Equality(BooleanEquality equality)
@@ -23,7 +23,7 @@ public sealed class Equality
                 NumberEquality,
                 StringEquality,
                 TimeEquality,
-                UuidReturning
+                UuidEquality
             >)
                 equality
         )
@@ -38,7 +38,7 @@ public sealed class Equality
                 NumberEquality,
                 StringEquality,
                 TimeEquality,
-                UuidReturning
+                UuidEquality
             >)
                 equality
         )
@@ -53,7 +53,7 @@ public sealed class Equality
                 NumberEquality,
                 StringEquality,
                 TimeEquality,
-                UuidReturning
+                UuidEquality
             >)
                 equality
         )
@@ -68,7 +68,7 @@ public sealed class Equality
                 NumberEquality,
                 StringEquality,
                 TimeEquality,
-                UuidReturning
+                UuidEquality
             >)
                 equality
         )
@@ -83,7 +83,7 @@ public sealed class Equality
                 NumberEquality,
                 StringEquality,
                 TimeEquality,
-                UuidReturning
+                UuidEquality
             >)
                 equality
         )
@@ -98,13 +98,13 @@ public sealed class Equality
                 NumberEquality,
                 StringEquality,
                 TimeEquality,
-                UuidReturning
+                UuidEquality
             >)
                 equality
         )
     { }
 
-    public Equality(UuidReturning equality)
+    public Equality(UuidEquality equality)
         : this(
             (OneOf<
                 BooleanEquality,
@@ -113,7 +113,7 @@ public sealed class Equality
                 NumberEquality,
                 StringEquality,
                 TimeEquality,
-                UuidReturning
+                UuidEquality
             >)
                 equality
         )
@@ -127,7 +127,7 @@ public sealed class Equality
             NumberEquality,
             StringEquality,
             TimeEquality,
-            UuidReturning
+            UuidEquality
         > input
     )
         : base(input) { }
