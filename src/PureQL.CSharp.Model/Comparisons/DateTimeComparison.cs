@@ -1,11 +1,13 @@
+using PureQL.CSharp.Model.Returnings;
+
 namespace PureQL.CSharp.Model.Comparisons;
 
 public sealed record DateTimeComparison
 {
     public DateTimeComparison(
         ComparisonOperator @operator,
-        DateTimeComparison left,
-        DateTimeComparison right
+        DateTimeReturning left,
+        DateTimeReturning right
     )
     {
         Operator = @operator;
@@ -15,7 +17,7 @@ public sealed record DateTimeComparison
 
     public ComparisonOperator Operator { get; }
 
-    public DateTimeComparison Left { get; }
+    public DateTimeReturning Left { get; }
 
-    public DateTimeComparison Right { get; }
+    public DateTimeReturning Right { get; }
 }
