@@ -2,9 +2,9 @@ using PureQL.CSharp.Model.Returnings;
 
 namespace PureQL.CSharp.Model.Aggregates.Time;
 
-public sealed record AveradeTime
+public sealed record AverageTime
 {
-    public AveradeTime(TimeReturning argument)
+    public AverageTime(TimeReturning argument)
     {
         Argument = argument;
     }
