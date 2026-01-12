@@ -1,5 +1,4 @@
 using OneOf;
-using PureQL.CSharp.Model.Aggregates.Date;
 
 namespace PureQL.CSharp.Model.Aggregates.Time;
 
