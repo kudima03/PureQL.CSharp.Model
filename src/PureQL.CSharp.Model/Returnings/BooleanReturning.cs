@@ -8,7 +8,14 @@ using PureQL.CSharp.Model.Scalars;
 namespace PureQL.CSharp.Model.Returnings;
 
 public sealed class BooleanReturning
-    : OneOfBase<BooleanField, BooleanParameter, BooleanScalar, Equality, BooleanOperator>
+    : OneOfBase<
+        BooleanField,
+        BooleanParameter,
+        BooleanScalar,
+        Equality,
+        BooleanOperator,
+        Comparisons.Comparison
+    >
 {
     public BooleanReturning(BooleanOperator booleanOperator)
         : this(
@@ -17,7 +24,8 @@ public sealed class BooleanReturning
                 BooleanParameter,
                 BooleanScalar,
                 Equality,
-                BooleanOperator
+                BooleanOperator,
+                Comparisons.Comparison
             >)
                 booleanOperator
         )
@@ -30,7 +38,8 @@ public sealed class BooleanReturning
                 BooleanParameter,
                 BooleanScalar,
                 Equality,
-                BooleanOperator
+                BooleanOperator,
+                Comparisons.Comparison
             >)
                 field
         )
@@ -43,7 +52,8 @@ public sealed class BooleanReturning
                 BooleanParameter,
                 BooleanScalar,
                 Equality,
-                BooleanOperator
+                BooleanOperator,
+                Comparisons.Comparison
             >)
                 field
         )
@@ -56,7 +66,8 @@ public sealed class BooleanReturning
                 BooleanParameter,
                 BooleanScalar,
                 Equality,
-                BooleanOperator
+                BooleanOperator,
+                Comparisons.Comparison
             >)
                 parameter
         )
@@ -69,9 +80,24 @@ public sealed class BooleanReturning
                 BooleanParameter,
                 BooleanScalar,
                 Equality,
-                BooleanOperator
+                BooleanOperator,
+                Comparisons.Comparison
             >)
                 scalar
+        )
+    { }
+
+    public BooleanReturning(Comparisons.Comparison comparison)
+        : this(
+            (OneOf<
+                BooleanField,
+                BooleanParameter,
+                BooleanScalar,
+                Equality,
+                BooleanOperator,
+                Comparisons.Comparison
+            >)
+                comparison
         )
     { }
 
@@ -81,7 +107,8 @@ public sealed class BooleanReturning
             BooleanParameter,
             BooleanScalar,
             Equality,
-            BooleanOperator
+            BooleanOperator,
+            Comparisons.Comparison
         > input
     )
         : base(input) { }
