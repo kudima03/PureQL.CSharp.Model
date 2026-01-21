@@ -14,7 +14,7 @@ public sealed class SelectExpression
         UuidReturning
     >
 {
-    public SelectExpression(BooleanReturning returning)
+    public SelectExpression(BooleanReturning returning, string? alias = null)
         : this(
             (OneOf<
                 BooleanReturning,
@@ -25,11 +25,12 @@ public sealed class SelectExpression
                 DateTimeReturning,
                 UuidReturning
             >)
-                returning
+                returning,
+            alias
         )
     { }
 
-    public SelectExpression(NumberReturning returning)
+    public SelectExpression(NumberReturning returning, string? alias = null)
         : this(
             (OneOf<
                 BooleanReturning,
@@ -40,11 +41,12 @@ public sealed class SelectExpression
                 DateTimeReturning,
                 UuidReturning
             >)
-                returning
+                returning,
+            alias
         )
     { }
 
-    public SelectExpression(StringReturning returning)
+    public SelectExpression(StringReturning returning, string? alias = null)
         : this(
             (OneOf<
                 BooleanReturning,
@@ -55,11 +57,12 @@ public sealed class SelectExpression
                 DateTimeReturning,
                 UuidReturning
             >)
-                returning
+                returning,
+            alias
         )
     { }
 
-    public SelectExpression(DateReturning returning)
+    public SelectExpression(DateReturning returning, string? alias = null)
         : this(
             (OneOf<
                 BooleanReturning,
@@ -70,11 +73,12 @@ public sealed class SelectExpression
                 DateTimeReturning,
                 UuidReturning
             >)
-                returning
+                returning,
+            alias
         )
     { }
 
-    public SelectExpression(TimeReturning returning)
+    public SelectExpression(TimeReturning returning, string? alias = null)
         : this(
             (OneOf<
                 BooleanReturning,
@@ -85,11 +89,12 @@ public sealed class SelectExpression
                 DateTimeReturning,
                 UuidReturning
             >)
-                returning
+                returning,
+            alias
         )
     { }
 
-    public SelectExpression(DateTimeReturning returning)
+    public SelectExpression(DateTimeReturning returning, string? alias = null)
         : this(
             (OneOf<
                 BooleanReturning,
@@ -100,11 +105,12 @@ public sealed class SelectExpression
                 DateTimeReturning,
                 UuidReturning
             >)
-                returning
+                returning,
+            alias
         )
     { }
 
-    public SelectExpression(UuidReturning returning)
+    public SelectExpression(UuidReturning returning, string? alias = null)
         : this(
             (OneOf<
                 BooleanReturning,
@@ -115,7 +121,8 @@ public sealed class SelectExpression
                 DateTimeReturning,
                 UuidReturning
             >)
-                returning
+                returning,
+            alias
         )
     { }
 
@@ -128,7 +135,13 @@ public sealed class SelectExpression
             TimeReturning,
             DateTimeReturning,
             UuidReturning
-        > input
+        > input,
+        string? alias
     )
-        : base(input) { }
+        : base(input)
+    {
+        Alias = alias;
+    }
+
+    public string? Alias { get; }
 }
