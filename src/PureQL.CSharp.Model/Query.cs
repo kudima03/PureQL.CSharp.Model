@@ -5,12 +5,12 @@ namespace PureQL.CSharp.Model;
 
 public sealed record Query
 {
-    public Query(FromExpression from, SelectExpression select)
+    public Query(FromExpression from, IEnumerable<SelectExpression> select)
         : this(from, select, null, null, null, null, null, null) { }
 
     public Query(
         FromExpression from,
-        SelectExpression select,
+        IEnumerable<SelectExpression> selectExpressions,
         BooleanReturning? where,
         IEnumerable<Join>? join,
         IEnumerable<Field>? groupBy,
@@ -20,7 +20,7 @@ public sealed record Query
     )
     {
         From = from;
-        Select = select;
+        SelectExpressions = selectExpressions;
         Where = where;
         Join = join;
         GroupBy = groupBy;
@@ -31,7 +31,7 @@ public sealed record Query
 
     public FromExpression From { get; }
 
-    public SelectExpression Select { get; }
+    public IEnumerable<SelectExpression> SelectExpressions { get; }
 
     public BooleanReturning? Where { get; }
 
