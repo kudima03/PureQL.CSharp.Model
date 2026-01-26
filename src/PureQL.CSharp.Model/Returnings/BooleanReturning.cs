@@ -1,6 +1,5 @@
 using OneOf;
 using PureQL.CSharp.Model.BooleanOperations;
-using PureQL.CSharp.Model.Equalities;
 using PureQL.CSharp.Model.Parameters;
 using PureQL.CSharp.Model.Scalars;
 

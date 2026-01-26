@@ -1,7 +1,8 @@
 using OneOf;
 using PureQL.CSharp.Model.ArrayEqualities;
+using PureQL.CSharp.Model.Equalities;
 
-namespace PureQL.CSharp.Model.Equalities;
+namespace PureQL.CSharp.Model;
 
 public sealed class Equality : OneOfBase<SingleValueEquality, ArrayEquality>
 {
