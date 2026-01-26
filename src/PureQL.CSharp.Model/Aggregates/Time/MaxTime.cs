@@ -1,13 +1,13 @@
-using PureQL.CSharp.Model.Returnings;
+using PureQL.CSharp.Model.ArrayReturnings;
 
 namespace PureQL.CSharp.Model.Aggregates.Time;
 
 public sealed record MaxTime
 {
-    public MaxTime(TimeReturning argument)
+    public MaxTime(TimeArrayReturning argument)
     {
         Argument = argument;
     }
 
-    public TimeReturning Argument { get; }
+    public TimeArrayReturning Argument { get; }
 }
