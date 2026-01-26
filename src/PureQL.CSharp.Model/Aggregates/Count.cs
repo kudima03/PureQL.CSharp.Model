@@ -1,13 +1,13 @@
-using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.ArrayReturnings;
 
 namespace PureQL.CSharp.Model.Aggregates;
 
 public sealed record Count
 {
-    public Count(Field argument)
+    public Count(ArrayReturning argument)
     {
         Argument = argument;
     }
 
-    public Field Argument { get; }
+    public ArrayReturning Argument { get; }
 }
