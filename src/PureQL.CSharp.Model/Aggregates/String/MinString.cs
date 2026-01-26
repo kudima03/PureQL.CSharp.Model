@@ -1,13 +1,13 @@
-using PureQL.CSharp.Model.Returnings;
+using PureQL.CSharp.Model.ArrayReturnings;
 
 namespace PureQL.CSharp.Model.Aggregates.String;
 
 public sealed record MinString
 {
-    public MinString(StringReturning argument)
+    public MinString(StringArrayReturning argument)
     {
         Argument = argument;
     }
 
-    public StringReturning Argument { get; }
+    public StringArrayReturning Argument { get; }
 }
