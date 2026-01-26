@@ -1,133 +1,16 @@
 using OneOf;
+using PureQL.CSharp.Model.ArrayEqualities;
 
 namespace PureQL.CSharp.Model.Equalities;
 
-public sealed class Equality
-    : OneOfBase<
-        BooleanEquality,
-        DateEquality,
-        DateTimeEquality,
-        NumberEquality,
-        StringEquality,
-        TimeEquality,
-        UuidEquality
-    >
+public sealed class Equality : OneOfBase<SingleValueEquality, ArrayEquality>
 {
-    public Equality(BooleanEquality equality)
-        : this(
-            (OneOf<
-                BooleanEquality,
-                DateEquality,
-                DateTimeEquality,
-                NumberEquality,
-                StringEquality,
-                TimeEquality,
-                UuidEquality
-            >)
-                equality
-        )
-    { }
+    public Equality(SingleValueEquality equality)
+        : this((OneOf<SingleValueEquality, ArrayEquality>)equality) { }
 
-    public Equality(DateEquality equality)
-        : this(
-            (OneOf<
-                BooleanEquality,
-                DateEquality,
-                DateTimeEquality,
-                NumberEquality,
-                StringEquality,
-                TimeEquality,
-                UuidEquality
-            >)
-                equality
-        )
-    { }
+    public Equality(ArrayEquality equality)
+        : this((OneOf<SingleValueEquality, ArrayEquality>)equality) { }
 
-    public Equality(DateTimeEquality equality)
-        : this(
-            (OneOf<
-                BooleanEquality,
-                DateEquality,
-                DateTimeEquality,
-                NumberEquality,
-                StringEquality,
-                TimeEquality,
-                UuidEquality
-            >)
-                equality
-        )
-    { }
-
-    public Equality(NumberEquality equality)
-        : this(
-            (OneOf<
-                BooleanEquality,
-                DateEquality,
-                DateTimeEquality,
-                NumberEquality,
-                StringEquality,
-                TimeEquality,
-                UuidEquality
-            >)
-                equality
-        )
-    { }
-
-    public Equality(StringEquality equality)
-        : this(
-            (OneOf<
-                BooleanEquality,
-                DateEquality,
-                DateTimeEquality,
-                NumberEquality,
-                StringEquality,
-                TimeEquality,
-                UuidEquality
-            >)
-                equality
-        )
-    { }
-
-    public Equality(TimeEquality equality)
-        : this(
-            (OneOf<
-                BooleanEquality,
-                DateEquality,
-                DateTimeEquality,
-                NumberEquality,
-                StringEquality,
-                TimeEquality,
-                UuidEquality
-            >)
-                equality
-        )
-    { }
-
-    public Equality(UuidEquality equality)
-        : this(
-            (OneOf<
-                BooleanEquality,
-                DateEquality,
-                DateTimeEquality,
-                NumberEquality,
-                StringEquality,
-                TimeEquality,
-                UuidEquality
-            >)
-                equality
-        )
-    { }
-
-    private Equality(
-        OneOf<
-            BooleanEquality,
-            DateEquality,
-            DateTimeEquality,
-            NumberEquality,
-            StringEquality,
-            TimeEquality,
-            UuidEquality
-        > input
-    )
+    private Equality(OneOf<SingleValueEquality, ArrayEquality> input)
         : base(input) { }
 }
