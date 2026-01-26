@@ -1,13 +1,13 @@
-using PureQL.CSharp.Model.Returnings;
+using PureQL.CSharp.Model.ArrayReturnings;
 
 namespace PureQL.CSharp.Model.Aggregates.DateTime;
 
 public sealed record AverageDateTime
 {
-    public AverageDateTime(DateTimeReturning argument)
+    public AverageDateTime(DateTimeArrayReturning argument)
     {
         Argument = argument;
     }
 
-    public DateTimeReturning Argument { get; }
+    public DateTimeArrayReturning Argument { get; }
 }

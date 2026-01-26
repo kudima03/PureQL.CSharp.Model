@@ -2,7 +2,7 @@ using OneOf;
 
 namespace PureQL.CSharp.Model.Equalities;
 
-public sealed class Equality
+public sealed class SingleValueEquality
     : OneOfBase<
         BooleanEquality,
         DateEquality,
@@ -13,7 +13,7 @@ public sealed class Equality
         UuidEquality
     >
 {
-    public Equality(BooleanEquality equality)
+    public SingleValueEquality(BooleanEquality equality)
         : this(
             (OneOf<
                 BooleanEquality,
@@ -28,7 +28,7 @@ public sealed class Equality
         )
     { }
 
-    public Equality(DateEquality equality)
+    public SingleValueEquality(DateEquality equality)
         : this(
             (OneOf<
                 BooleanEquality,
@@ -43,7 +43,7 @@ public sealed class Equality
         )
     { }
 
-    public Equality(DateTimeEquality equality)
+    public SingleValueEquality(DateTimeEquality equality)
         : this(
             (OneOf<
                 BooleanEquality,
@@ -58,7 +58,7 @@ public sealed class Equality
         )
     { }
 
-    public Equality(NumberEquality equality)
+    public SingleValueEquality(NumberEquality equality)
         : this(
             (OneOf<
                 BooleanEquality,
@@ -73,7 +73,7 @@ public sealed class Equality
         )
     { }
 
-    public Equality(StringEquality equality)
+    public SingleValueEquality(StringEquality equality)
         : this(
             (OneOf<
                 BooleanEquality,
@@ -88,7 +88,7 @@ public sealed class Equality
         )
     { }
 
-    public Equality(TimeEquality equality)
+    public SingleValueEquality(TimeEquality equality)
         : this(
             (OneOf<
                 BooleanEquality,
@@ -103,7 +103,7 @@ public sealed class Equality
         )
     { }
 
-    public Equality(UuidEquality equality)
+    public SingleValueEquality(UuidEquality equality)
         : this(
             (OneOf<
                 BooleanEquality,
@@ -118,7 +118,7 @@ public sealed class Equality
         )
     { }
 
-    private Equality(
+    private SingleValueEquality(
         OneOf<
             BooleanEquality,
             DateEquality,

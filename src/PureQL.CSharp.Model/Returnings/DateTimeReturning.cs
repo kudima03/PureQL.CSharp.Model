@@ -1,24 +1,17 @@
 using OneOf;
-using PureQL.CSharp.Model.Fields;
 using PureQL.CSharp.Model.Parameters;
 using PureQL.CSharp.Model.Scalars;
 
 namespace PureQL.CSharp.Model.Returnings;
 
-public sealed class DateTimeReturning
-    : OneOfBase<DateTimeField, DateTimeParameter, DateTimeScalar>
+public sealed class DateTimeReturning : OneOfBase<DateTimeParameter, DateTimeScalar>
 {
-    public DateTimeReturning(DateTimeField field)
-        : this((OneOf<DateTimeField, DateTimeParameter, DateTimeScalar>)field) { }
-
     public DateTimeReturning(DateTimeParameter parameter)
-        : this((OneOf<DateTimeField, DateTimeParameter, DateTimeScalar>)parameter) { }
+        : this((OneOf<DateTimeParameter, DateTimeScalar>)parameter) { }
 
     public DateTimeReturning(DateTimeScalar scalar)
-        : this((OneOf<DateTimeField, DateTimeParameter, DateTimeScalar>)scalar) { }
+        : this((OneOf<DateTimeParameter, DateTimeScalar>)scalar) { }
 
-    private DateTimeReturning(
-        OneOf<DateTimeField, DateTimeParameter, DateTimeScalar> input
-    )
+    private DateTimeReturning(OneOf<DateTimeParameter, DateTimeScalar> input)
         : base(input) { }
 }

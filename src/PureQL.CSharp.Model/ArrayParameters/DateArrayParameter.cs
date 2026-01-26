@@ -1,0 +1,17 @@
+using PureQL.CSharp.Model.ArrayTypes;
+using PureQL.CSharp.Model.Parameters;
+using PureQL.CSharp.Model.Types;
+
+namespace PureQL.CSharp.Model.ArrayParameters;
+
+public sealed record DateArrayParameter : IParameter
+{
+    public DateArrayParameter(string name)
+    {
+        Name = name;
+    }
+
+    public string Name { get; }
+
+    public IType Type => new DateArrayType();
+}

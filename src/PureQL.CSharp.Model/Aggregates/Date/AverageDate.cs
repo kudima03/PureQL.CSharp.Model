@@ -1,13 +1,13 @@
-using PureQL.CSharp.Model.Returnings;
+using PureQL.CSharp.Model.ArrayReturnings;
 
 namespace PureQL.CSharp.Model.Aggregates.Date;
 
 public sealed record AverageDate
 {
-    public AverageDate(DateReturning argument)
+    public AverageDate(DateArrayReturning argument)
     {
         Argument = argument;
     }
 
-    public DateReturning Argument { get; }
+    public DateArrayReturning Argument { get; }
 }
