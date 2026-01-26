@@ -1,13 +1,13 @@
-using PureQL.CSharp.Model.Returnings;
+using PureQL.CSharp.Model.ArrayReturnings;
 
 namespace PureQL.CSharp.Model.Aggregates.Numeric;
 
 public sealed record SumNumber
 {
-    public SumNumber(NumberReturning argument)
+    public SumNumber(NumberArrayReturning argument)
     {
         Argument = argument;
     }
 
-    public NumberReturning Argument { get; }
+    public NumberArrayReturning Argument { get; }
 }
