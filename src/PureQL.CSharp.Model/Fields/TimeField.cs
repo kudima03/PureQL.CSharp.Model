@@ -1,3 +1,4 @@
+using PureQL.CSharp.Model.ArrayTypes;
 using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Fields;
@@ -14,5 +15,5 @@ public sealed record TimeField : IField
 
     public string Field { get; }
 
-    public IType Type => new TimeType();
+    public IType Type => new TimeArrayType();
 }
