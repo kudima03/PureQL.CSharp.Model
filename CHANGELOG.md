@@ -7,7 +7,7 @@ Versioning mirrors the PureQL specification with a `-csharp.N` suffix where need
 
 ---
 
-## [Unreleased] — spec 0.1.0-preview.0.5.0
+## [0.1.0-preview.11.0.0] — spec 0.1.0-preview.0.5.0
 
 Brings the C# model fully in line with PureQL specification versions
 `0.1.0-preview.0.2.0` through `0.1.0-preview.0.5.0`.
@@ -106,43 +106,3 @@ Per-row time math:
   matching the spec where `alias` is not in the `required` array.
 - **`Query.Distinct`** property added (`bool`, default `false`), matching the
   `distinct` property defined at the root query level in the spec.
-
----
-
-## [0.1.0-preview.0.1.0] — spec 0.1.0-preview.0.1.0
-
-Initial release aligned with PureQL specification `0.1.0-preview.0.1.0`.
-
-### Added
-
-- Core query record `Query` with `From`, `SelectExpressions`, `Where`,
-  `Join`, `GroupBy`, `Having`, `OrderBy`, `Pagination`.
-- Complete scalar type system: `StringScalar`, `NumberScalar`,
-  `BooleanScalar`, `NullScalar`, `DateScalar`, `TimeScalar`,
-  `DateTimeScalar`, `UuidScalar`.
-- Array scalar variants: `StringArrayScalar`, `NumberArrayScalar`, etc.
-- Typed fields: `StringField`, `NumberField`, `BooleanField`, `DateField`,
-  `TimeField`, `DateTimeField`, `UuidField`. `Field` union wraps all.
-- Typed parameters and array parameters.
-- `FromExpression` (entity + alias), `Pagination` (skip + take).
-- `SelectExpression` — either `SingleValueReturning` or `ArrayReturning`
-  with optional alias.
-- Typed returnings: `BooleanReturning`, `NumberReturning`,
-  `StringReturning`, `DateReturning`, `TimeReturning`, `DateTimeReturning`,
-  `UuidReturning`. Array variants: `BooleanArrayReturning`,
-  `NumberArrayReturning`, etc.
-- Single-value arithmetic: `Add`, `Subtract`, `Multiply`, `Divide`
-  wrapped in `Arithmetic`.
-- Boolean operators: `AndOperator`, `OrOperator`, `NotOperator`.
-- Single-value equalities: `BooleanEquality`, `NumberEquality`,
-  `StringEquality`, `DateEquality`, `TimeEquality`, `DateTimeEquality`,
-  `UuidEquality` wrapped in `SingleValueEquality`.
-- Array equalities: `BooleanArrayEquality`, `NumberArrayEquality`, etc.
-  wrapped in `ArrayEquality`.
-- Single-value comparisons: `NumberComparison`, `StringComparison`,
-  `DateComparison`, `TimeComparison`, `DateTimeComparison`. Operator values
-  in `ComparisonOperator` enum.
-- Aggregates: `Count`, `NumberAggregate` (`Sum`, `Min`, `Max`,
-  `Average`), `StringAggregate`, `DateAggregate`, `TimeAggregate`,
-  `DateTimeAggregate`.
-- `JoinType` enum (`Inner`, `Left`, `Right`, `Full`).
