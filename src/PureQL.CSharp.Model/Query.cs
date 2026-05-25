@@ -1,3 +1,5 @@
+using OneOf;
+using PureQL.CSharp.Model.ArrayReturnings;
 using PureQL.CSharp.Model.Fields;
 using PureQL.CSharp.Model.Returnings;
 
@@ -11,7 +13,7 @@ public sealed record Query
     public Query(
         FromExpression from,
         IEnumerable<SelectExpression> selectExpressions,
-        BooleanReturning? where,
+        OneOf<BooleanReturning, BooleanArrayReturning>? where,
         IEnumerable<Join>? join,
         IEnumerable<Field>? groupBy,
         BooleanReturning? having,
@@ -33,7 +35,7 @@ public sealed record Query
 
     public IEnumerable<SelectExpression> SelectExpressions { get; }
 
-    public BooleanReturning? Where { get; }
+    public OneOf<BooleanReturning, BooleanArrayReturning>? Where { get; }
 
     public IEnumerable<Join>? Join { get; }
 
