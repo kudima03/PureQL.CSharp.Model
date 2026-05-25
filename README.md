@@ -1,219 +1,150 @@
 # PureQL.CSharp.Model
 
-C# model library for [PureQL](https://github.com/kudima03/PureQL-Specification) — a JSON-based query language. Provides strongly-typed .NET record and discriminated-union types that mirror the PureQL JSON Schema, enabling construction, inspection, and serialisation of PureQL queries in C#.
+Typed C# AST for building PureQL queries — immutable, AOT-compatible records and discriminated unions that model every clause of a SQL-like query.
 
-**Current specification version:** `0.1.0-preview.0.5.0`
+[![.NET build & test](https://github.com/kudima03/PureQL.CSharp.Model/actions/workflows/build-and-test.yml/badge.svg?branch=main)](https://github.com/kudima03/PureQL.CSharp.Model/actions/workflows/build-and-test.yml)
+[![Build and Deploy](https://github.com/kudima03/PureQL.CSharp.Model/actions/workflows/publish-nuget.yml/badge.svg?branch=main)](https://github.com/kudima03/PureQL.CSharp.Model/actions/workflows/publish-nuget.yml)
+[![NuGet](https://img.shields.io/nuget/v/PureQL.CSharp.Model)](https://www.nuget.org/packages/PureQL.CSharp.Model)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
----
+## Overview
+
+`PureQL.CSharp.Model` defines the abstract syntax tree (AST) used across the PureQL ecosystem to represent database queries in C#. Every clause of a query — fields, scalar values, named parameters, conditions, joins, aggregates, arithmetic operations, and pagination — is encoded as an immutable record or discriminated union (via [OneOf](https://github.com/mcintyre321/OneOf)). Query builders construct instances of these types; a separate translator package interprets them.
+
+## Query Model
+
+`Query` is the top-level sealed record that assembles all clauses:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `From` | `FromExpression` | Entity name and alias |
+| `SelectExpressions` | `IEnumerable<SelectExpression>` | Columns or array columns to return |
+| `Where` | `BooleanReturning?` | Filter predicate |
+| `Join` | `IEnumerable<Join>?` | Join clauses |
+| `GroupBy` | `IEnumerable<Field>?` | Grouping fields |
+| `Having` | `BooleanReturning?` | Post-aggregate filter |
+| `OrderBy` | `IEnumerable<Field>?` | Sort fields |
+| `Pagination` | `Pagination?` | Skip / Take |
+
+## Type Hierarchy
+
+### Core
+
+| Type | Kind | Description |
+|------|------|-------------|
+| `Query` | sealed record | Top-level query node |
+| `FromExpression` | sealed record | Entity + alias for FROM |
+| `SelectExpression` | sealed class | `SingleValueReturning` or `ArrayReturning` with optional alias |
+| `Join` | sealed record | `JoinType`, entity name, and ON (`BooleanReturning`) |
+| `JoinType` | enum | Left, Right, Inner, Full |
+| `Equality` | sealed class | `SingleValueEquality` or `ArrayEquality` |
+| `Pagination` | sealed record | Skip and Take counts |
+
+### Fields (`PureQL.CSharp.Model.Fields`)
+
+`IField` exposes `Entity`, `Field`, and `IType`. `Field` is a discriminated union over:
+`BooleanField`, `DateField`, `DateTimeField`, `NumberField`, `TimeField`, `UuidField`, `StringField`.
+
+Fields are used in GROUP BY and ORDER BY clauses. Each concrete field takes `(string entity, string field)`.
+
+### Types (`PureQL.CSharp.Model.Types`)
+
+`IType` (single `Name` property) with concrete records: `BooleanType`, `DateType`, `DateTimeType`, `NumberType`, `StringType`, `TimeType`, `UuidType`, `NullType`. Array counterparts live in `PureQL.CSharp.Model.ArrayTypes`.
+
+### Scalars (`PureQL.CSharp.Model.Scalars`)
+
+Inline literal values: `INumberScalar` / `NumberScalar`, `IBooleanScalar` / `BooleanScalar`, and equivalents for Date, DateTime, String, Time, Uuid, Null.
+
+### Parameters (`PureQL.CSharp.Model.Parameters`)
+
+Named placeholders (`IParameter` — `Name` + `IType`): `NumberParameter`, `BooleanParameter`, `DateParameter`, `DateTimeParameter`, `StringParameter`, `TimeParameter`, `UuidParameter`, `NullParameter`. Array variants in `PureQL.CSharp.Model.ArrayParameters`.
+
+### Returnings (`PureQL.CSharp.Model.Returnings`)
+
+Typed value expressions used in SELECT, WHERE, comparisons, and joins:
+
+| Type | Variants |
+|------|---------|
+| `SingleValueReturning` | Boolean, Date, DateTime, Number, String, Time, Uuid returnings |
+| `ArrayReturning` | Boolean, Date, DateTime, Number, String, Time, Uuid array returnings |
+| `BooleanReturning` | `BooleanParameter`, `BooleanScalar`, `Equality`, `BooleanOperator`, `Comparison` |
+| `NumberReturning` | `NumberParameter`, `NumberScalar` |
+
+Each typed returning (e.g. `NumberReturning`) is a discriminated union over the matching parameter and scalar types.
+
+### Conditions
+
+**Comparisons** (`PureQL.CSharp.Model.Comparisons`): `Comparison` wraps `DateComparison`, `DateTimeComparison`, `NumberComparison`, `StringComparison`, or `TimeComparison`. Each holds a `ComparisonOperator` (GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual) and typed Left / Right returnings.
+
+**Equalities** (`PureQL.CSharp.Model.Equalities`): `SingleValueEquality` wraps Boolean, Date, DateTime, Number, String, Time, or Uuid equality types. Each holds typed Left / Right returnings.
+
+**Boolean operations** (`PureQL.CSharp.Model.BooleanOperations`): `BooleanOperator` wraps `AndOperator`, `OrOperator`, or `NotOperator`. And/Or accept either `IEnumerable<BooleanReturning>` or a `BooleanArrayReturning`.
+
+### Aggregates (`PureQL.CSharp.Model.Aggregates`)
+
+| Type | Variants |
+|------|---------|
+| `Count` | Takes any `ArrayReturning` |
+| `NumberAggregate` | AverageNumber, MaxNumber, MinNumber, SumNumber |
+| `DateAggregate` | AverageDate, MaxDate, MinDate |
+| `DateTimeAggregate` | AverageDateTime, MaxDateTime, MinDateTime |
+| `TimeAggregate` | AverageTime, MaxTime, MinTime |
+| `StringAggregate` | MaxString, MinString |
+
+### Arithmetics (`PureQL.CSharp.Model.Arithmetics`)
+
+`Arithmetic` wraps `Add`, `Divide`, `Multiply`, `Subtract`. Each takes `IEnumerable<NumberReturning>` as arguments.
+
+## Design Principles
+
+- **Immutable** — all public types are sealed records or sealed classes; properties are init-only.
+- **Discriminated unions** — `OneOf`-based types make exhaustive pattern matching explicit, with no unsafe casting.
+- **AOT-compatible** — `IsAotCompatible = true`; safe for NativeAOT and trimming scenarios.
+
+## Target Frameworks
+
+- .NET 6
+- .NET 7
+- .NET 8
+- .NET 9
+- .NET 10
 
 ## Installation
 
-```
+```bash
 dotnet add package PureQL.CSharp.Model
 ```
 
-Targets: .NET 6, 7, 8, 9, 10.
+## Usage
 
----
-
-## Core concepts
-
-A `Query` carries:
-
-| Property | Type | Required |
-|---|---|---|
-| `From` | `FromExpression` | yes |
-| `SelectExpressions` | `IEnumerable<SelectExpression>` | yes |
-| `Where` | `OneOf<BooleanReturning, BooleanArrayReturning>?` | no |
-| `Join` | `IEnumerable<Join>?` | no |
-| `GroupBy` | `IEnumerable<Field>?` | no |
-| `Having` | `BooleanReturning?` | no |
-| `OrderBy` | `IEnumerable<OrderByItem>?` | no |
-| `Pagination` | `Pagination?` | no |
-
-### Discriminated unions via OneOf
-
-All polymorphic positions use `OneOf` / `OneOfBase<…>` from the [OneOf](https://github.com/mcintyre321/OneOf) package. For example `BooleanReturning` is a union of `BooleanScalar | BooleanParameter | Equality | BooleanOperator | Comparison`.
-
----
-
-## Type system
-
-### Scalar types
-
-| C# class | JSON name |
-|---|---|
-| `StringScalar` | `string` |
-| `NumberScalar` | `number` |
-| `BooleanScalar` | `boolean` |
-| `DateScalar` | `date` |
-| `TimeScalar` | `time` |
-| `DateTimeScalar` | `datetime` |
-| `UuidScalar` | `uuid` |
-| `NullScalar` | `null` |
-
-### Field references
-
-Each typed field (`StringField`, `NumberField`, `DateField`, …) holds `Entity` and `Field` strings. The `Field` union wraps all typed fields.
-
-### Parameters
-
-Named parameters (`StringParameter`, `NumberParameter`, …) identify runtime-provided values by `ParamName`.
-
-### Array variants
-
-Array versions of scalars, fields, and parameters exist in `ArrayScalars`, `Fields`, and `ArrayParameters` namespaces respectively.
-
----
-
-## Operators
-
-### Single-value boolean family
-
-| Operator | C# type |
-|---|---|
-| `and` / `or` / `not` | `AndOperator`, `OrOperator`, `NotOperator` |
-| `equal` (single-value) | `SingleValueEquality` → typed equalities |
-| `equal` (array) | `ArrayEquality` → typed array equalities |
-| `greaterThan` / `lessThan` / … | `Comparison` → typed comparisons |
-
-### Per-row predicate family (`each*`)
-
-Per-row operators return `BooleanArrayReturning` — a per-row boolean column.
-
-| Operator | C# type |
-|---|---|
-| `eachEqual` | `EachEquality` (7 typed variants) |
-| `eachGreaterThan` / `eachLessThan` / … | `EachComparison` (5 typed variants) |
-| `eachAnd` / `eachOr` / `eachNot` | `EachAndOperator`, `EachOrOperator`, `EachNotOperator` |
-
-### Single-value arithmetic
-
-| Operator | C# type |
-|---|---|
-| `add` / `subtract` / `multiply` / `divide` | `Arithmetic` → `Add`, `Subtract`, `Multiply`, `Divide` |
-
-### Per-row arithmetic (`each*`)
-
-Per-row arithmetic operators accept mixed `numericReturning | numericArrayReturning` operands and return `NumberArrayReturning`.
-
-| Operator | C# type |
-|---|---|
-| `eachAdd` / `eachSubtract` / `eachMultiply` / `eachDivide` | `EachArithmetic` → `EachAdd`, `EachSubtract`, `EachMultiply`, `EachDivide` |
-
-### Per-row date / time / datetime math
-
-| Operator | Return type | C# type |
-|---|---|---|
-| `eachDateAddDays` | `DateArrayReturning` | `EachDateAddDays` |
-| `eachDateDiffDays` | `NumberArrayReturning` | `EachDateDiffDays` |
-| `eachDatetimeAddSeconds` | `DateTimeArrayReturning` | `EachDateTimeAddSeconds` |
-| `eachDatetimeDiffSeconds` | `NumberArrayReturning` | `EachDateTimeDiffSeconds` |
-| `eachTimeAddSeconds` | `TimeArrayReturning` | `EachTimeAddSeconds` |
-| `eachTimeDiffSeconds` | `NumberArrayReturning` | `EachTimeDiffSeconds` |
-
-### Aggregates
-
-| Operator | C# type |
-|---|---|
-| `count` | `Count` |
-| `sum` / `average_number` / `min_number` / `max_number` | `NumberAggregate` |
-| `min_string` / `max_string` | `StringAggregate` |
-| `min_date` / `max_date` / `average_date` | `DateAggregate` |
-| `min_time` / `max_time` / `average_time` | `TimeAggregate` |
-| `min_datetime` / `max_datetime` / `average_datetime` | `DateTimeAggregate` |
-
----
-
-## OrderBy with direction
-
-`OrderByItem` wraps a field reference and an optional sort direction:
+Build a query that selects user names where age exceeds a threshold:
 
 ```csharp
-var orderBy = new[]
-{
-    new OrderByItem(new Field(new NumberField("orders", "amount")), SortDirection.Desc),
-    new OrderByItem(new Field(new StringField("orders", "name"))),  // defaults to Asc
-};
-```
+using PureQL.CSharp.Model;
+using PureQL.CSharp.Model.Comparisons;
+using PureQL.CSharp.Model.Parameters;
+using PureQL.CSharp.Model.Returnings;
+using PureQL.CSharp.Model.Scalars;
 
-`SortDirection` is an enum with values `Asc` and `Desc`.
-
----
-
-## Usage example
-
-```csharp
-// SELECT u.id, COUNT(o.id) AS order_count
-// FROM users AS u
-// INNER JOIN orders AS o ON u.id = o.user_id
-// WHERE u.status = 'active'
-// GROUP BY u.id
-// ORDER BY order_count DESC
-// LIMIT 20 OFFSET 0
-
-var usersFrom = new FromExpression("users", "u");
-
-var userIdField = new NumberField("users", "id");
-var orderIdField = new NumberField("orders", "id");
-var userStatusField = new StringField("users", "status");
-var orderUserIdField = new NumberField("orders", "user_id");
-
-var select = new[]
-{
-    new SelectExpression(new ArrayReturning(new NumberArrayReturning(userIdField))),
-    new SelectExpression(
-        new SingleValueReturning(
-            new NumberReturning(
-                new Count(new ArrayReturning(new NumberArrayReturning(orderIdField)))
-            )
-        ),
-        "order_count"
-    ),
-};
-
-var join = new Join(
-    JoinType.Inner,
-    "orders",
-    new BooleanArrayReturning(
-        new EachEquality(
-            new EachNumberEquality(
-                new NumberArrayReturning(userIdField),
-                OneOf<NumberReturning, NumberArrayReturning>.FromT1(
-                    new NumberArrayReturning(orderUserIdField)
-                )
-            )
-        )
-    )
-);
-
-var where = OneOf<BooleanReturning, BooleanArrayReturning>.FromT1(
-    new BooleanArrayReturning(
-        new EachEquality(
-            new EachStringEquality(
-                new StringArrayReturning(userStatusField),
-                OneOf<StringReturning, StringArrayReturning>.FromT0(
-                    new StringReturning(new StringScalar("active"))
-                )
-            )
-        )
-    )
-);
-
-var query = new Query(
-    from: usersFrom,
-    selectExpressions: select,
-    where: where,
-    join: new[] { join },
-    groupBy: new[] { new Field(userIdField) },
+Query query = new Query(
+    from: new FromExpression("users", "u"),
+    select: new[]
+    {
+        new SelectExpression(
+            new SingleValueReturning(
+                new StringReturning(new StringParameter("name"))),
+            alias: "user_name"),
+    },
+    where: new BooleanReturning(
+        new Comparison(
+            new NumberComparison(
+                ComparisonOperator.GreaterThan,
+                new NumberReturning(new NumberParameter("age")),
+                new NumberReturning(new NumberScalar(18))))),
+    join: null,
+    groupBy: null,
     having: null,
-    orderBy: new[] { new OrderByItem(new Field(new NumberField("orders", "order_count")), SortDirection.Desc) },
-    pagination: new Pagination(0, 20)
+    orderBy: null,
+    pagination: new Pagination(skip: 0, take: 50)
 );
 ```
-
----
-
-## License
-
-[MIT](LICENSE)
