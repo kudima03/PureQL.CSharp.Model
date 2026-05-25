@@ -17,14 +17,15 @@ Typed C# AST for building PureQL queries — immutable, AOT-compatible records a
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `From` | `FromExpression` | Entity name and alias |
+| `From` | `FromExpression` | Entity name and optional alias |
 | `SelectExpressions` | `IEnumerable<SelectExpression>` | Columns or array columns to return |
-| `Where` | `BooleanReturning?` | Filter predicate |
+| `Where` | `OneOf<BooleanReturning, BooleanArrayReturning>?` | Filter predicate (scalar or per-row) |
 | `Join` | `IEnumerable<Join>?` | Join clauses |
 | `GroupBy` | `IEnumerable<Field>?` | Grouping fields |
 | `Having` | `BooleanReturning?` | Post-aggregate filter |
-| `OrderBy` | `IEnumerable<Field>?` | Sort fields |
+| `OrderBy` | `IEnumerable<OrderByItem>?` | Sort items (field + direction) |
 | `Pagination` | `Pagination?` | Skip / Take |
+| `Distinct` | `bool` | Deduplicate result rows (default `false`) |
 
 ## Type Hierarchy
 
@@ -33,17 +34,19 @@ Typed C# AST for building PureQL queries — immutable, AOT-compatible records a
 | Type | Kind | Description |
 |------|------|-------------|
 | `Query` | sealed record | Top-level query node |
-| `FromExpression` | sealed record | Entity + alias for FROM |
+| `FromExpression` | sealed record | Entity name + optional alias for FROM |
 | `SelectExpression` | sealed class | `SingleValueReturning` or `ArrayReturning` with optional alias |
-| `Join` | sealed record | `JoinType`, entity name, and ON (`BooleanReturning`) |
+| `Join` | sealed record | `JoinType`, entity name, and ON condition (`BooleanReturning` or `BooleanArrayReturning`) |
 | `JoinType` | enum | Left, Right, Inner, Full |
+| `OrderByItem` | sealed record | `Field` reference + `SortDirection` (default `Asc`) |
+| `SortDirection` | enum | Asc, Desc |
 | `Equality` | sealed class | `SingleValueEquality` or `ArrayEquality` |
 | `Pagination` | sealed record | Skip and Take counts |
 
 ### Fields (`PureQL.CSharp.Model.Fields`)
 
 `IField` exposes `Entity`, `Field`, and `IType`. `Field` is a discriminated union over:
-`BooleanField`, `DateField`, `DateTimeField`, `NumberField`, `TimeField`, `UuidField`, `StringField`.
+`BooleanField`, `DateField`, `DateTimeField`, `NullField`, `NumberField`, `TimeField`, `UuidField`, `StringField`.
 
 Fields are used in GROUP BY and ORDER BY clauses. Each concrete field takes `(string entity, string field)`.
 
@@ -68,9 +71,26 @@ Typed value expressions used in SELECT, WHERE, comparisons, and joins:
 | `SingleValueReturning` | Boolean, Date, DateTime, Number, String, Time, Uuid returnings |
 | `ArrayReturning` | Boolean, Date, DateTime, Number, String, Time, Uuid array returnings |
 | `BooleanReturning` | `BooleanParameter`, `BooleanScalar`, `Equality`, `BooleanOperator`, `Comparison` |
-| `NumberReturning` | `NumberParameter`, `NumberScalar` |
+| `NumberReturning` | `NumberParameter`, `NumberScalar`, `Arithmetic`, `NumberAggregate`, `Count` |
+| `StringReturning` | `StringParameter`, `StringScalar`, `StringAggregate` |
+| `DateReturning` | `DateParameter`, `DateScalar`, `DateAggregate` |
+| `TimeReturning` | `TimeParameter`, `TimeScalar`, `TimeAggregate` |
+| `DateTimeReturning` | `DateTimeParameter`, `DateTimeScalar`, `DateTimeAggregate` |
+| `UuidReturning` | `UuidParameter`, `UuidScalar` |
 
-Each typed returning (e.g. `NumberReturning`) is a discriminated union over the matching parameter and scalar types.
+### Array Returnings (`PureQL.CSharp.Model.ArrayReturnings`)
+
+Per-row value expressions used in `Where`, `Join.On`, and per-row operations:
+
+| Type | Variants |
+|------|---------|
+| `BooleanArrayReturning` | `BooleanArrayParameter`, `BooleanField`, `BooleanArrayScalar`, `EachComparison`, `EachEquality`, `EachBooleanOperator` |
+| `NumberArrayReturning` | `NumberArrayParameter`, `NumberField`, `NumberArrayScalar`, `EachArithmetic`, `EachDateDiffDays`, `EachDateTimeDiffSeconds`, `EachTimeDiffSeconds` |
+| `DateArrayReturning` | `DateArrayParameter`, `DateField`, `DateArrayScalar`, `EachDateAddDays` |
+| `TimeArrayReturning` | `TimeArrayParameter`, `TimeField`, `TimeArrayScalar`, `EachTimeAddSeconds` |
+| `DateTimeArrayReturning` | `DateTimeArrayParameter`, `DateTimeField`, `DateTimeArrayScalar`, `EachDateTimeAddSeconds` |
+| `StringArrayReturning` | `StringArrayParameter`, `StringField`, `StringArrayScalar` |
+| `UuidArrayReturning` | `UuidArrayParameter`, `UuidField`, `UuidArrayScalar` |
 
 ### Conditions
 
@@ -79,6 +99,30 @@ Each typed returning (e.g. `NumberReturning`) is a discriminated union over the 
 **Equalities** (`PureQL.CSharp.Model.Equalities`): `SingleValueEquality` wraps Boolean, Date, DateTime, Number, String, Time, or Uuid equality types. Each holds typed Left / Right returnings.
 
 **Boolean operations** (`PureQL.CSharp.Model.BooleanOperations`): `BooleanOperator` wraps `AndOperator`, `OrOperator`, or `NotOperator`. And/Or accept either `IEnumerable<BooleanReturning>` or a `BooleanArrayReturning`.
+
+### Per-Row Predicates
+
+**Each equalities** (`PureQL.CSharp.Model.EachEqualities`): `EachEquality` wraps `EachBooleanEquality`, `EachNumberEquality`, `EachStringEquality`, `EachDateEquality`, `EachTimeEquality`, `EachDateTimeEquality`, `EachUuidEquality`. Returns `BooleanArrayReturning`.
+
+**Each comparisons** (`PureQL.CSharp.Model.EachComparisons`): `EachComparison` wraps `EachNumberComparison`, `EachStringComparison`, `EachDateComparison`, `EachTimeComparison`, `EachDateTimeComparison`. Operator values in `EachComparisonOperator`. Returns `BooleanArrayReturning`.
+
+**Each boolean operations** (`PureQL.CSharp.Model.EachBooleanOperations`): `EachBooleanOperator` wraps `EachAndOperator`, `EachOrOperator`, `EachNotOperator` — element-wise composition over `BooleanArrayReturning` operands.
+
+### Per-Row Arithmetic
+
+**Each numeric arithmetic** (`PureQL.CSharp.Model.EachArithmetics`): `EachArithmetic` wraps `EachAdd`, `EachSubtract`, `EachMultiply`, `EachDivide`. Each accepts `IEnumerable<OneOf<NumberReturning, NumberArrayReturning>>` (min 2 items). Returns `NumberArrayReturning`.
+
+**Each date arithmetic** (`PureQL.CSharp.Model.EachDateArithmetics`):
+- `EachDateAddDays` — adds N days per row → `DateArrayReturning`
+- `EachDateDiffDays` — date difference in days → `NumberArrayReturning`
+
+**Each datetime arithmetic** (`PureQL.CSharp.Model.EachDateTimeArithmetics`):
+- `EachDateTimeAddSeconds` — adds N seconds per row → `DateTimeArrayReturning`
+- `EachDateTimeDiffSeconds` — datetime difference in seconds → `NumberArrayReturning`
+
+**Each time arithmetic** (`PureQL.CSharp.Model.EachTimeArithmetics`):
+- `EachTimeAddSeconds` — adds N seconds per row → `TimeArrayReturning`
+- `EachTimeDiffSeconds` — time difference in seconds → `NumberArrayReturning`
 
 ### Aggregates (`PureQL.CSharp.Model.Aggregates`)
 
@@ -117,34 +161,41 @@ dotnet add package PureQL.CSharp.Model
 
 ## Usage
 
-Build a query that selects user names where age exceeds a threshold:
+Build a query that selects user names where age exceeds a threshold, ordered by name:
 
 ```csharp
+using OneOf;
 using PureQL.CSharp.Model;
 using PureQL.CSharp.Model.Comparisons;
+using PureQL.CSharp.Model.Fields;
 using PureQL.CSharp.Model.Parameters;
 using PureQL.CSharp.Model.Returnings;
 using PureQL.CSharp.Model.Scalars;
 
 Query query = new Query(
     from: new FromExpression("users", "u"),
-    select: new[]
+    selectExpressions: new[]
     {
         new SelectExpression(
             new SingleValueReturning(
                 new StringReturning(new StringParameter("name"))),
             alias: "user_name"),
     },
-    where: new BooleanReturning(
-        new Comparison(
-            new NumberComparison(
-                ComparisonOperator.GreaterThan,
-                new NumberReturning(new NumberParameter("age")),
-                new NumberReturning(new NumberScalar(18))))),
+    where: new OneOf<BooleanReturning, BooleanArrayReturning>?(
+        new BooleanReturning(
+            new Comparison(
+                new NumberComparison(
+                    ComparisonOperator.GreaterThan,
+                    new NumberReturning(new NumberParameter("age")),
+                    new NumberReturning(new NumberScalar(18)))))),
     join: null,
     groupBy: null,
     having: null,
-    orderBy: null,
-    pagination: new Pagination(skip: 0, take: 50)
+    orderBy: new[]
+    {
+        new OrderByItem(new Field(new StringField("u", "name")), SortDirection.Asc),
+    },
+    pagination: new Pagination(skip: 0, take: 50),
+    distinct: false
 );
 ```
