@@ -3,7 +3,6 @@ using PureQL.CSharp.Model.Aggregates;
 using PureQL.CSharp.Model.Aggregates.Numeric;
 using PureQL.CSharp.Model.Arithmetics;
 using PureQL.CSharp.Model.ArrayReturnings;
-using PureQL.CSharp.Model.ArrayScalars;
 using PureQL.CSharp.Model.EachArithmetics;
 using PureQL.CSharp.Model.EachBooleanOperations;
 using PureQL.CSharp.Model.EachComparisons;
@@ -21,44 +20,74 @@ public sealed class PureQLTests
 {
     // ── helpers ──────────────────────────────────────────────────────────────
 
-    private static NumberField NumF(string entity, string field) => new(entity, field);
-    private static StringField StrF(string entity, string field) => new(entity, field);
-    private static DateField DateF(string entity, string field) => new(entity, field);
-    private static DateTimeField DtF(string entity, string field) => new(entity, field);
-    private static TimeField TimeF(string entity, string field) => new(entity, field);
-    private static UuidField UuidF(string entity, string field) => new(entity, field);
-    private static BooleanField BoolF(string entity, string field) => new(entity, field);
+    private static NumberField NumF(string entity, string field)
+    {
+        return new(entity, field);
+    }
+
+    private static StringField StrF(string entity, string field)
+    {
+        return new(entity, field);
+    }
+
+    private static DateField DateF(string entity, string field)
+    {
+        return new(entity, field);
+    }
+
+    private static DateTimeField DtF(string entity, string field)
+    {
+        return new(entity, field);
+    }
+
+    private static TimeField TimeF(string entity, string field)
+    {
+        return new(entity, field);
+    }
+
+    private static UuidField UuidF(string entity, string field)
+    {
+        return new(entity, field);
+    }
+
+    private static BooleanField BoolF(string entity, string field)
+    {
+        return new(entity, field);
+    }
 
     // ── basic query construction ──────────────────────────────────────────────
 
     [Fact]
-    public void SimpleSelect_Constructs()
+    public void SimpleSelectConstructs()
     {
-        var from = new FromExpression("orders", "o");
-        var select = new[]
+        FromExpression from = new FromExpression("orders", "o");
+        SelectExpression[] select = new[]
         {
             new SelectExpression(
-                new SingleValueReturning(
-                    new NumberReturning(new NumberScalar(1))
-                ),
+                new SingleValueReturning(new NumberReturning(new NumberScalar(1))),
                 "one"
             ),
         };
 
-        var query = new Query(from, select);
+        Query query = new Query(from, select);
 
         Assert.Equal("orders", query.From.Entity);
-        Assert.Single(query.SelectExpressions);
+        _ = Assert.Single(query.SelectExpressions);
     }
 
     [Fact]
-    public void Query_WithPagination_Constructs()
+    public void QueryWithPaginationConstructs()
     {
-        var from = new FromExpression("users", "u");
-        var select = new[] { new SelectExpression(new ArrayReturning(new NumberArrayReturning(NumF("users", "id")))) };
-        var pagination = new Pagination(0, 10);
+        FromExpression from = new FromExpression("users", "u");
+        SelectExpression[] select = new[]
+        {
+            new SelectExpression(
+                new ArrayReturning(new NumberArrayReturning(NumF("users", "id")))
+            ),
+        };
+        Pagination pagination = new Pagination(0, 10);
 
-        var query = new Query(from, select, null, null, null, null, null, pagination);
+        Query query = new Query(from, select, null, null, null, null, null, pagination);
 
         Assert.NotNull(query.Pagination);
         Assert.Equal(0, query.Pagination!.Skip);
@@ -68,128 +97,157 @@ public sealed class PureQLTests
     // ── OrderBy with direction ────────────────────────────────────────────────
 
     [Fact]
-    public void OrderByItem_DefaultsToAsc()
+    public void OrderByItemDefaultsToAsc()
     {
-        var item = new OrderByItem(new Field(NumF("orders", "amount")));
+        OrderByItem item = new OrderByItem(new Field(NumF("orders", "amount")));
 
         Assert.Equal(SortDirection.Asc, item.Direction);
     }
 
     [Fact]
-    public void OrderByItem_ExplicitDesc()
+    public void OrderByItemExplicitDesc()
     {
-        var item = new OrderByItem(new Field(NumF("orders", "amount")), SortDirection.Desc);
+        OrderByItem item = new OrderByItem(
+            new Field(NumF("orders", "amount")),
+            SortDirection.Desc
+        );
 
         Assert.Equal(SortDirection.Desc, item.Direction);
     }
 
     [Fact]
-    public void Query_WithOrderByItem_Constructs()
+    public void QueryWithOrderByItemConstructs()
     {
-        var from = new FromExpression("orders", "o");
-        var select = new[] { new SelectExpression(new ArrayReturning(new NumberArrayReturning(NumF("orders", "amount")))) };
-        var orderBy = new[]
+        FromExpression from = new FromExpression("orders", "o");
+        SelectExpression[] select = new[]
+        {
+            new SelectExpression(
+                new ArrayReturning(new NumberArrayReturning(NumF("orders", "amount")))
+            ),
+        };
+        OrderByItem[] orderBy = new[]
         {
             new OrderByItem(new Field(NumF("orders", "amount")), SortDirection.Desc),
         };
 
-        var query = new Query(from, select, null, null, null, null, orderBy, null);
+        Query query = new Query(from, select, null, null, null, null, orderBy, null);
 
-        Assert.Single(query.OrderBy!);
+        _ = Assert.Single(query.OrderBy!);
         Assert.Equal(SortDirection.Desc, query.OrderBy!.First().Direction);
     }
 
     // ── each* equality ────────────────────────────────────────────────────────
 
     [Fact]
-    public void EachNumberEquality_WithScalarRight_Constructs()
+    public void EachNumberEqualityWithScalarRightConstructs()
     {
-        var left = new NumberArrayReturning(NumF("orders", "status_code"));
-        var right = OneOf<NumberReturning, NumberArrayReturning>.FromT0(
-            new NumberReturning(new NumberScalar(200))
+        NumberArrayReturning left = new NumberArrayReturning(
+            NumF("orders", "status_code")
         );
+        OneOf<NumberReturning, NumberArrayReturning> right = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT0(new NumberReturning(new NumberScalar(200)));
 
-        var equality = new EachNumberEquality(left, right);
-        var boolArray = new BooleanArrayReturning(new EachEquality(equality));
+        EachNumberEquality equality = new EachNumberEquality(left, right);
+        BooleanArrayReturning boolArray = new BooleanArrayReturning(
+            new EachEquality(equality)
+        );
 
         Assert.True(boolArray.IsT4);
     }
 
     [Fact]
-    public void EachStringEquality_WithScalarRight_Constructs()
+    public void EachStringEqualityWithScalarRightConstructs()
     {
-        var left = new StringArrayReturning(StrF("users", "status"));
-        var right = OneOf<StringReturning, StringArrayReturning>.FromT0(
-            new StringReturning(new StringScalar("active"))
-        );
+        StringArrayReturning left = new StringArrayReturning(StrF("users", "status"));
+        OneOf<StringReturning, StringArrayReturning> right = OneOf<
+            StringReturning,
+            StringArrayReturning
+        >.FromT0(new StringReturning(new StringScalar("active")));
 
-        var equality = new EachStringEquality(left, right);
-        var boolArray = new BooleanArrayReturning(new EachEquality(equality));
+        EachStringEquality equality = new EachStringEquality(left, right);
+        BooleanArrayReturning boolArray = new BooleanArrayReturning(
+            new EachEquality(equality)
+        );
 
         Assert.True(boolArray.IsT4);
     }
 
     [Fact]
-    public void EachUuidEquality_FieldToField_Constructs()
+    public void EachUuidEqualityFieldToFieldConstructs()
     {
-        var left = new UuidArrayReturning(UuidF("users", "id"));
-        var right = OneOf<UuidReturning, UuidArrayReturning>.FromT1(
-            new UuidArrayReturning(UuidF("orders", "user_id"))
-        );
+        UuidArrayReturning left = new UuidArrayReturning(UuidF("users", "id"));
+        OneOf<UuidReturning, UuidArrayReturning> right = OneOf<
+            UuidReturning,
+            UuidArrayReturning
+        >.FromT1(new UuidArrayReturning(UuidF("orders", "user_id")));
 
-        var equality = new EachUuidEquality(left, right);
+        EachUuidEquality equality = new EachUuidEquality(left, right);
 
         Assert.NotNull(equality);
     }
 
     [Fact]
-    public void EachDateEquality_Constructs()
+    public void EachDateEqualityConstructs()
     {
-        var left = new DateArrayReturning(DateF("orders", "order_date"));
-        var right = OneOf<DateReturning, DateArrayReturning>.FromT0(
-            new DateReturning(new DateScalar(new DateOnly(2024, 1, 1)))
-        );
+        DateArrayReturning left = new DateArrayReturning(DateF("orders", "order_date"));
+        OneOf<DateReturning, DateArrayReturning> right = OneOf<
+            DateReturning,
+            DateArrayReturning
+        >.FromT0(new DateReturning(new DateScalar(new DateOnly(2024, 1, 1))));
 
-        var equality = new EachDateEquality(left, right);
+        EachDateEquality equality = new EachDateEquality(left, right);
 
         Assert.NotNull(equality);
     }
 
     [Fact]
-    public void EachBooleanEquality_Constructs()
+    public void EachBooleanEqualityConstructs()
     {
-        var left = new BooleanArrayReturning(BoolF("users", "is_active"));
-        var right = OneOf<BooleanReturning, BooleanArrayReturning>.FromT0(
-            new BooleanReturning(new BooleanScalar(true))
+        BooleanArrayReturning left = new BooleanArrayReturning(
+            BoolF("users", "is_active")
         );
+        OneOf<BooleanReturning, BooleanArrayReturning> right = OneOf<
+            BooleanReturning,
+            BooleanArrayReturning
+        >.FromT0(new BooleanReturning(new BooleanScalar(true)));
 
-        var equality = new EachBooleanEquality(left, right);
+        EachBooleanEquality equality = new EachBooleanEquality(left, right);
 
         Assert.NotNull(equality);
     }
 
     [Fact]
-    public void EachTimeEquality_Constructs()
+    public void EachTimeEqualityConstructs()
     {
-        var left = new TimeArrayReturning(TimeF("shifts", "start_time"));
-        var right = OneOf<TimeReturning, TimeArrayReturning>.FromT0(
-            new TimeReturning(new TimeScalar(new TimeOnly(8, 0, 0)))
-        );
+        TimeArrayReturning left = new TimeArrayReturning(TimeF("shifts", "start_time"));
+        OneOf<TimeReturning, TimeArrayReturning> right = OneOf<
+            TimeReturning,
+            TimeArrayReturning
+        >.FromT0(new TimeReturning(new TimeScalar(new TimeOnly(8, 0, 0))));
 
-        var equality = new EachTimeEquality(left, right);
+        EachTimeEquality equality = new EachTimeEquality(left, right);
 
         Assert.NotNull(equality);
     }
 
     [Fact]
-    public void EachDateTimeEquality_Constructs()
+    public void EachDateTimeEqualityConstructs()
     {
-        var left = new DateTimeArrayReturning(DtF("events", "starts_at"));
-        var right = OneOf<DateTimeReturning, DateTimeArrayReturning>.FromT0(
-            new DateTimeReturning(new DateTimeScalar(new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)))
+        DateTimeArrayReturning left = new DateTimeArrayReturning(
+            DtF("events", "starts_at")
+        );
+        OneOf<DateTimeReturning, DateTimeArrayReturning> right = OneOf<
+            DateTimeReturning,
+            DateTimeArrayReturning
+        >.FromT0(
+            new DateTimeReturning(
+                new DateTimeScalar(new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc))
+            )
         );
 
-        var equality = new EachDateTimeEquality(left, right);
+        EachDateTimeEquality equality = new EachDateTimeEquality(left, right);
 
         Assert.NotNull(equality);
     }
@@ -197,67 +255,102 @@ public sealed class PureQLTests
     // ── each* comparisons ─────────────────────────────────────────────────────
 
     [Fact]
-    public void EachNumberComparison_GreaterThan_Constructs()
+    public void EachNumberComparisonGreaterThanConstructs()
     {
-        var left = new NumberArrayReturning(NumF("order_items", "unit_price"));
-        var right = OneOf<NumberReturning, NumberArrayReturning>.FromT0(
-            new NumberReturning(new NumberScalar(100))
+        NumberArrayReturning left = new NumberArrayReturning(
+            NumF("order_items", "unit_price")
         );
+        OneOf<NumberReturning, NumberArrayReturning> right = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT0(new NumberReturning(new NumberScalar(100)));
 
-        var comparison = new EachNumberComparison(EachComparisonOperator.EachGreaterThan, left, right);
-        var boolArray = new BooleanArrayReturning(new EachComparison(comparison));
+        EachNumberComparison comparison = new EachNumberComparison(
+            EachComparisonOperator.EachGreaterThan,
+            left,
+            right
+        );
+        BooleanArrayReturning boolArray = new BooleanArrayReturning(
+            new EachComparison(comparison)
+        );
 
         Assert.True(boolArray.IsT3);
     }
 
     [Fact]
-    public void EachDateComparison_FieldToField_Constructs()
+    public void EachDateComparisonFieldToFieldConstructs()
     {
-        var left = new DateArrayReturning(DateF("orders", "shipped_at"));
-        var right = OneOf<DateReturning, DateArrayReturning>.FromT1(
-            new DateArrayReturning(DateF("orders", "expected_at"))
-        );
+        DateArrayReturning left = new DateArrayReturning(DateF("orders", "shipped_at"));
+        OneOf<DateReturning, DateArrayReturning> right = OneOf<
+            DateReturning,
+            DateArrayReturning
+        >.FromT1(new DateArrayReturning(DateF("orders", "expected_at")));
 
-        var comparison = new EachDateComparison(EachComparisonOperator.EachLessThan, left, right);
+        EachDateComparison comparison = new EachDateComparison(
+            EachComparisonOperator.EachLessThan,
+            left,
+            right
+        );
 
         Assert.Equal(EachComparisonOperator.EachLessThan, comparison.Operator);
     }
 
     [Fact]
-    public void EachStringComparison_Constructs()
+    public void EachStringComparisonConstructs()
     {
-        var left = new StringArrayReturning(StrF("products", "name"));
-        var right = OneOf<StringReturning, StringArrayReturning>.FromT0(
-            new StringReturning(new StringScalar("M"))
-        );
+        StringArrayReturning left = new StringArrayReturning(StrF("products", "name"));
+        OneOf<StringReturning, StringArrayReturning> right = OneOf<
+            StringReturning,
+            StringArrayReturning
+        >.FromT0(new StringReturning(new StringScalar("M")));
 
-        var comparison = new EachStringComparison(EachComparisonOperator.EachGreaterThanOrEqual, left, right);
+        EachStringComparison comparison = new EachStringComparison(
+            EachComparisonOperator.EachGreaterThanOrEqual,
+            left,
+            right
+        );
 
         Assert.NotNull(comparison);
     }
 
     [Fact]
-    public void EachTimeComparison_Constructs()
+    public void EachTimeComparisonConstructs()
     {
-        var left = new TimeArrayReturning(TimeF("shifts", "clock_out"));
-        var right = OneOf<TimeReturning, TimeArrayReturning>.FromT0(
-            new TimeReturning(new TimeScalar(new TimeOnly(17, 0, 0)))
-        );
+        TimeArrayReturning left = new TimeArrayReturning(TimeF("shifts", "clock_out"));
+        OneOf<TimeReturning, TimeArrayReturning> right = OneOf<
+            TimeReturning,
+            TimeArrayReturning
+        >.FromT0(new TimeReturning(new TimeScalar(new TimeOnly(17, 0, 0))));
 
-        var comparison = new EachTimeComparison(EachComparisonOperator.EachGreaterThan, left, right);
+        EachTimeComparison comparison = new EachTimeComparison(
+            EachComparisonOperator.EachGreaterThan,
+            left,
+            right
+        );
 
         Assert.NotNull(comparison);
     }
 
     [Fact]
-    public void EachDateTimeComparison_Constructs()
+    public void EachDateTimeComparisonConstructs()
     {
-        var left = new DateTimeArrayReturning(DtF("orders", "shipped_at"));
-        var right = OneOf<DateTimeReturning, DateTimeArrayReturning>.FromT0(
-            new DateTimeReturning(new DateTimeScalar(new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)))
+        DateTimeArrayReturning left = new DateTimeArrayReturning(
+            DtF("orders", "shipped_at")
+        );
+        OneOf<DateTimeReturning, DateTimeArrayReturning> right = OneOf<
+            DateTimeReturning,
+            DateTimeArrayReturning
+        >.FromT0(
+            new DateTimeReturning(
+                new DateTimeScalar(new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc))
+            )
         );
 
-        var comparison = new EachDateTimeComparison(EachComparisonOperator.EachGreaterThan, left, right);
+        EachDateTimeComparison comparison = new EachDateTimeComparison(
+            EachComparisonOperator.EachGreaterThan,
+            left,
+            right
+        );
 
         Assert.NotNull(comparison);
     }
@@ -265,9 +358,9 @@ public sealed class PureQLTests
     // ── each* boolean operations ──────────────────────────────────────────────
 
     [Fact]
-    public void EachAndOperator_ComposesMultiplePredicates()
+    public void EachAndOperatorComposesMultiplePredicates()
     {
-        var pred1 = new BooleanArrayReturning(
+        BooleanArrayReturning pred1 = new BooleanArrayReturning(
             new EachEquality(
                 new EachStringEquality(
                     new StringArrayReturning(StrF("users", "status")),
@@ -278,7 +371,7 @@ public sealed class PureQLTests
             )
         );
 
-        var pred2 = new BooleanArrayReturning(
+        BooleanArrayReturning pred2 = new BooleanArrayReturning(
             new EachComparison(
                 new EachNumberComparison(
                     EachComparisonOperator.EachGreaterThan,
@@ -290,28 +383,32 @@ public sealed class PureQLTests
             )
         );
 
-        var andOp = new EachAndOperator(new[] { pred1, pred2 });
-        var result = new BooleanArrayReturning(andOp);
+        EachAndOperator andOp = new EachAndOperator([pred1, pred2]);
+        BooleanArrayReturning result = new BooleanArrayReturning(andOp);
 
         Assert.True(result.IsT5);
     }
 
     [Fact]
-    public void EachOrOperator_Constructs()
+    public void EachOrOperatorConstructs()
     {
-        var pred1 = new BooleanArrayReturning(BoolF("users", "is_premium"));
-        var pred2 = new BooleanArrayReturning(BoolF("users", "is_admin"));
+        BooleanArrayReturning pred1 = new BooleanArrayReturning(
+            BoolF("users", "is_premium")
+        );
+        BooleanArrayReturning pred2 = new BooleanArrayReturning(
+            BoolF("users", "is_admin")
+        );
 
-        var orOp = new EachOrOperator(new[] { pred1, pred2 });
-        var result = new BooleanArrayReturning(orOp);
+        EachOrOperator orOp = new EachOrOperator([pred1, pred2]);
+        BooleanArrayReturning result = new BooleanArrayReturning(orOp);
 
         Assert.True(result.IsT6);
     }
 
     [Fact]
-    public void EachNotOperator_Constructs()
+    public void EachNotOperatorConstructs()
     {
-        var inner = new BooleanArrayReturning(
+        BooleanArrayReturning inner = new BooleanArrayReturning(
             new EachEquality(
                 new EachBooleanEquality(
                     new BooleanArrayReturning(BoolF("users", "is_deleted")),
@@ -322,8 +419,8 @@ public sealed class PureQLTests
             )
         );
 
-        var notOp = new EachNotOperator(inner);
-        var result = new BooleanArrayReturning(notOp);
+        EachNotOperator notOp = new EachNotOperator(inner);
+        BooleanArrayReturning result = new BooleanArrayReturning(notOp);
 
         Assert.True(result.IsT7);
     }
@@ -331,52 +428,79 @@ public sealed class PureQLTests
     // ── per-row arithmetic ────────────────────────────────────────────────────
 
     [Fact]
-    public void EachMultiply_FieldByScalar_ProducesNumericArrayReturning()
+    public void EachMultiplyFieldByScalarProducesNumericArrayReturning()
     {
-        var fieldArg = OneOf<NumberReturning, NumberArrayReturning>.FromT1(
-            new NumberArrayReturning(NumF("order_items", "unit_price"))
-        );
-        var scalarArg = OneOf<NumberReturning, NumberArrayReturning>.FromT0(
-            new NumberReturning(new NumberScalar(1.05))
-        );
+        OneOf<NumberReturning, NumberArrayReturning> fieldArg = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT1(new NumberArrayReturning(NumF("order_items", "unit_price")));
+        OneOf<NumberReturning, NumberArrayReturning> scalarArg = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT0(new NumberReturning(new NumberScalar(1.05)));
 
-        var multiply = new EachMultiply(new[] { fieldArg, scalarArg });
-        var result = new NumberArrayReturning(new EachArithmetic(multiply));
+        EachMultiply multiply = new EachMultiply([fieldArg, scalarArg]);
+        NumberArrayReturning result = new NumberArrayReturning(
+            new EachArithmetic(multiply)
+        );
 
         Assert.True(result.IsT3);
     }
 
     [Fact]
-    public void EachAdd_ThreeOperands_Constructs()
+    public void EachAddThreeOperandsConstructs()
     {
-        var a = OneOf<NumberReturning, NumberArrayReturning>.FromT1(new NumberArrayReturning(NumF("items", "base_price")));
-        var b = OneOf<NumberReturning, NumberArrayReturning>.FromT1(new NumberArrayReturning(NumF("items", "tax")));
-        var c = OneOf<NumberReturning, NumberArrayReturning>.FromT1(new NumberArrayReturning(NumF("items", "shipping")));
+        OneOf<NumberReturning, NumberArrayReturning> a = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT1(new NumberArrayReturning(NumF("items", "base_price")));
+        OneOf<NumberReturning, NumberArrayReturning> b = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT1(new NumberArrayReturning(NumF("items", "tax")));
+        OneOf<NumberReturning, NumberArrayReturning> c = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT1(new NumberArrayReturning(NumF("items", "shipping")));
 
-        var add = new EachAdd(new[] { a, b, c });
+        EachAdd add = new EachAdd([a, b, c]);
 
         Assert.Equal(3, add.Values.Count());
     }
 
     [Fact]
-    public void EachSubtract_Constructs()
+    public void EachSubtractConstructs()
     {
-        var a = OneOf<NumberReturning, NumberArrayReturning>.FromT1(new NumberArrayReturning(NumF("items", "price")));
-        var b = OneOf<NumberReturning, NumberArrayReturning>.FromT1(new NumberArrayReturning(NumF("items", "discount")));
+        OneOf<NumberReturning, NumberArrayReturning> a = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT1(new NumberArrayReturning(NumF("items", "price")));
+        OneOf<NumberReturning, NumberArrayReturning> b = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT1(new NumberArrayReturning(NumF("items", "discount")));
 
-        var subtract = new EachSubtract(new[] { a, b });
-        var result = new NumberArrayReturning(new EachArithmetic(subtract));
+        EachSubtract subtract = new EachSubtract([a, b]);
+        NumberArrayReturning result = new NumberArrayReturning(
+            new EachArithmetic(subtract)
+        );
 
         Assert.True(result.IsT3);
     }
 
     [Fact]
-    public void EachDivide_Constructs()
+    public void EachDivideConstructs()
     {
-        var a = OneOf<NumberReturning, NumberArrayReturning>.FromT1(new NumberArrayReturning(NumF("items", "total")));
-        var b = OneOf<NumberReturning, NumberArrayReturning>.FromT0(new NumberReturning(new NumberScalar(100)));
+        OneOf<NumberReturning, NumberArrayReturning> a = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT1(new NumberArrayReturning(NumF("items", "total")));
+        OneOf<NumberReturning, NumberArrayReturning> b = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT0(new NumberReturning(new NumberScalar(100)));
 
-        var divide = new EachDivide(new[] { a, b });
+        EachDivide divide = new EachDivide([a, b]);
 
         Assert.NotNull(divide.Values);
     }
@@ -384,33 +508,37 @@ public sealed class PureQLTests
     // ── per-row date math ─────────────────────────────────────────────────────
 
     [Fact]
-    public void EachDateAddDays_ProducesDateArrayReturning()
+    public void EachDateAddDaysProducesDateArrayReturning()
     {
-        var left = OneOf<DateReturning, DateArrayReturning>.FromT1(
-            new DateArrayReturning(DateF("orders", "order_date"))
-        );
-        var right = OneOf<NumberReturning, NumberArrayReturning>.FromT0(
-            new NumberReturning(new NumberScalar(30))
-        );
+        OneOf<DateReturning, DateArrayReturning> left = OneOf<
+            DateReturning,
+            DateArrayReturning
+        >.FromT1(new DateArrayReturning(DateF("orders", "order_date")));
+        OneOf<NumberReturning, NumberArrayReturning> right = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT0(new NumberReturning(new NumberScalar(30)));
 
-        var addDays = new EachDateAddDays(left, right);
-        var result = new DateArrayReturning(addDays);
+        EachDateAddDays addDays = new EachDateAddDays(left, right);
+        DateArrayReturning result = new DateArrayReturning(addDays);
 
         Assert.True(result.IsT3);
     }
 
     [Fact]
-    public void EachDateDiffDays_ProducesNumericArrayReturning()
+    public void EachDateDiffDaysProducesNumericArrayReturning()
     {
-        var left = OneOf<DateReturning, DateArrayReturning>.FromT1(
-            new DateArrayReturning(DateF("orders", "delivered_at"))
-        );
-        var right = OneOf<DateReturning, DateArrayReturning>.FromT1(
-            new DateArrayReturning(DateF("orders", "order_date"))
-        );
+        OneOf<DateReturning, DateArrayReturning> left = OneOf<
+            DateReturning,
+            DateArrayReturning
+        >.FromT1(new DateArrayReturning(DateF("orders", "delivered_at")));
+        OneOf<DateReturning, DateArrayReturning> right = OneOf<
+            DateReturning,
+            DateArrayReturning
+        >.FromT1(new DateArrayReturning(DateF("orders", "order_date")));
 
-        var diff = new EachDateDiffDays(left, right);
-        var result = new NumberArrayReturning(diff);
+        EachDateDiffDays diff = new EachDateDiffDays(left, right);
+        NumberArrayReturning result = new NumberArrayReturning(diff);
 
         Assert.True(result.IsT4);
     }
@@ -418,33 +546,37 @@ public sealed class PureQLTests
     // ── per-row datetime math ─────────────────────────────────────────────────
 
     [Fact]
-    public void EachDateTimeAddSeconds_ProducesDateTimeArrayReturning()
+    public void EachDateTimeAddSecondsProducesDateTimeArrayReturning()
     {
-        var left = OneOf<DateTimeReturning, DateTimeArrayReturning>.FromT1(
-            new DateTimeArrayReturning(DtF("events", "started_at"))
-        );
-        var right = OneOf<NumberReturning, NumberArrayReturning>.FromT0(
-            new NumberReturning(new NumberScalar(3600))
-        );
+        OneOf<DateTimeReturning, DateTimeArrayReturning> left = OneOf<
+            DateTimeReturning,
+            DateTimeArrayReturning
+        >.FromT1(new DateTimeArrayReturning(DtF("events", "started_at")));
+        OneOf<NumberReturning, NumberArrayReturning> right = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT0(new NumberReturning(new NumberScalar(3600)));
 
-        var addSeconds = new EachDateTimeAddSeconds(left, right);
-        var result = new DateTimeArrayReturning(addSeconds);
+        EachDateTimeAddSeconds addSeconds = new EachDateTimeAddSeconds(left, right);
+        DateTimeArrayReturning result = new DateTimeArrayReturning(addSeconds);
 
         Assert.True(result.IsT3);
     }
 
     [Fact]
-    public void EachDateTimeDiffSeconds_ProducesNumericArrayReturning()
+    public void EachDateTimeDiffSecondsProducesNumericArrayReturning()
     {
-        var left = OneOf<DateTimeReturning, DateTimeArrayReturning>.FromT1(
-            new DateTimeArrayReturning(DtF("orders", "shipped_at"))
-        );
-        var right = OneOf<DateTimeReturning, DateTimeArrayReturning>.FromT1(
-            new DateTimeArrayReturning(DtF("orders", "ordered_at"))
-        );
+        OneOf<DateTimeReturning, DateTimeArrayReturning> left = OneOf<
+            DateTimeReturning,
+            DateTimeArrayReturning
+        >.FromT1(new DateTimeArrayReturning(DtF("orders", "shipped_at")));
+        OneOf<DateTimeReturning, DateTimeArrayReturning> right = OneOf<
+            DateTimeReturning,
+            DateTimeArrayReturning
+        >.FromT1(new DateTimeArrayReturning(DtF("orders", "ordered_at")));
 
-        var diff = new EachDateTimeDiffSeconds(left, right);
-        var result = new NumberArrayReturning(diff);
+        EachDateTimeDiffSeconds diff = new EachDateTimeDiffSeconds(left, right);
+        NumberArrayReturning result = new NumberArrayReturning(diff);
 
         Assert.True(result.IsT5);
     }
@@ -452,33 +584,37 @@ public sealed class PureQLTests
     // ── per-row time math ─────────────────────────────────────────────────────
 
     [Fact]
-    public void EachTimeAddSeconds_ProducesTimeArrayReturning()
+    public void EachTimeAddSecondsProducesTimeArrayReturning()
     {
-        var left = OneOf<TimeReturning, TimeArrayReturning>.FromT1(
-            new TimeArrayReturning(TimeF("shifts", "clock_in"))
-        );
-        var right = OneOf<NumberReturning, NumberArrayReturning>.FromT0(
-            new NumberReturning(new NumberScalar(28800))
-        );
+        OneOf<TimeReturning, TimeArrayReturning> left = OneOf<
+            TimeReturning,
+            TimeArrayReturning
+        >.FromT1(new TimeArrayReturning(TimeF("shifts", "clock_in")));
+        OneOf<NumberReturning, NumberArrayReturning> right = OneOf<
+            NumberReturning,
+            NumberArrayReturning
+        >.FromT0(new NumberReturning(new NumberScalar(28800)));
 
-        var addSeconds = new EachTimeAddSeconds(left, right);
-        var result = new TimeArrayReturning(addSeconds);
+        EachTimeAddSeconds addSeconds = new EachTimeAddSeconds(left, right);
+        TimeArrayReturning result = new TimeArrayReturning(addSeconds);
 
         Assert.True(result.IsT3);
     }
 
     [Fact]
-    public void EachTimeDiffSeconds_ProducesNumericArrayReturning()
+    public void EachTimeDiffSecondsProducesNumericArrayReturning()
     {
-        var left = OneOf<TimeReturning, TimeArrayReturning>.FromT1(
-            new TimeArrayReturning(TimeF("shifts", "clock_out"))
-        );
-        var right = OneOf<TimeReturning, TimeArrayReturning>.FromT1(
-            new TimeArrayReturning(TimeF("shifts", "clock_in"))
-        );
+        OneOf<TimeReturning, TimeArrayReturning> left = OneOf<
+            TimeReturning,
+            TimeArrayReturning
+        >.FromT1(new TimeArrayReturning(TimeF("shifts", "clock_out")));
+        OneOf<TimeReturning, TimeArrayReturning> right = OneOf<
+            TimeReturning,
+            TimeArrayReturning
+        >.FromT1(new TimeArrayReturning(TimeF("shifts", "clock_in")));
 
-        var diff = new EachTimeDiffSeconds(left, right);
-        var result = new NumberArrayReturning(diff);
+        EachTimeDiffSeconds diff = new EachTimeDiffSeconds(left, right);
+        NumberArrayReturning result = new NumberArrayReturning(diff);
 
         Assert.True(result.IsT6);
     }
@@ -486,11 +622,16 @@ public sealed class PureQLTests
     // ── Query.Where accepts booleanArrayReturning ─────────────────────────────
 
     [Fact]
-    public void Query_WhereAcceptsBooleanArrayReturning()
+    public void QueryWhereAcceptsBooleanArrayReturning()
     {
-        var from = new FromExpression("orders", "o");
-        var select = new[] { new SelectExpression(new ArrayReturning(new NumberArrayReturning(NumF("orders", "id")))) };
-        var whereExpr = new BooleanArrayReturning(
+        FromExpression from = new FromExpression("orders", "o");
+        SelectExpression[] select = new[]
+        {
+            new SelectExpression(
+                new ArrayReturning(new NumberArrayReturning(NumF("orders", "id")))
+            ),
+        };
+        BooleanArrayReturning whereExpr = new BooleanArrayReturning(
             new EachEquality(
                 new EachStringEquality(
                     new StringArrayReturning(StrF("orders", "status")),
@@ -501,23 +642,27 @@ public sealed class PureQLTests
             )
         );
 
-        var query = new Query(
+        Query query = new Query(
             from,
             select,
             OneOf<BooleanReturning, BooleanArrayReturning>.FromT1(whereExpr),
-            null, null, null, null, null
+            null,
+            null,
+            null,
+            null,
+            null
         );
 
-        Assert.NotNull(query.Where);
+        _ = Assert.NotNull(query.Where);
         Assert.True(query.Where!.Value.IsT1);
     }
 
     // ── Join.On accepts booleanArrayReturning ─────────────────────────────────
 
     [Fact]
-    public void Join_OnAcceptsEachEqualCondition()
+    public void JoinOnAcceptsEachEqualCondition()
     {
-        var on = new BooleanArrayReturning(
+        BooleanArrayReturning on = new BooleanArrayReturning(
             new EachEquality(
                 new EachNumberEquality(
                     new NumberArrayReturning(NumF("orders", "user_id")),
@@ -528,7 +673,7 @@ public sealed class PureQLTests
             )
         );
 
-        var join = new Join(JoinType.Inner, "users", on);
+        Join join = new Join(JoinType.Inner, "users", on);
 
         Assert.True(join.On.IsT1);
     }
@@ -536,34 +681,38 @@ public sealed class PureQLTests
     // ── aggregate in Returnings ───────────────────────────────────────────────
 
     [Fact]
-    public void NumberReturning_IncludesAggregate()
+    public void NumberReturningIncludesAggregate()
     {
-        var sumArg = new NumberArrayReturning(NumF("order_items", "price"));
-        var sum = new SumNumber(sumArg);
-        var aggregate = new NumberAggregate(sum);
-        var returning = new NumberReturning(aggregate);
+        NumberArrayReturning sumArg = new NumberArrayReturning(
+            NumF("order_items", "price")
+        );
+        SumNumber sum = new SumNumber(sumArg);
+        NumberAggregate aggregate = new NumberAggregate(sum);
+        NumberReturning returning = new NumberReturning(aggregate);
 
         Assert.True(returning.IsT3);
     }
 
     [Fact]
-    public void NumberReturning_IncludesCount()
+    public void NumberReturningIncludesCount()
     {
-        var countArg = new ArrayReturning(new NumberArrayReturning(NumF("orders", "id")));
-        var count = new Count(countArg);
-        var returning = new NumberReturning(count);
+        ArrayReturning countArg = new ArrayReturning(
+            new NumberArrayReturning(NumF("orders", "id"))
+        );
+        Count count = new Count(countArg);
+        NumberReturning returning = new NumberReturning(count);
 
         Assert.True(returning.IsT4);
     }
 
     [Fact]
-    public void NumberReturning_IncludesArithmetic()
+    public void NumberReturningIncludesArithmetic()
     {
-        var a = new NumberReturning(new NumberScalar(10));
-        var b = new NumberReturning(new NumberScalar(5));
-        var add = new Add(new[] { a, b });
-        var arithmetic = new Arithmetic(add);
-        var returning = new NumberReturning(arithmetic);
+        NumberReturning a = new NumberReturning(new NumberScalar(10));
+        NumberReturning b = new NumberReturning(new NumberScalar(5));
+        Add add = new Add([a, b]);
+        Arithmetic arithmetic = new Arithmetic(add);
+        NumberReturning returning = new NumberReturning(arithmetic);
 
         Assert.True(returning.IsT2);
     }
@@ -571,10 +720,10 @@ public sealed class PureQLTests
     // ── schema gap fixes ──────────────────────────────────────────────────────
 
     [Fact]
-    public void NullField_InFieldUnion_Constructs()
+    public void NullFieldInFieldUnionConstructs()
     {
-        var nullField = new NullField("orders", "deleted_at");
-        var field = new Field(nullField);
+        NullField nullField = new NullField("orders", "deleted_at");
+        Field field = new Field(nullField);
 
         Assert.Equal("orders", nullField.Entity);
         Assert.Equal("deleted_at", nullField.Field);
@@ -582,19 +731,19 @@ public sealed class PureQLTests
     }
 
     [Fact]
-    public void FromExpression_WithoutAlias_Constructs()
+    public void FromExpressionWithoutAliasConstructs()
     {
-        var from = new FromExpression("products");
+        FromExpression from = new FromExpression("products");
 
         Assert.Equal("products", from.Entity);
         Assert.Null(from.Alias);
     }
 
     [Fact]
-    public void Query_DistinctFlag_Constructs()
+    public void QueryDistinctFlagConstructs()
     {
-        var from = new FromExpression("orders");
-        var select = new[]
+        FromExpression from = new FromExpression("orders");
+        SelectExpression[] select = new[]
         {
             new SelectExpression(
                 new SingleValueReturning(new NumberReturning(new NumberScalar(1))),
@@ -602,7 +751,17 @@ public sealed class PureQLTests
             ),
         };
 
-        var query = new Query(from, select, null, null, null, null, null, null, distinct: true);
+        Query query = new Query(
+            from,
+            select,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            distinct: true
+        );
 
         Assert.True(query.Distinct);
     }

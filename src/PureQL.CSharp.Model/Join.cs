@@ -12,7 +12,11 @@ public sealed record Join
     public Join(JoinType type, string entity, BooleanArrayReturning on)
         : this(type, entity, (OneOf<BooleanReturning, BooleanArrayReturning>)on) { }
 
-    private Join(JoinType type, string entity, OneOf<BooleanReturning, BooleanArrayReturning> on)
+    private Join(
+        JoinType type,
+        string entity,
+        OneOf<BooleanReturning, BooleanArrayReturning> on
+    )
     {
         Type = type;
         Entity = entity;

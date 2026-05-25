@@ -2,7 +2,8 @@ using OneOf;
 
 namespace PureQL.CSharp.Model.EachArithmetics;
 
-public sealed class EachArithmetic : OneOfBase<EachAdd, EachSubtract, EachMultiply, EachDivide>
+public sealed class EachArithmetic
+    : OneOfBase<EachAdd, EachSubtract, EachMultiply, EachDivide>
 {
     public EachArithmetic(EachAdd add)
         : this((OneOf<EachAdd, EachSubtract, EachMultiply, EachDivide>)add) { }

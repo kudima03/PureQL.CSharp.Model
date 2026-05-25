@@ -16,30 +16,59 @@ public sealed class DateTimeArrayReturning
 {
     public DateTimeArrayReturning(DateTimeArrayParameter parameter)
         : this(
-            (OneOf<DateTimeArrayParameter, DateTimeField, DateTimeArrayScalar, EachDateTimeAddSeconds>)parameter
+            (OneOf<
+                DateTimeArrayParameter,
+                DateTimeField,
+                DateTimeArrayScalar,
+                EachDateTimeAddSeconds
+            >)
+                parameter
         )
     { }
 
     public DateTimeArrayReturning(DateTimeField field)
         : this(
-            (OneOf<DateTimeArrayParameter, DateTimeField, DateTimeArrayScalar, EachDateTimeAddSeconds>)field
+            (OneOf<
+                DateTimeArrayParameter,
+                DateTimeField,
+                DateTimeArrayScalar,
+                EachDateTimeAddSeconds
+            >)
+                field
         )
     { }
 
     public DateTimeArrayReturning(DateTimeArrayScalar scalar)
         : this(
-            (OneOf<DateTimeArrayParameter, DateTimeField, DateTimeArrayScalar, EachDateTimeAddSeconds>)scalar
+            (OneOf<
+                DateTimeArrayParameter,
+                DateTimeField,
+                DateTimeArrayScalar,
+                EachDateTimeAddSeconds
+            >)
+                scalar
         )
     { }
 
     public DateTimeArrayReturning(EachDateTimeAddSeconds addSeconds)
         : this(
-            (OneOf<DateTimeArrayParameter, DateTimeField, DateTimeArrayScalar, EachDateTimeAddSeconds>)addSeconds
+            (OneOf<
+                DateTimeArrayParameter,
+                DateTimeField,
+                DateTimeArrayScalar,
+                EachDateTimeAddSeconds
+            >)
+                addSeconds
         )
     { }
 
     private DateTimeArrayReturning(
-        OneOf<DateTimeArrayParameter, DateTimeField, DateTimeArrayScalar, EachDateTimeAddSeconds> input
+        OneOf<
+            DateTimeArrayParameter,
+            DateTimeField,
+            DateTimeArrayScalar,
+            EachDateTimeAddSeconds
+        > input
     )
         : base(input) { }
 }

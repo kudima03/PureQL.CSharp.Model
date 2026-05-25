@@ -17,6 +17,8 @@ public sealed class DateTimeReturning
     public DateTimeReturning(DateTimeAggregate aggregate)
         : this((OneOf<DateTimeParameter, DateTimeScalar, DateTimeAggregate>)aggregate) { }
 
-    private DateTimeReturning(OneOf<DateTimeParameter, DateTimeScalar, DateTimeAggregate> input)
+    private DateTimeReturning(
+        OneOf<DateTimeParameter, DateTimeScalar, DateTimeAggregate> input
+    )
         : base(input) { }
 }

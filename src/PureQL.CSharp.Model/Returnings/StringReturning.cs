@@ -5,7 +5,8 @@ using PureQL.CSharp.Model.Scalars;
 
 namespace PureQL.CSharp.Model.Returnings;
 
-public sealed class StringReturning : OneOfBase<StringParameter, StringScalar, StringAggregate>
+public sealed class StringReturning
+    : OneOfBase<StringParameter, StringScalar, StringAggregate>
 {
     public StringReturning(StringParameter parameter)
         : this((OneOf<StringParameter, StringScalar, StringAggregate>)parameter) { }

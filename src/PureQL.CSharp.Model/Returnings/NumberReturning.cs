@@ -11,20 +11,42 @@ public sealed class NumberReturning
     : OneOfBase<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>
 {
     public NumberReturning(NumberParameter parameter)
-        : this((OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>)parameter) { }
+        : this(
+            (OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>)
+                parameter
+        )
+    { }
 
     public NumberReturning(NumberScalar scalar)
-        : this((OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>)scalar) { }
+        : this(
+            (OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>)
+                scalar
+        )
+    { }
 
     public NumberReturning(Arithmetic arithmetic)
-        : this((OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>)arithmetic) { }
+        : this(
+            (OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>)
+                arithmetic
+        )
+    { }
 
     public NumberReturning(NumberAggregate aggregate)
-        : this((OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>)aggregate) { }
+        : this(
+            (OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>)
+                aggregate
+        )
+    { }
 
     public NumberReturning(Count count)
-        : this((OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>)count) { }
+        : this(
+            (OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count>)
+                count
+        )
+    { }
 
-    private NumberReturning(OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count> input)
+    private NumberReturning(
+        OneOf<NumberParameter, NumberScalar, Arithmetic, NumberAggregate, Count> input
+    )
         : base(input) { }
 }

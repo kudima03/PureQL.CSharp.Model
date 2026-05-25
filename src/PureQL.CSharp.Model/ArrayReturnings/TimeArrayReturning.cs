@@ -11,25 +11,29 @@ public sealed class TimeArrayReturning
 {
     public TimeArrayReturning(TimeArrayParameter parameter)
         : this(
-            (OneOf<TimeArrayParameter, TimeField, TimeArrayScalar, EachTimeAddSeconds>)parameter
+            (OneOf<TimeArrayParameter, TimeField, TimeArrayScalar, EachTimeAddSeconds>)
+                parameter
         )
     { }
 
     public TimeArrayReturning(TimeField field)
         : this(
-            (OneOf<TimeArrayParameter, TimeField, TimeArrayScalar, EachTimeAddSeconds>)field
+            (OneOf<TimeArrayParameter, TimeField, TimeArrayScalar, EachTimeAddSeconds>)
+                field
         )
     { }
 
     public TimeArrayReturning(TimeArrayScalar scalar)
         : this(
-            (OneOf<TimeArrayParameter, TimeField, TimeArrayScalar, EachTimeAddSeconds>)scalar
+            (OneOf<TimeArrayParameter, TimeField, TimeArrayScalar, EachTimeAddSeconds>)
+                scalar
         )
     { }
 
     public TimeArrayReturning(EachTimeAddSeconds addSeconds)
         : this(
-            (OneOf<TimeArrayParameter, TimeField, TimeArrayScalar, EachTimeAddSeconds>)addSeconds
+            (OneOf<TimeArrayParameter, TimeField, TimeArrayScalar, EachTimeAddSeconds>)
+                addSeconds
         )
     { }
 

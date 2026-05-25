@@ -11,12 +11,16 @@ public sealed class DateArrayReturning
 {
     public DateArrayReturning(DateArrayParameter parameter)
         : this(
-            (OneOf<DateArrayParameter, DateField, DateArrayScalar, EachDateAddDays>)parameter
+            (OneOf<DateArrayParameter, DateField, DateArrayScalar, EachDateAddDays>)
+                parameter
         )
     { }
 
     public DateArrayReturning(DateField field)
-        : this((OneOf<DateArrayParameter, DateField, DateArrayScalar, EachDateAddDays>)field) { }
+        : this(
+            (OneOf<DateArrayParameter, DateField, DateArrayScalar, EachDateAddDays>)field
+        )
+    { }
 
     public DateArrayReturning(DateArrayScalar scalar)
         : this(
@@ -26,7 +30,8 @@ public sealed class DateArrayReturning
 
     public DateArrayReturning(EachDateAddDays addDays)
         : this(
-            (OneOf<DateArrayParameter, DateField, DateArrayScalar, EachDateAddDays>)addDays
+            (OneOf<DateArrayParameter, DateField, DateArrayScalar, EachDateAddDays>)
+                addDays
         )
     { }
 
