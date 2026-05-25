@@ -100,6 +100,12 @@ Per-row time math:
 - **`TimeReturning`** now includes `TimeAggregate`.
 - **`DateTimeReturning`** now includes `DateTimeAggregate`.
 - **`StringReturning`** now includes `StringAggregate`.
+- **`NullField`** added and included as the 8th variant in the `Field` union,
+  matching the `nullField` entry in the spec's `field` definition.
+- **`FromExpression.Alias`** is now optional (`string?` with default `null`),
+  matching the spec where `alias` is not in the `required` array.
+- **`Query.Distinct`** property added (`bool`, default `false`), matching the
+  `distinct` property defined at the root query level in the spec.
 
 ---
 

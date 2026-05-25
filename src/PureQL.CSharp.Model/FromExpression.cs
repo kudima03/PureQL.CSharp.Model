@@ -2,7 +2,7 @@ namespace PureQL.CSharp.Model;
 
 public sealed record FromExpression
 {
-    public FromExpression(string entity, string alias)
+    public FromExpression(string entity, string? alias = null)
     {
         Entity = entity;
         Alias = alias;
@@ -10,5 +10,5 @@ public sealed record FromExpression
 
     public string Entity { get; }
 
-    public string Alias { get; }
+    public string? Alias { get; }
 }

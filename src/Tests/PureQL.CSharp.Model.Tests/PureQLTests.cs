@@ -567,4 +567,43 @@ public sealed class PureQLTests
 
         Assert.True(returning.IsT2);
     }
+
+    // ── schema gap fixes ──────────────────────────────────────────────────────
+
+    [Fact]
+    public void NullField_InFieldUnion_Constructs()
+    {
+        var nullField = new NullField("orders", "deleted_at");
+        var field = new Field(nullField);
+
+        Assert.Equal("orders", nullField.Entity);
+        Assert.Equal("deleted_at", nullField.Field);
+        Assert.True(field.IsT3);
+    }
+
+    [Fact]
+    public void FromExpression_WithoutAlias_Constructs()
+    {
+        var from = new FromExpression("products");
+
+        Assert.Equal("products", from.Entity);
+        Assert.Null(from.Alias);
+    }
+
+    [Fact]
+    public void Query_DistinctFlag_Constructs()
+    {
+        var from = new FromExpression("orders");
+        var select = new[]
+        {
+            new SelectExpression(
+                new SingleValueReturning(new NumberReturning(new NumberScalar(1))),
+                "one"
+            ),
+        };
+
+        var query = new Query(from, select, null, null, null, null, null, null, distinct: true);
+
+        Assert.True(query.Distinct);
+    }
 }

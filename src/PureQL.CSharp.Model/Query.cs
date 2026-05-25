@@ -8,7 +8,7 @@ namespace PureQL.CSharp.Model;
 public sealed record Query
 {
     public Query(FromExpression from, IEnumerable<SelectExpression> select)
-        : this(from, select, null, null, null, null, null, null) { }
+        : this(from, select, null, null, null, null, null, null, false) { }
 
     public Query(
         FromExpression from,
@@ -18,7 +18,8 @@ public sealed record Query
         IEnumerable<Field>? groupBy,
         BooleanReturning? having,
         IEnumerable<OrderByItem>? orderBy,
-        Pagination? pagination
+        Pagination? pagination,
+        bool distinct = false
     )
     {
         From = from;
@@ -29,6 +30,7 @@ public sealed record Query
         Having = having;
         OrderBy = orderBy;
         Pagination = pagination;
+        Distinct = distinct;
     }
 
     public FromExpression From { get; }
@@ -46,4 +48,6 @@ public sealed record Query
     public IEnumerable<OrderByItem>? OrderBy { get; }
 
     public Pagination? Pagination { get; }
+
+    public bool Distinct { get; }
 }
