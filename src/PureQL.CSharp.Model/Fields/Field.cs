@@ -7,6 +7,7 @@ public sealed class Field
         BooleanField,
         DateField,
         DateTimeField,
+        NullField,
         NumberField,
         TimeField,
         UuidField,
@@ -19,6 +20,7 @@ public sealed class Field
                 BooleanField,
                 DateField,
                 DateTimeField,
+                NullField,
                 NumberField,
                 TimeField,
                 UuidField,
@@ -34,6 +36,7 @@ public sealed class Field
                 BooleanField,
                 DateField,
                 DateTimeField,
+                NullField,
                 NumberField,
                 TimeField,
                 UuidField,
@@ -49,6 +52,23 @@ public sealed class Field
                 BooleanField,
                 DateField,
                 DateTimeField,
+                NullField,
+                NumberField,
+                TimeField,
+                UuidField,
+                StringField
+            >)
+                field
+        )
+    { }
+
+    public Field(NullField field)
+        : this(
+            (OneOf<
+                BooleanField,
+                DateField,
+                DateTimeField,
+                NullField,
                 NumberField,
                 TimeField,
                 UuidField,
@@ -64,6 +84,7 @@ public sealed class Field
                 BooleanField,
                 DateField,
                 DateTimeField,
+                NullField,
                 NumberField,
                 TimeField,
                 UuidField,
@@ -79,6 +100,7 @@ public sealed class Field
                 BooleanField,
                 DateField,
                 DateTimeField,
+                NullField,
                 NumberField,
                 TimeField,
                 UuidField,
@@ -94,6 +116,7 @@ public sealed class Field
                 BooleanField,
                 DateField,
                 DateTimeField,
+                NullField,
                 NumberField,
                 TimeField,
                 UuidField,
@@ -109,6 +132,7 @@ public sealed class Field
                 BooleanField,
                 DateField,
                 DateTimeField,
+                NullField,
                 NumberField,
                 TimeField,
                 UuidField,
@@ -123,6 +147,7 @@ public sealed class Field
             BooleanField,
             DateField,
             DateTimeField,
+            NullField,
             NumberField,
             TimeField,
             UuidField,

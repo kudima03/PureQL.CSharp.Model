@@ -1,3 +1,5 @@
+using OneOf;
+using PureQL.CSharp.Model.ArrayReturnings;
 using PureQL.CSharp.Model.Fields;
 using PureQL.CSharp.Model.Returnings;
 
@@ -6,17 +8,18 @@ namespace PureQL.CSharp.Model;
 public sealed record Query
 {
     public Query(FromExpression from, IEnumerable<SelectExpression> select)
-        : this(from, select, null, null, null, null, null, null) { }
+        : this(from, select, null, null, null, null, null, null, false) { }
 
     public Query(
         FromExpression from,
         IEnumerable<SelectExpression> selectExpressions,
-        BooleanReturning? where,
+        OneOf<BooleanReturning, BooleanArrayReturning>? where,
         IEnumerable<Join>? join,
         IEnumerable<Field>? groupBy,
         BooleanReturning? having,
-        IEnumerable<Field>? orderBy,
-        Pagination? pagination
+        IEnumerable<OrderByItem>? orderBy,
+        Pagination? pagination,
+        bool distinct = false
     )
     {
         From = from;
@@ -27,13 +30,14 @@ public sealed record Query
         Having = having;
         OrderBy = orderBy;
         Pagination = pagination;
+        Distinct = distinct;
     }
 
     public FromExpression From { get; }
 
     public IEnumerable<SelectExpression> SelectExpressions { get; }
 
-    public BooleanReturning? Where { get; }
+    public OneOf<BooleanReturning, BooleanArrayReturning>? Where { get; }
 
     public IEnumerable<Join>? Join { get; }
 
@@ -41,7 +45,9 @@ public sealed record Query
 
     public BooleanReturning? Having { get; }
 
-    public IEnumerable<Field>? OrderBy { get; }
+    public IEnumerable<OrderByItem>? OrderBy { get; }
 
     public Pagination? Pagination { get; }
+
+    public bool Distinct { get; }
 }
