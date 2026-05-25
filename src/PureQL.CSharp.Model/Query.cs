@@ -17,7 +17,7 @@ public sealed record Query
         IEnumerable<Join>? join,
         IEnumerable<Field>? groupBy,
         BooleanReturning? having,
-        IEnumerable<Field>? orderBy,
+        IEnumerable<OrderByItem>? orderBy,
         Pagination? pagination
     )
     {
@@ -43,7 +43,7 @@ public sealed record Query
 
     public BooleanReturning? Having { get; }
 
-    public IEnumerable<Field>? OrderBy { get; }
+    public IEnumerable<OrderByItem>? OrderBy { get; }
 
     public Pagination? Pagination { get; }
 }
