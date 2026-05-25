@@ -61,13 +61,13 @@ public sealed class PureQLTests
     public void SimpleSelectConstructs()
     {
         FromExpression from = new FromExpression("orders", "o");
-        SelectExpression[] select = new[]
-        {
+        SelectExpression[] select =
+        [
             new SelectExpression(
                 new SingleValueReturning(new NumberReturning(new NumberScalar(1))),
                 "one"
             ),
-        };
+        ];
 
         Query query = new Query(from, select);
 
@@ -79,12 +79,12 @@ public sealed class PureQLTests
     public void QueryWithPaginationConstructs()
     {
         FromExpression from = new FromExpression("users", "u");
-        SelectExpression[] select = new[]
-        {
+        SelectExpression[] select =
+        [
             new SelectExpression(
                 new ArrayReturning(new NumberArrayReturning(NumF("users", "id")))
             ),
-        };
+        ];
         Pagination pagination = new Pagination(0, 10);
 
         Query query = new Query(from, select, null, null, null, null, null, pagination);
@@ -119,16 +119,16 @@ public sealed class PureQLTests
     public void QueryWithOrderByItemConstructs()
     {
         FromExpression from = new FromExpression("orders", "o");
-        SelectExpression[] select = new[]
-        {
+        SelectExpression[] select =
+        [
             new SelectExpression(
                 new ArrayReturning(new NumberArrayReturning(NumF("orders", "amount")))
             ),
-        };
-        OrderByItem[] orderBy = new[]
-        {
+        ];
+        OrderByItem[] orderBy =
+        [
             new OrderByItem(new Field(NumF("orders", "amount")), SortDirection.Desc),
-        };
+        ];
 
         Query query = new Query(from, select, null, null, null, null, orderBy, null);
 
@@ -625,12 +625,12 @@ public sealed class PureQLTests
     public void QueryWhereAcceptsBooleanArrayReturning()
     {
         FromExpression from = new FromExpression("orders", "o");
-        SelectExpression[] select = new[]
-        {
+        SelectExpression[] select =
+        [
             new SelectExpression(
                 new ArrayReturning(new NumberArrayReturning(NumF("orders", "id")))
             ),
-        };
+        ];
         BooleanArrayReturning whereExpr = new BooleanArrayReturning(
             new EachEquality(
                 new EachStringEquality(
@@ -743,13 +743,13 @@ public sealed class PureQLTests
     public void QueryDistinctFlagConstructs()
     {
         FromExpression from = new FromExpression("orders");
-        SelectExpression[] select = new[]
-        {
+        SelectExpression[] select =
+        [
             new SelectExpression(
                 new SingleValueReturning(new NumberReturning(new NumberScalar(1))),
                 "one"
             ),
-        };
+        ];
 
         Query query = new Query(
             from,
