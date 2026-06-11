@@ -765,4 +765,23 @@ public sealed class PureQLTests
 
         Assert.True(query.Distinct);
     }
+
+    // ── field types match the specification ───────────────────────────────────
+
+    [Theory]
+    [InlineData(typeof(NumberField), "number")]
+    [InlineData(typeof(StringField), "string")]
+    [InlineData(typeof(BooleanField), "boolean")]
+    [InlineData(typeof(NullField), "null")]
+    [InlineData(typeof(DateField), "date")]
+    [InlineData(typeof(TimeField), "time")]
+    [InlineData(typeof(DateTimeField), "datetime")]
+    [InlineData(typeof(UuidField), "uuid")]
+    public void FieldTypeNameMatchesSpecification(Type fieldType, string expectedName)
+    {
+        IField field = (IField)
+            Activator.CreateInstance(fieldType, "orders", "amount")!;
+
+        Assert.Equal(expectedName, field.Type.Name);
+    }
 }
