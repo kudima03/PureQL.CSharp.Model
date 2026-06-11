@@ -1,4 +1,3 @@
-using PureQL.CSharp.Model.ArrayTypes;
 using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Fields;
@@ -15,5 +14,5 @@ public sealed record NumberField : IField
 
     public string Field { get; }
 
-    public IType Type => new NumberArrayType();
+    public IType Type => new NumberType();
 }
