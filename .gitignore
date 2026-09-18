@@ -33,8 +33,6 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
-.idea/
-
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
@@ -133,6 +131,9 @@ $tf/
 _ReSharper*/
 *.[Rr]e[Ss]harper
 *.DotSettings.user
+
+# JetBrains Rider
+.idea/
 
 # TeamCity is a build add-in
 _TeamCity*

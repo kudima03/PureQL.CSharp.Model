@@ -25,8 +25,7 @@ public sealed class SingleValueReturning
                 UuidReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public SingleValueReturning(DateReturning returning)
         : this(
@@ -40,8 +39,7 @@ public sealed class SingleValueReturning
                 UuidReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public SingleValueReturning(DateTimeReturning returning)
         : this(
@@ -55,8 +53,7 @@ public sealed class SingleValueReturning
                 UuidReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public SingleValueReturning(NumberReturning returning)
         : this(
@@ -70,8 +67,7 @@ public sealed class SingleValueReturning
                 UuidReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public SingleValueReturning(StringReturning returning)
         : this(
@@ -85,8 +81,7 @@ public sealed class SingleValueReturning
                 UuidReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public SingleValueReturning(TimeReturning returning)
         : this(
@@ -100,8 +95,7 @@ public sealed class SingleValueReturning
                 UuidReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public SingleValueReturning(UuidReturning returning)
         : this(
@@ -115,8 +109,7 @@ public sealed class SingleValueReturning
                 UuidReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     private SingleValueReturning(
         OneOf<

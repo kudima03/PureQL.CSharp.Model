@@ -27,8 +27,7 @@ public sealed class Field
                 StringField
             >)
                 field
-        )
-    { }
+        ) { }
 
     public Field(DateField field)
         : this(
@@ -43,8 +42,7 @@ public sealed class Field
                 StringField
             >)
                 field
-        )
-    { }
+        ) { }
 
     public Field(DateTimeField field)
         : this(
@@ -59,8 +57,7 @@ public sealed class Field
                 StringField
             >)
                 field
-        )
-    { }
+        ) { }
 
     public Field(NullField field)
         : this(
@@ -75,8 +72,7 @@ public sealed class Field
                 StringField
             >)
                 field
-        )
-    { }
+        ) { }
 
     public Field(NumberField field)
         : this(
@@ -91,8 +87,7 @@ public sealed class Field
                 StringField
             >)
                 field
-        )
-    { }
+        ) { }
 
     public Field(TimeField field)
         : this(
@@ -107,8 +102,7 @@ public sealed class Field
                 StringField
             >)
                 field
-        )
-    { }
+        ) { }
 
     public Field(UuidField field)
         : this(
@@ -123,8 +117,7 @@ public sealed class Field
                 StringField
             >)
                 field
-        )
-    { }
+        ) { }
 
     public Field(StringField field)
         : this(
@@ -139,8 +132,7 @@ public sealed class Field
                 StringField
             >)
                 field
-        )
-    { }
+        ) { }
 
     private Field(
         OneOf<

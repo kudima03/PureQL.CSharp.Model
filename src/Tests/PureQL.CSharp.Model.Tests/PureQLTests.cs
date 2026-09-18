@@ -779,8 +779,7 @@ public sealed class PureQLTests
     [InlineData(typeof(UuidField), "uuid")]
     public void FieldTypeNameMatchesSpecification(Type fieldType, string expectedName)
     {
-        IField field = (IField)
-            Activator.CreateInstance(fieldType, "orders", "amount")!;
+        IField field = (IField)Activator.CreateInstance(fieldType, "orders", "amount")!;
 
         Assert.Equal(expectedName, field.Type.Name);
     }

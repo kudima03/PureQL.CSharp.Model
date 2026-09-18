@@ -24,8 +24,7 @@ public sealed class BooleanReturning
                 Comparisons.Comparison
             >)
                 booleanOperator
-        )
-    { }
+        ) { }
 
     public BooleanReturning(Equality field)
         : this(
@@ -37,8 +36,7 @@ public sealed class BooleanReturning
                 Comparisons.Comparison
             >)
                 field
-        )
-    { }
+        ) { }
 
     public BooleanReturning(BooleanParameter parameter)
         : this(
@@ -50,8 +48,7 @@ public sealed class BooleanReturning
                 Comparisons.Comparison
             >)
                 parameter
-        )
-    { }
+        ) { }
 
     public BooleanReturning(BooleanScalar scalar)
         : this(
@@ -63,8 +60,7 @@ public sealed class BooleanReturning
                 Comparisons.Comparison
             >)
                 scalar
-        )
-    { }
+        ) { }
 
     public BooleanReturning(Comparisons.Comparison comparison)
         : this(
@@ -76,8 +72,7 @@ public sealed class BooleanReturning
                 Comparisons.Comparison
             >)
                 comparison
-        )
-    { }
+        ) { }
 
     private BooleanReturning(
         OneOf<
