@@ -25,8 +25,7 @@ public sealed class ArrayReturning
                 UuidArrayReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public ArrayReturning(DateArrayReturning returning)
         : this(
@@ -40,8 +39,7 @@ public sealed class ArrayReturning
                 UuidArrayReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public ArrayReturning(DateTimeArrayReturning returning)
         : this(
@@ -55,8 +53,7 @@ public sealed class ArrayReturning
                 UuidArrayReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public ArrayReturning(NumberArrayReturning returning)
         : this(
@@ -70,8 +67,7 @@ public sealed class ArrayReturning
                 UuidArrayReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public ArrayReturning(StringArrayReturning returning)
         : this(
@@ -85,8 +81,7 @@ public sealed class ArrayReturning
                 UuidArrayReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public ArrayReturning(TimeArrayReturning returning)
         : this(
@@ -100,8 +95,7 @@ public sealed class ArrayReturning
                 UuidArrayReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     public ArrayReturning(UuidArrayReturning returning)
         : this(
@@ -115,8 +109,7 @@ public sealed class ArrayReturning
                 UuidArrayReturning
             >)
                 returning
-        )
-    { }
+        ) { }
 
     private ArrayReturning(
         OneOf<

@@ -23,8 +23,7 @@ public sealed class DateTimeArrayReturning
                 EachDateTimeAddSeconds
             >)
                 parameter
-        )
-    { }
+        ) { }
 
     public DateTimeArrayReturning(DateTimeField field)
         : this(
@@ -35,8 +34,7 @@ public sealed class DateTimeArrayReturning
                 EachDateTimeAddSeconds
             >)
                 field
-        )
-    { }
+        ) { }
 
     public DateTimeArrayReturning(DateTimeArrayScalar scalar)
         : this(
@@ -47,8 +45,7 @@ public sealed class DateTimeArrayReturning
                 EachDateTimeAddSeconds
             >)
                 scalar
-        )
-    { }
+        ) { }
 
     public DateTimeArrayReturning(EachDateTimeAddSeconds addSeconds)
         : this(
@@ -59,8 +56,7 @@ public sealed class DateTimeArrayReturning
                 EachDateTimeAddSeconds
             >)
                 addSeconds
-        )
-    { }
+        ) { }
 
     private DateTimeArrayReturning(
         OneOf<

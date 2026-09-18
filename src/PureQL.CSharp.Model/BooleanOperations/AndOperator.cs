@@ -13,8 +13,7 @@ public sealed record AndOperator
     public AndOperator(IEnumerable<BooleanReturning> conditions)
         : this(
             OneOf<IEnumerable<BooleanReturning>, BooleanArrayReturning>.FromT0(conditions)
-        )
-    { }
+        ) { }
 
     private AndOperator(
         OneOf<IEnumerable<BooleanReturning>, BooleanArrayReturning> conditions

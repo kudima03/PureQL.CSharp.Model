@@ -27,8 +27,7 @@ public sealed class ArrayType
                 StringArrayType
             >)
                 type
-        )
-    { }
+        ) { }
 
     public ArrayType(DateArrayType type)
         : this(
@@ -43,8 +42,7 @@ public sealed class ArrayType
                 StringArrayType
             >)
                 type
-        )
-    { }
+        ) { }
 
     public ArrayType(DateTimeArrayType type)
         : this(
@@ -59,8 +57,7 @@ public sealed class ArrayType
                 StringArrayType
             >)
                 type
-        )
-    { }
+        ) { }
 
     public ArrayType(NullArrayType type)
         : this(
@@ -75,8 +72,7 @@ public sealed class ArrayType
                 StringArrayType
             >)
                 type
-        )
-    { }
+        ) { }
 
     public ArrayType(NumberArrayType type)
         : this(
@@ -91,8 +87,7 @@ public sealed class ArrayType
                 StringArrayType
             >)
                 type
-        )
-    { }
+        ) { }
 
     public ArrayType(TimeArrayType type)
         : this(
@@ -107,8 +102,7 @@ public sealed class ArrayType
                 StringArrayType
             >)
                 type
-        )
-    { }
+        ) { }
 
     public ArrayType(UuidArrayType type)
         : this(
@@ -123,8 +117,7 @@ public sealed class ArrayType
                 StringArrayType
             >)
                 type
-        )
-    { }
+        ) { }
 
     public ArrayType(StringArrayType type)
         : this(
@@ -139,8 +132,7 @@ public sealed class ArrayType
                 StringArrayType
             >)
                 type
-        )
-    { }
+        ) { }
 
     private ArrayType(
         OneOf<
