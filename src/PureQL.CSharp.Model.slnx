@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/PureQL.CSharp.Model.Tests/PureQL.CSharp.Model.Tests.csproj" />
+  </Folder>
+  <Project Path="PureQL.CSharp.Model/PureQL.CSharp.Model.csproj" />
+</Solution>
