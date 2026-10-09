@@ -1,31 +1,15 @@
 using OneOf;
-using PureQL.CSharp.Model.ArrayReturnings;
-using PureQL.CSharp.Model.Returnings;
 
 namespace PureQL.CSharp.Model;
 
-public sealed record Join
+public sealed class Join : OneOfBase<JoinEntity, JoinSubquery>
 {
-    public Join(JoinType type, string entity, BooleanReturning on)
-        : this(type, entity, (OneOf<BooleanReturning, BooleanArrayReturning>)on) { }
+    public Join(JoinEntity value)
+        : this((OneOf<JoinEntity, JoinSubquery>)value) { }
 
-    public Join(JoinType type, string entity, BooleanArrayReturning on)
-        : this(type, entity, (OneOf<BooleanReturning, BooleanArrayReturning>)on) { }
+    public Join(JoinSubquery value)
+        : this((OneOf<JoinEntity, JoinSubquery>)value) { }
 
-    private Join(
-        JoinType type,
-        string entity,
-        OneOf<BooleanReturning, BooleanArrayReturning> on
-    )
-    {
-        Type = type;
-        Entity = entity;
-        On = on;
-    }
-
-    public JoinType Type { get; }
-
-    public string Entity { get; }
-
-    public OneOf<BooleanReturning, BooleanArrayReturning> On { get; }
+    private Join(OneOf<JoinEntity, JoinSubquery> input)
+        : base(input) { }
 }

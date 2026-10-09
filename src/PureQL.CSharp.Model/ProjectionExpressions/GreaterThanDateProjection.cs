@@ -1,0 +1,17 @@
+namespace PureQL.CSharp.Model.ProjectionExpressions;
+
+public sealed record GreaterThanDateProjection
+{
+    public GreaterThanDateProjection(
+        DateNullableProjection left,
+        DateNullableProjection right
+    )
+    {
+        Left = left;
+        Right = right;
+    }
+
+    public DateNullableProjection Left { get; }
+
+    public DateNullableProjection Right { get; }
+}
