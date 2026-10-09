@@ -7,6 +7,54 @@ Versioning mirrors the PureQL specification with a `-csharp.N` suffix where need
 
 ---
 
+## [Unreleased] — spec 0.1.0-preview.1.0.0
+
+Rewrites the model for PureQL specification `0.1.0-preview.1.0.0`, which
+replaces the whole expression model and enforces its type system in the
+schema. Every existing query must be rebuilt with the new types. Type
+names follow the schema's `$defs` keys in PascalCase, the same names as
+the TypeScript model.
+
+### Added
+
+- **Root unions** `PureQLQuery` (`MainGroupedQuery` | `MainPlainQuery`)
+  and `Query` (`GroupedQuery` | `PlainQuery`) for subqueries.
+- **Subqueries** — `Subquery(name, query)`, `FromSubquery`,
+  `JoinSubquery`, and `ListSubqueryColumn*` for `in` over a subquery
+  column.
+- **Contexts** — expression types per context in `RowExpressions`,
+  `ProjectionExpressions` and `GroupExpressions`, with one value union
+  per type and nullability (`IntegerRow`, `DecimalNullableGroup`, …).
+- **Types** `integer` and `decimal` (replacing `number`) and nullable
+  forms of every type (`TypeIntegerNullable`, …); typed null literals
+  (`LiteralIntegerNullable`, …).
+- **Operators** `notEqual`, `in`, `if`, `coalesce`, `concat`,
+  `integerDivide`, `modulo`, `floor`, `ceiling`, `round`, and
+  `dateAddDays`, `dateDiffDays`, `timeAddSeconds`, `timeDiffSeconds`,
+  `datetimeAddSeconds`, `datetimeDiffSeconds` in every context.
+- **Aggregates** with `Selector`, optional `Predicate` and `Over`
+  (`AggregateOver`); `any` and `all`.
+- **Group keys** (`GroupKey*`) over any row expression, referenced with
+  `Key*(index)`; typed select columns (`SelectItemGroup*`,
+  `SelectItemProjection*`); `OrderItemGroup` / `OrderItemProjection`
+  over any expression.
+- **Join aliases** for self-joins; **parameterized pagination**
+  (`Skip` / `Take` are `OneOf<long, ParamInteger>`).
+- **Lists** (`ListInteger`, …) as values for `in`.
+
+### Removed
+
+- The previous expression model: `Query`, `FromExpression`,
+  `SelectExpression`, `OrderByItem`, `Equality` and the `Aggregates`,
+  `Arithmetics`, `ArrayEqualities`, `ArrayParameters`, `ArrayReturnings`,
+  `ArrayScalars`, `ArrayTypes`, `BooleanOperations`, `Comparisons`,
+  `Each*`, `Equalities`, `Returnings` and `Scalars` namespaces.
+- The `null` and `number` types, and per-type field / parameter names
+  (`NumberField`, `StringParameter`, …) — replaced by `FieldInteger`,
+  `ParamString`, ….
+
+---
+
 ## [0.1.0-preview.11.0.0] — spec 0.1.0-preview.0.5.0
 
 Brings the C# model fully in line with PureQL specification versions

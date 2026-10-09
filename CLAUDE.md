@@ -21,22 +21,21 @@ CI additionally passes `-p:AssemblyVersion` (pinned to the major) and `-p:FileVe
 
 This is a **model-only NuGet library** — no I/O, no implementations, no database access. It defines the abstract syntax tree (AST) that other PureQL packages use to represent queries.
 
-**Central type:** `Query` (sealed record) assembles all query clauses: `FromExpression`, `IEnumerable<SelectExpression>`, `BooleanReturning?` (WHERE/HAVING), `IEnumerable<Join>?`, `IEnumerable<Field>?` (GROUP BY / ORDER BY), and `Pagination?`.
+**Spec parity:** the model mirrors PureQL specification `0.1.0-preview.1.0.0` (`PureQL-Specification.json` in `kudima03/PureQL-Specification`). Every schema `$defs` entry maps to a C# type named by PascalCasing its key (`add.integer@row` → `AddIntegerRow`), the same names the TypeScript model (`PureQL.TypeScript.Model`) uses. `guarded.*` and `probe.*` defs are validation helpers and have no C# type.
 
-**Composition model:**
+**Root types:** `PureQLQuery` = `MainGroupedQuery | MainPlainQuery` (dispatch on `groupBy`); subqueries use `Query` = `GroupedQuery | PlainQuery`. `From` / `Join` are unions of an entity and a subquery form.
 
-- `SelectExpression` wraps `SingleValueReturning | ArrayReturning`
-- `BooleanReturning` wraps `BooleanParameter | BooleanScalar | Equality | BooleanOperator | Comparison`
-- Typed returnings (e.g. `NumberReturning`) wrap the matching `Parameter` and `Scalar` types
-- `Comparison` wraps typed comparisons (Number, String, Date, DateTime, Time)
-- `Equality` wraps `SingleValueEquality | ArrayEquality`, each with typed variants per scalar kind
-- `BooleanOperator` wraps `AndOperator | OrOperator | NotOperator`
+**Contexts:** each expression exists per context — `RowExpressions` (`where`, `join.on`, group keys, aggregate selector / predicate), `ProjectionExpressions` (`select` / `orderBy` without `groupBy`), `GroupExpressions` (`select` / `having` / `orderBy` with `groupBy`). Per context there is a value union for each of `integer`, `decimal`, `string`, `boolean`, `date`, `time`, `datetime`, `uuid` and its nullable form (`IntegerRow`, `DecimalNullableGroup`, …), with exactly the members the schema lists.
+
+**Union grouping:** OneOf supports at most 9 cases, so value unions group their members by operator family: leaf unions `FieldAs{T}`, `ParamAs{T}`, `LiteralAs{T}`, `KeyAs{T}` (in the leaf namespaces), then `Logical{Ctx}`, `Comparison{Ctx}` (→ `Equal{Ctx}`, `NotEqual{Ctx}`, `In{Ctx}`, `GreaterThan{Ctx}`, …), `Arithmetic{T}{Ctx}`, `Rounding{T}{Ctx}`, `Difference{T}{Ctx}`, `Conditional{T}{Ctx}`, `Aggregate{T}{Ctx}`. A family with one member is a direct case. Family unions shared by `T` and `T?` keep the non-nullable name. `GroupKey`, `SelectItemGroup` and `SelectItemProjection` split into `…NonNullable` / `…Nullable` unions of the 8 per-type records.
+
+**Records:** operator properties use the schema's property names (`Values`, `Left`, `Right`, `Value`, `Digits`, `Condition`, `Then`, `Else`, `Conditions`, `List`, `Selector`, `Predicate`); `operator` is implied by the record type. Aggregate `over` is `AggregateOver Over = AggregateOver.Group` where the schema allows both values and is omitted where it allows one. Literal CLR types: `long`, `decimal`, `string`, `bool`, `DateOnly`, `TimeOnly`, `DateTimeOffset`, `Guid`; nullable literals (`LiteralIntegerNullable`) are the typed `null` and carry no value. Leaves, select items and group keys expose `IType Type`.
 
 Every discriminated union is implemented with [OneOf](https://github.com/mcintyre321/OneOf) (`OneOfBase<…>`). Each concrete case type is a separate sealed record.
 
-**Namespaces and folders map 1:1:** `Aggregates`, `Arithmetics`, `ArrayEqualities`, `ArrayParameters`, `ArrayReturnings`, `ArrayScalars`, `ArrayTypes`, `BooleanOperations`, `Comparisons`, `Equalities`, `Fields`, `Parameters`, `Returnings`, `Scalars`, `Types`.
+**Namespaces and folders map 1:1:** root (queries, `From`, `Join`, `Subquery`, `Pagination`, `OrderItem*`, enums), `Types`, `Fields`, `Parameters`, `Literals`, `Keys`, `Lists`, `RowExpressions`, `ProjectionExpressions`, `GroupExpressions`, `GroupKeys`, `SelectItems`.
 
-**Fields** (`IField` — Entity, Field, IType) are used only for GROUP BY and ORDER BY. SELECT expressions use Returnings (parameter/scalar unions), not field types directly.
+**Updating to a new spec version:** the expression types were generated from the schema with a one-off script that is not part of the repository; the rules above are what it implements. Small spec changes are applied by hand following the same rules; compare with the TypeScript model, which regenerates its types from the pinned schema tag.
 
 **Multi-targeting:** net6.0, net7.0, net8.0, net9.0, net10.0. All types must remain AOT-compatible (`IsAotCompatible = true`).
 
@@ -46,7 +45,7 @@ Every discriminated union is implemented with [OneOf](https://github.com/mcintyr
 
 ## Tests
 
-There is a test project (`PureQL.CSharp.Model.Tests`) using xunit, targeting net10.0 only. Run from `./src`:
+There is a test project (`PureQL.CSharp.Model.Tests`) using xunit, targeting net10.0 only. `SampleQueryTests` builds specification samples; `ModelShapeTests` checks every exported type by reflection (union case indices, record properties, declared types). Run from `./src`:
 
 ```bash
 dotnet test --no-build --verbosity normal --logger trx --collect:"XPlat Code Coverage"
