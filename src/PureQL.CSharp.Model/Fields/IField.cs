@@ -4,7 +4,7 @@ namespace PureQL.CSharp.Model.Fields;
 
 public interface IField
 {
-    public string Entity { get; }
+    public string Source { get; }
 
     public string Field { get; }
 

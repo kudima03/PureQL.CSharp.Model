@@ -9,140 +9,76 @@ Typed C# AST for building PureQL queries — immutable, AOT-compatible records a
 
 ## Overview
 
-`PureQL.CSharp.Model` defines the abstract syntax tree (AST) used across the PureQL ecosystem to represent database queries in C#. Every clause of a query — fields, scalar values, named parameters, conditions, joins, aggregates, arithmetic operations, and pagination — is encoded as an immutable record or discriminated union (via [OneOf](https://github.com/mcintyre321/OneOf)). Query builders construct instances of these types; a separate translator package interprets them.
+`PureQL.CSharp.Model` defines the abstract syntax tree (AST) used across the PureQL ecosystem to represent database queries in C#. It mirrors the [PureQL specification](https://github.com/kudima03/PureQL-Specification) `0.1.0-preview.1.0.0` one-to-one: every `$defs` entry of the JSON Schema has a C# type with the same name in PascalCase (`add.integer@row` → `AddIntegerRow`, `selectItem@group` → `SelectItemGroup`). Types are immutable records, and every choice is a discriminated union built on [OneOf](https://github.com/mcintyre321/OneOf). Query builders construct instances of these types; serializers and translators live in separate packages.
+
+Because the specification enforces its type system in the schema, so does this model: a column declares its type, a nullable value cannot be used as a condition, a field cannot appear in `having`, and an aggregate cannot appear in `where` — such queries do not compile.
 
 ## Query Model
 
-`Query` is the top-level sealed record that assembles all clauses:
+`PureQLQuery` is the root union: `MainGroupedQuery` (with `groupBy`) or `MainPlainQuery`. Subqueries use the same shapes without `subqueries` (`Query` = `GroupedQuery` | `PlainQuery`).
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `From` | `FromExpression` | Entity name and optional alias |
-| `SelectExpressions` | `IEnumerable<SelectExpression>` | Columns or array columns to return |
-| `Where` | `OneOf<BooleanReturning, BooleanArrayReturning>?` | Filter predicate (scalar or per-row) |
-| `Join` | `IEnumerable<Join>?` | Join clauses |
-| `GroupBy` | `IEnumerable<Field>?` | Grouping fields |
-| `Having` | `BooleanReturning?` | Post-aggregate filter |
-| `OrderBy` | `IEnumerable<OrderByItem>?` | Sort items (field + direction) |
-| `Pagination` | `Pagination?` | Skip / Take |
+| `Subqueries` | `IEnumerable<Subquery>?` | Named subqueries, main query only |
+| `From` | `From` | `FromEntity` or `FromSubquery`, with optional alias |
+| `Joins` | `IEnumerable<Join>?` | `JoinEntity` or `JoinSubquery`, `JoinType`, `On` condition, optional alias |
+| `Where` | `BooleanRow?` | Row filter |
+| `GroupBy` | `IEnumerable<GroupKey>` | Typed group keys, grouped queries only |
+| `Having` | `BooleanGroup?` | Group filter, grouped queries only |
+| `Select` | `IEnumerable<SelectItemProjection>` / `IEnumerable<SelectItemGroup>` | Columns with alias and declared type |
+| `OrderBy` | `IEnumerable<OrderItemProjection>?` / `IEnumerable<OrderItemGroup>?` | Sort expression + `SortDirection` (default `Asc`) |
+| `Pagination` | `Pagination?` | Skip / Take, each a number or an `integer` parameter |
 | `Distinct` | `bool` | Deduplicate result rows (default `false`) |
 
-## Type Hierarchy
+## Expressions and contexts
 
-### Core
+Each expression exists once per **context**, which fixes what it may reference:
 
-| Type | Kind | Description |
-|------|------|-------------|
-| `Query` | sealed record | Top-level query node |
-| `FromExpression` | sealed record | Entity name + optional alias for FROM |
-| `SelectExpression` | sealed class | `SingleValueReturning` or `ArrayReturning` with optional alias |
-| `Join` | sealed record | `JoinType`, entity name, and ON condition (`BooleanReturning` or `BooleanArrayReturning`) |
-| `JoinType` | enum | Left, Right, Inner, Full |
-| `OrderByItem` | sealed record | `Field` reference + `SortDirection` (default `Asc`) |
-| `SortDirection` | enum | Asc, Desc |
-| `Equality` | sealed class | `SingleValueEquality` or `ArrayEquality` |
-| `Pagination` | sealed record | Skip and Take counts |
+| Context | Namespace | Used in | Leaves |
+|---------|-----------|---------|--------|
+| row | `RowExpressions` | `where`, `join.on`, group keys, aggregate selector / predicate | fields, parameters, literals |
+| projection | `ProjectionExpressions` | `select` / `orderBy` without `groupBy` | fields, parameters, literals, aggregates over all rows |
+| group | `GroupExpressions` | `select` / `having` / `orderBy` with `groupBy` | group keys, parameters, literals, aggregates |
 
-### Fields (`PureQL.CSharp.Model.Fields`)
+Per context there is one union for every value type and its nullable form: `IntegerRow`, `IntegerNullableRow`, `DecimalGroup`, `BooleanNullableProjection`, … (types `integer`, `decimal`, `string`, `boolean`, `date`, `time`, `datetime`, `uuid`). The implicit conversions of the specification (`T` → `T?`, `integer` → `decimal`) are part of these unions, exactly as in the schema.
 
-`IField` exposes `Entity`, `Field`, and `IType`. `Field` is a discriminated union over:
-`BooleanField`, `DateField`, `DateTimeField`, `NullField`, `NumberField`, `TimeField`, `UuidField`, `StringField`.
+OneOf supports at most nine cases, so the cases of a value union are grouped by operator family:
 
-Fields are used in GROUP BY and ORDER BY clauses. Each concrete field takes `(string entity, string field)`.
+| Family | Example | Members |
+|--------|---------|---------|
+| leaves | `FieldAsDecimalNullable`, `ParamAs…`, `LiteralAs…`, `KeyAs…` | the field / parameter / literal / key records accepted by the value type |
+| `Logical{Ctx}` | `LogicalRow` | `And`, `Or`, `Not` |
+| `Comparison{Ctx}` | `ComparisonRow` | `EqualRow`, `NotEqualRow`, `InRow`, `GreaterThanRow`, `LessThanRow`, `GreaterThanOrEqualRow`, `LessThanOrEqualRow`, each over the comparable types |
+| `Arithmetic…` | `ArithmeticDecimalRow` | `add`, `subtract`, `multiply`, `divide`, `integerDivide`, `modulo` |
+| `Rounding…` | `RoundingDecimalRow` | `floor`, `ceiling`, `round` |
+| `Difference…` | `DifferenceDecimalRow` | `dateDiffDays`, `timeDiffSeconds`, `datetimeDiffSeconds` |
+| `Conditional…` | `ConditionalStringRow` | `if`, `coalesce` |
+| `Aggregate…` | `AggregateIntegerGroup` | `count`, `sum`, `average`, `min`, `max`, `any`, `all` |
 
-### Types (`PureQL.CSharp.Model.Types`)
+A family with a single member (`concat`, `dateAddDays`, …) is a direct case of the value union.
 
-`IType` (single `Name` property) with concrete records: `BooleanType`, `DateType`, `DateTimeType`, `NumberType`, `StringType`, `TimeType`, `UuidType`, `NullType`. Array counterparts live in `PureQL.CSharp.Model.ArrayTypes`.
+### Leaves
 
-### Scalars (`PureQL.CSharp.Model.Scalars`)
+| Namespace | Records | Interface |
+|-----------|---------|-----------|
+| `Fields` | `FieldInteger(source, field)`, `FieldIntegerNullable`, … | `IField` |
+| `Parameters` | `ParamInteger(name)`, … | `IParameter` |
+| `Literals` | `LiteralInteger(long)`, `LiteralDecimal(decimal)`, `LiteralDate(DateOnly)`, `LiteralTime(TimeOnly)`, `LiteralDatetime(DateTimeOffset)`, `LiteralUuid(Guid)`, …; `LiteralIntegerNullable()` is the typed `null` | `ILiteral` |
+| `Keys` | `KeyInteger(index)`, … — a reference to a group key | `IKey` |
+| `Lists` | `ListInteger` = `ListLiteralInteger` \| `ListParamInteger` \| `ListSubqueryColumnInteger`; accepted only by `in` | — |
+| `Types` | `TypeInteger`, `TypeIntegerNullable`, `TypeIntegerList`, … | `IType` |
 
-Inline literal values: `INumberScalar` / `NumberScalar`, `IBooleanScalar` / `BooleanScalar`, and equivalents for Date, DateTime, String, Time, Uuid, Null.
+Every leaf, select item and group key exposes its declared type through `IType Type`.
 
-### Parameters (`PureQL.CSharp.Model.Parameters`)
+### Aggregates
 
-Named placeholders (`IParameter` — `Name` + `IType`): `NumberParameter`, `BooleanParameter`, `DateParameter`, `DateTimeParameter`, `StringParameter`, `TimeParameter`, `UuidParameter`, `NullParameter`. Array variants in `PureQL.CSharp.Model.ArrayParameters`.
-
-### Returnings (`PureQL.CSharp.Model.Returnings`)
-
-Typed value expressions used in SELECT, WHERE, comparisons, and joins:
-
-| Type | Variants |
-|------|---------|
-| `SingleValueReturning` | Boolean, Date, DateTime, Number, String, Time, Uuid returnings |
-| `ArrayReturning` | Boolean, Date, DateTime, Number, String, Time, Uuid array returnings |
-| `BooleanReturning` | `BooleanParameter`, `BooleanScalar`, `Equality`, `BooleanOperator`, `Comparison` |
-| `NumberReturning` | `NumberParameter`, `NumberScalar`, `Arithmetic`, `NumberAggregate`, `Count` |
-| `StringReturning` | `StringParameter`, `StringScalar`, `StringAggregate` |
-| `DateReturning` | `DateParameter`, `DateScalar`, `DateAggregate` |
-| `TimeReturning` | `TimeParameter`, `TimeScalar`, `TimeAggregate` |
-| `DateTimeReturning` | `DateTimeParameter`, `DateTimeScalar`, `DateTimeAggregate` |
-| `UuidReturning` | `UuidParameter`, `UuidScalar` |
-
-### Array Returnings (`PureQL.CSharp.Model.ArrayReturnings`)
-
-Per-row value expressions used in `Where`, `Join.On`, and per-row operations:
-
-| Type | Variants |
-|------|---------|
-| `BooleanArrayReturning` | `BooleanArrayParameter`, `BooleanField`, `BooleanArrayScalar`, `EachComparison`, `EachEquality`, `EachBooleanOperator` |
-| `NumberArrayReturning` | `NumberArrayParameter`, `NumberField`, `NumberArrayScalar`, `EachArithmetic`, `EachDateDiffDays`, `EachDateTimeDiffSeconds`, `EachTimeDiffSeconds` |
-| `DateArrayReturning` | `DateArrayParameter`, `DateField`, `DateArrayScalar`, `EachDateAddDays` |
-| `TimeArrayReturning` | `TimeArrayParameter`, `TimeField`, `TimeArrayScalar`, `EachTimeAddSeconds` |
-| `DateTimeArrayReturning` | `DateTimeArrayParameter`, `DateTimeField`, `DateTimeArrayScalar`, `EachDateTimeAddSeconds` |
-| `StringArrayReturning` | `StringArrayParameter`, `StringField`, `StringArrayScalar` |
-| `UuidArrayReturning` | `UuidArrayParameter`, `UuidField`, `UuidArrayScalar` |
-
-### Conditions
-
-**Comparisons** (`PureQL.CSharp.Model.Comparisons`): `Comparison` wraps `DateComparison`, `DateTimeComparison`, `NumberComparison`, `StringComparison`, or `TimeComparison`. Each holds a `ComparisonOperator` (GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual) and typed Left / Right returnings.
-
-**Equalities** (`PureQL.CSharp.Model.Equalities`): `SingleValueEquality` wraps Boolean, Date, DateTime, Number, String, Time, or Uuid equality types. Each holds typed Left / Right returnings.
-
-**Boolean operations** (`PureQL.CSharp.Model.BooleanOperations`): `BooleanOperator` wraps `AndOperator`, `OrOperator`, or `NotOperator`. And/Or accept either `IEnumerable<BooleanReturning>` or a `BooleanArrayReturning`.
-
-### Per-Row Predicates
-
-**Each equalities** (`PureQL.CSharp.Model.EachEqualities`): `EachEquality` wraps `EachBooleanEquality`, `EachNumberEquality`, `EachStringEquality`, `EachDateEquality`, `EachTimeEquality`, `EachDateTimeEquality`, `EachUuidEquality`. Returns `BooleanArrayReturning`.
-
-**Each comparisons** (`PureQL.CSharp.Model.EachComparisons`): `EachComparison` wraps `EachNumberComparison`, `EachStringComparison`, `EachDateComparison`, `EachTimeComparison`, `EachDateTimeComparison`. Operator values in `EachComparisonOperator`. Returns `BooleanArrayReturning`.
-
-**Each boolean operations** (`PureQL.CSharp.Model.EachBooleanOperations`): `EachBooleanOperator` wraps `EachAndOperator`, `EachOrOperator`, `EachNotOperator` — element-wise composition over `BooleanArrayReturning` operands.
-
-### Per-Row Arithmetic
-
-**Each numeric arithmetic** (`PureQL.CSharp.Model.EachArithmetics`): `EachArithmetic` wraps `EachAdd`, `EachSubtract`, `EachMultiply`, `EachDivide`. Each accepts `IEnumerable<OneOf<NumberReturning, NumberArrayReturning>>` (min 2 items). Returns `NumberArrayReturning`.
-
-**Each date arithmetic** (`PureQL.CSharp.Model.EachDateArithmetics`):
-- `EachDateAddDays` — adds N days per row → `DateArrayReturning`
-- `EachDateDiffDays` — date difference in days → `NumberArrayReturning`
-
-**Each datetime arithmetic** (`PureQL.CSharp.Model.EachDateTimeArithmetics`):
-- `EachDateTimeAddSeconds` — adds N seconds per row → `DateTimeArrayReturning`
-- `EachDateTimeDiffSeconds` — datetime difference in seconds → `NumberArrayReturning`
-
-**Each time arithmetic** (`PureQL.CSharp.Model.EachTimeArithmetics`):
-- `EachTimeAddSeconds` — adds N seconds per row → `TimeArrayReturning`
-- `EachTimeDiffSeconds` — time difference in seconds → `NumberArrayReturning`
-
-### Aggregates (`PureQL.CSharp.Model.Aggregates`)
-
-| Type | Variants |
-|------|---------|
-| `Count` | Takes any `ArrayReturning` |
-| `NumberAggregate` | AverageNumber, MaxNumber, MinNumber, SumNumber |
-| `DateAggregate` | AverageDate, MaxDate, MinDate |
-| `DateTimeAggregate` | AverageDateTime, MaxDateTime, MinDateTime |
-| `TimeAggregate` | AverageTime, MaxTime, MinTime |
-| `StringAggregate` | MaxString, MinString |
-
-### Arithmetics (`PureQL.CSharp.Model.Arithmetics`)
-
-`Arithmetic` wraps `Add`, `Divide`, `Multiply`, `Subtract`. Each takes `IEnumerable<NumberReturning>` as arguments.
+Aggregates take a row `Selector` (except `count`), an optional row `Predicate` (required for `any` / `all`) and, in grouped queries, `Over` (`AggregateOver.Group` by default, or `All`). Where the schema allows only one value for `over`, the property is omitted.
 
 ## Design Principles
 
-- **Immutable** — all public types are sealed records or sealed classes; properties are init-only.
+- **Immutable** — all public types are sealed records or sealed classes; properties are get-only.
 - **Discriminated unions** — `OneOf`-based types make exhaustive pattern matching explicit, with no unsafe casting.
+- **Schema parity** — names and shapes follow the specification's `$defs`; the TypeScript model (`@elegant-soft/pureql-typescript-model`) uses the same names.
 - **AOT-compatible** — `IsAotCompatible = true`; safe for NativeAOT and trimming scenarios.
 
 ## Target Frameworks
@@ -161,41 +97,65 @@ dotnet add package PureQL.CSharp.Model
 
 ## Usage
 
-Build a query that selects user names where age exceeds a threshold, ordered by name:
+Count orders per user and keep users with at least five orders (`samples/44_having.json`):
 
 ```csharp
-using OneOf;
 using PureQL.CSharp.Model;
-using PureQL.CSharp.Model.Comparisons;
 using PureQL.CSharp.Model.Fields;
-using PureQL.CSharp.Model.Parameters;
-using PureQL.CSharp.Model.Returnings;
-using PureQL.CSharp.Model.Scalars;
+using PureQL.CSharp.Model.GroupExpressions;
+using PureQL.CSharp.Model.GroupKeys;
+using PureQL.CSharp.Model.Keys;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.SelectItems;
 
-Query query = new Query(
-    from: new FromExpression("users", "u"),
-    selectExpressions: new[]
-    {
-        new SelectExpression(
-            new SingleValueReturning(
-                new StringReturning(new StringParameter("name"))),
-            alias: "user_name"),
-    },
-    where: new OneOf<BooleanReturning, BooleanArrayReturning>?(
-        new BooleanReturning(
-            new Comparison(
-                new NumberComparison(
-                    ComparisonOperator.GreaterThan,
-                    new NumberReturning(new NumberParameter("age")),
-                    new NumberReturning(new NumberScalar(18)))))),
-    join: null,
-    groupBy: null,
-    having: null,
-    orderBy: new[]
-    {
-        new OrderByItem(new Field(new StringField("u", "name")), SortDirection.Asc),
-    },
-    pagination: new Pagination(skip: 0, take: 50),
-    distinct: false
+PureQLQuery query = new PureQLQuery(
+    new MainGroupedQuery(
+        new From(new FromEntity("orders")),
+        groupBy:
+        [
+            new GroupKey(
+                new GroupKeyNonNullable(
+                    new GroupKeyUuid(new UuidRow(new FieldUuid("orders", "user_id")))
+                )
+            ),
+        ],
+        select:
+        [
+            new SelectItemGroup(
+                new SelectItemGroupNonNullable(
+                    new SelectItemGroupUuid("user_id", new UuidGroup(new KeyUuid(0)))
+                )
+            ),
+            new SelectItemGroup(
+                new SelectItemGroupNonNullable(
+                    new SelectItemGroupInteger(
+                        "orders",
+                        new IntegerGroup(new AggregateIntegerGroup(new CountGroup()))
+                    )
+                )
+            ),
+        ],
+        subqueries: null,
+        joins: null,
+        where: null,
+        having: new BooleanGroup(
+            new ComparisonGroup(
+                new GreaterThanOrEqualGroup(
+                    new GreaterThanOrEqualDecimalGroup(
+                        new DecimalNullableGroup(
+                            new AggregateDecimalNullableGroup(new CountGroup())
+                        ),
+                        new DecimalNullableGroup(
+                            new LiteralAsDecimalNullable(new LiteralInteger(5))
+                        )
+                    )
+                )
+            )
+        ),
+        orderBy: null,
+        pagination: null,
+        distinct: false
+    )
 );
 ```
