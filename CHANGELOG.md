@@ -7,7 +7,7 @@ Versioning mirrors the PureQL specification with a `-csharp.N` suffix where need
 
 ---
 
-## [Unreleased] — spec 0.1.0-preview.1.0.0
+## [0.1.0-preview.12.0.0] - 2026-10-09 — spec 0.1.0-preview.1.0.0
 
 Rewrites the model for PureQL specification `0.1.0-preview.1.0.0`, which
 replaces the whole expression model and enforces its type system in the
@@ -41,6 +41,10 @@ the TypeScript model.
 - **Join aliases** for self-joins; **parameterized pagination**
   (`Skip` / `Take` are `OneOf<long, ParamInteger>`).
 - **Lists** (`ListInteger`, …) as values for `in`.
+
+### Changed
+
+- `JoinType` values are renumbered (`Inner` = 0, `Left` = 1, `Right` = 2).
 
 ### Removed
 
