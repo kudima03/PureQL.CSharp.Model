@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.RegularExpressions;
 using OneOf;
 using PureQL.CSharp.Model.Fields;
 using PureQL.CSharp.Model.GroupKeys;
@@ -13,8 +14,9 @@ namespace PureQL.CSharp.Model.Tests;
 
 // Checks every public type of the model against the conventions it is built on:
 // unions wrap each case at its own index, records keep their constructor arguments,
-// and leaves report the type their name declares.
-public sealed class ModelShapeTests
+// leaves report the type their name declares, and every value union holds exactly the
+// expressions whose declared type its position accepts.
+public sealed partial class ModelShapeTests
 {
     private static readonly Type[] ModelTypes =
     [
@@ -63,7 +65,7 @@ public sealed class ModelShapeTests
                     23,
                     59,
                     59,
-                    TimeSpan.FromHours(3)
+                    TimeSpan.Zero
                 ),
                 _ when type == typeof(Guid) => Guid.Parse(
                     "8f2a5c1e-3b7d-4e9a-a1c2-6d4b8e0f2a37"
@@ -171,8 +173,10 @@ public sealed class ModelShapeTests
         [
             typeof(MainPlainQuery),
             typeof(MainGroupedQuery),
+            typeof(MainTotalQuery),
             typeof(PlainQuery),
             typeof(GroupedQuery),
+            typeof(TotalQuery),
         ];
         foreach (Type query in queries)
         {
@@ -187,18 +191,10 @@ public sealed class ModelShapeTests
             ];
             foreach (PropertyInfo property in query.GetProperties())
             {
-                if (required.Contains(property.Name, StringComparer.OrdinalIgnoreCase))
-                {
-                    Assert.NotNull(property.GetValue(instance));
-                }
-                else if (property.PropertyType == typeof(bool))
-                {
-                    Assert.False((bool)property.GetValue(instance)!);
-                }
-                else
-                {
-                    Assert.Null(property.GetValue(instance));
-                }
+                Assert.Equal(
+                    required.Contains(property.Name, StringComparer.OrdinalIgnoreCase),
+                    property.GetValue(instance) is not null
+                );
             }
         }
     }
@@ -244,6 +240,114 @@ public sealed class ModelShapeTests
                 leaf.Name.EndsWith(declared, StringComparison.Ordinal),
                 $"{leaf.Name} declares {type.GetType().Name}"
             );
+        }
+    }
+
+    [GeneratedRegex(
+        "^(Exact)?(Integer|Decimal|String|Boolean|Date|Time|Datetime|Uuid)(Nullable)?"
+            + "(Row|Projection|Group|Total)$"
+    )]
+    private static partial Regex Position();
+
+    // The records a union reaches through nested unions.
+    private static IEnumerable<Type> Members(Type union)
+    {
+        return union
+            .BaseType!.GetGenericArguments()
+            .SelectMany(member => IsUnion(member) ? Members(member) : [member]);
+    }
+
+    private static string Declared(Type member)
+    {
+        IType type = (IType)member.GetProperty("Type")!.GetValue(Sample(member, 0))!;
+        return type.Name + (type.Nullable ? "?" : "");
+    }
+
+    [Fact]
+    public void ValueUnionsHoldWhatTheirPositionAccepts()
+    {
+        Type[] positions =
+        [
+            .. ModelTypes.Where(type => IsUnion(type) && Position().IsMatch(type.Name)),
+        ];
+        Assert.Equal((4 * 16) + (4 * 9), positions.Length);
+        foreach (Type position in positions)
+        {
+            Match match = Position().Match(position.Name);
+            string name = match.Groups[2].Value.ToLowerInvariant();
+            bool nullable = match.Groups[3].Success;
+            string[] names =
+                match.Groups[1].Success || name != "decimal" ? [name] : [name, "integer"];
+            string[] accepted =
+            [
+                .. names.SelectMany(n => nullable ? new[] { n, n + "?" } : [n]),
+            ];
+            if (match.Groups[1].Success)
+            {
+                accepted = [name + (nullable ? "?" : "")];
+            }
+            Assert.Equal(
+                accepted.Order(),
+                Members(position).Select(Declared).Distinct().Order()
+            );
+        }
+    }
+
+    [Fact]
+    public void OperatorFamiliesDeclareOneType()
+    {
+        string[] namespaces =
+        [
+            "RowExpressions",
+            "ProjectionExpressions",
+            "GroupExpressions",
+            "TotalExpressions",
+        ];
+        Type[] families =
+        [
+            .. ModelTypes.Where(type =>
+                IsUnion(type)
+                && namespaces.Contains(type.Namespace!.Split('.').Last())
+                && !Position().IsMatch(type.Name)
+                && !type.Name.StartsWith("Expr", StringComparison.Ordinal)
+            ),
+        ];
+        Assert.NotEmpty(families);
+        foreach (Type family in families)
+        {
+            _ = Assert.Single(Members(family).Select(Declared).Distinct());
+        }
+    }
+
+    [Fact]
+    public void EverySubqueryColumnFollowsItsNullability()
+    {
+        Type[] columns =
+        [
+            .. ModelTypes.Where(type =>
+                type.Name.StartsWith("ListSubqueryColumn", StringComparison.Ordinal)
+            ),
+        ];
+        Assert.Equal(8, columns.Length);
+        foreach (Type column in columns)
+        {
+            foreach (bool nullable in new[] { false, true })
+            {
+                object instance = Activator.CreateInstance(
+                    column,
+                    "totals",
+                    "total",
+                    nullable
+                )!;
+                IType type = (IType)column.GetProperty("Type")!.GetValue(instance)!;
+                Assert.Equal(nullable, type.Nullable);
+                Assert.Equal(
+                    "ListSubqueryColumn"
+                        + char.ToUpperInvariant(type.Name[0])
+                        + type.Name[1..],
+                    column.Name
+                );
+            }
         }
     }
 

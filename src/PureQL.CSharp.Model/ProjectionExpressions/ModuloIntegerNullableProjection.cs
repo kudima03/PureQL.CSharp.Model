@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record ModuloIntegerNullableProjection
+public sealed record ModuloIntegerNullableProjection : IOperator
 {
     public ModuloIntegerNullableProjection(
         IntegerNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record ModuloIntegerNullableProjection
     public IntegerNullableProjection Left { get; }
 
     public IntegerNullableProjection Right { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

@@ -1,16 +1,19 @@
 using PureQL.CSharp.Model.Lists;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record InDecimalRow
+public sealed record InDecimalRow : IOperator
 {
-    public InDecimalRow(DecimalNullableRow value, ListDecimal list)
+    public InDecimalRow(DecimalNullableRow operand, ListDecimal list)
     {
-        Value = value;
+        Operand = operand;
         List = list;
     }
 
-    public DecimalNullableRow Value { get; }
+    public DecimalNullableRow Operand { get; }
 
     public ListDecimal List { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -11,7 +11,8 @@ public sealed class DateProjection
         ParamDate,
         LiteralDate,
         DateAddDaysDateProjection,
-        ConditionalDateProjection
+        ConditionalDateProjection,
+        AggregateDateProjection
     >
 {
     public DateProjection(FieldDate value)
@@ -21,7 +22,8 @@ public sealed class DateProjection
                 ParamDate,
                 LiteralDate,
                 DateAddDaysDateProjection,
-                ConditionalDateProjection
+                ConditionalDateProjection,
+                AggregateDateProjection
             >)
                 value
         )
@@ -34,7 +36,8 @@ public sealed class DateProjection
                 ParamDate,
                 LiteralDate,
                 DateAddDaysDateProjection,
-                ConditionalDateProjection
+                ConditionalDateProjection,
+                AggregateDateProjection
             >)
                 value
         )
@@ -47,7 +50,8 @@ public sealed class DateProjection
                 ParamDate,
                 LiteralDate,
                 DateAddDaysDateProjection,
-                ConditionalDateProjection
+                ConditionalDateProjection,
+                AggregateDateProjection
             >)
                 value
         )
@@ -60,7 +64,8 @@ public sealed class DateProjection
                 ParamDate,
                 LiteralDate,
                 DateAddDaysDateProjection,
-                ConditionalDateProjection
+                ConditionalDateProjection,
+                AggregateDateProjection
             >)
                 value
         )
@@ -73,7 +78,22 @@ public sealed class DateProjection
                 ParamDate,
                 LiteralDate,
                 DateAddDaysDateProjection,
-                ConditionalDateProjection
+                ConditionalDateProjection,
+                AggregateDateProjection
+            >)
+                value
+        )
+    { }
+
+    public DateProjection(AggregateDateProjection value)
+        : this(
+            (OneOf<
+                FieldDate,
+                ParamDate,
+                LiteralDate,
+                DateAddDaysDateProjection,
+                ConditionalDateProjection,
+                AggregateDateProjection
             >)
                 value
         )
@@ -85,7 +105,8 @@ public sealed class DateProjection
             ParamDate,
             LiteralDate,
             DateAddDaysDateProjection,
-            ConditionalDateProjection
+            ConditionalDateProjection,
+            AggregateDateProjection
         > input
     )
         : base(input) { }

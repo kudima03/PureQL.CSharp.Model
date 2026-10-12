@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record EqualDatetimeRow
+public sealed record EqualDatetimeRow : IOperator
 {
     public EqualDatetimeRow(DatetimeNullableRow left, DatetimeNullableRow right)
     {
@@ -11,4 +13,6 @@ public sealed record EqualDatetimeRow
     public DatetimeNullableRow Left { get; }
 
     public DatetimeNullableRow Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record GreaterThanDateGroup
+public sealed record GreaterThanDateGroup : IOperator
 {
     public GreaterThanDateGroup(DateNullableGroup left, DateNullableGroup right)
     {
@@ -11,4 +13,6 @@ public sealed record GreaterThanDateGroup
     public DateNullableGroup Left { get; }
 
     public DateNullableGroup Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record NotRow
+public sealed record NotRow : IOperator
 {
     public NotRow(BooleanRow condition)
     {
@@ -8,4 +10,6 @@ public sealed record NotRow
     }
 
     public BooleanRow Condition { get; }
+
+    public IType Type => new TypeBoolean();
 }

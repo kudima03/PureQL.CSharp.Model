@@ -1,145 +1,58 @@
 using OneOf;
-using PureQL.CSharp.Model.Fields;
-using PureQL.CSharp.Model.Literals;
-using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
 public sealed class DecimalNullableProjection
     : OneOfBase<
-        FieldAsDecimalNullable,
-        ParamAsDecimalNullable,
-        LiteralAsDecimalNullable,
-        ArithmeticDecimalNullableProjection,
-        RoundingDecimalNullableProjection,
-        DifferenceDecimalNullableProjection,
-        ConditionalDecimalNullableProjection,
-        AggregateDecimalNullableProjection
+        ExactDecimalProjection,
+        ExactDecimalNullableProjection,
+        IntegerProjection,
+        ExactIntegerNullableProjection
     >
 {
-    public DecimalNullableProjection(FieldAsDecimalNullable value)
+    public DecimalNullableProjection(ExactDecimalProjection value)
         : this(
             (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableProjection,
-                RoundingDecimalNullableProjection,
-                DifferenceDecimalNullableProjection,
-                ConditionalDecimalNullableProjection,
-                AggregateDecimalNullableProjection
+                ExactDecimalProjection,
+                ExactDecimalNullableProjection,
+                IntegerProjection,
+                ExactIntegerNullableProjection
             >)
                 value
         )
     { }
 
-    public DecimalNullableProjection(ParamAsDecimalNullable value)
+    public DecimalNullableProjection(ExactDecimalNullableProjection value)
         : this(
             (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableProjection,
-                RoundingDecimalNullableProjection,
-                DifferenceDecimalNullableProjection,
-                ConditionalDecimalNullableProjection,
-                AggregateDecimalNullableProjection
+                ExactDecimalProjection,
+                ExactDecimalNullableProjection,
+                IntegerProjection,
+                ExactIntegerNullableProjection
             >)
                 value
         )
     { }
 
-    public DecimalNullableProjection(LiteralAsDecimalNullable value)
+    public DecimalNullableProjection(IntegerProjection value)
         : this(
             (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableProjection,
-                RoundingDecimalNullableProjection,
-                DifferenceDecimalNullableProjection,
-                ConditionalDecimalNullableProjection,
-                AggregateDecimalNullableProjection
+                ExactDecimalProjection,
+                ExactDecimalNullableProjection,
+                IntegerProjection,
+                ExactIntegerNullableProjection
             >)
                 value
         )
     { }
 
-    public DecimalNullableProjection(ArithmeticDecimalNullableProjection value)
+    public DecimalNullableProjection(ExactIntegerNullableProjection value)
         : this(
             (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableProjection,
-                RoundingDecimalNullableProjection,
-                DifferenceDecimalNullableProjection,
-                ConditionalDecimalNullableProjection,
-                AggregateDecimalNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableProjection(RoundingDecimalNullableProjection value)
-        : this(
-            (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableProjection,
-                RoundingDecimalNullableProjection,
-                DifferenceDecimalNullableProjection,
-                ConditionalDecimalNullableProjection,
-                AggregateDecimalNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableProjection(DifferenceDecimalNullableProjection value)
-        : this(
-            (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableProjection,
-                RoundingDecimalNullableProjection,
-                DifferenceDecimalNullableProjection,
-                ConditionalDecimalNullableProjection,
-                AggregateDecimalNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableProjection(ConditionalDecimalNullableProjection value)
-        : this(
-            (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableProjection,
-                RoundingDecimalNullableProjection,
-                DifferenceDecimalNullableProjection,
-                ConditionalDecimalNullableProjection,
-                AggregateDecimalNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableProjection(AggregateDecimalNullableProjection value)
-        : this(
-            (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableProjection,
-                RoundingDecimalNullableProjection,
-                DifferenceDecimalNullableProjection,
-                ConditionalDecimalNullableProjection,
-                AggregateDecimalNullableProjection
+                ExactDecimalProjection,
+                ExactDecimalNullableProjection,
+                IntegerProjection,
+                ExactIntegerNullableProjection
             >)
                 value
         )
@@ -147,14 +60,10 @@ public sealed class DecimalNullableProjection
 
     private DecimalNullableProjection(
         OneOf<
-            FieldAsDecimalNullable,
-            ParamAsDecimalNullable,
-            LiteralAsDecimalNullable,
-            ArithmeticDecimalNullableProjection,
-            RoundingDecimalNullableProjection,
-            DifferenceDecimalNullableProjection,
-            ConditionalDecimalNullableProjection,
-            AggregateDecimalNullableProjection
+            ExactDecimalProjection,
+            ExactDecimalNullableProjection,
+            IntegerProjection,
+            ExactIntegerNullableProjection
         > input
     )
         : base(input) { }

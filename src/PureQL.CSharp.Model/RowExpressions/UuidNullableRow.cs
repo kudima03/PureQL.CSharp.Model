@@ -1,73 +1,15 @@
 using OneOf;
-using PureQL.CSharp.Model.Fields;
-using PureQL.CSharp.Model.Literals;
-using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed class UuidNullableRow
-    : OneOfBase<
-        FieldAsUuidNullable,
-        ParamAsUuidNullable,
-        LiteralAsUuidNullable,
-        ConditionalUuidNullableRow
-    >
+public sealed class UuidNullableRow : OneOfBase<UuidRow, ExactUuidNullableRow>
 {
-    public UuidNullableRow(FieldAsUuidNullable value)
-        : this(
-            (OneOf<
-                FieldAsUuidNullable,
-                ParamAsUuidNullable,
-                LiteralAsUuidNullable,
-                ConditionalUuidNullableRow
-            >)
-                value
-        )
-    { }
+    public UuidNullableRow(UuidRow value)
+        : this((OneOf<UuidRow, ExactUuidNullableRow>)value) { }
 
-    public UuidNullableRow(ParamAsUuidNullable value)
-        : this(
-            (OneOf<
-                FieldAsUuidNullable,
-                ParamAsUuidNullable,
-                LiteralAsUuidNullable,
-                ConditionalUuidNullableRow
-            >)
-                value
-        )
-    { }
+    public UuidNullableRow(ExactUuidNullableRow value)
+        : this((OneOf<UuidRow, ExactUuidNullableRow>)value) { }
 
-    public UuidNullableRow(LiteralAsUuidNullable value)
-        : this(
-            (OneOf<
-                FieldAsUuidNullable,
-                ParamAsUuidNullable,
-                LiteralAsUuidNullable,
-                ConditionalUuidNullableRow
-            >)
-                value
-        )
-    { }
-
-    public UuidNullableRow(ConditionalUuidNullableRow value)
-        : this(
-            (OneOf<
-                FieldAsUuidNullable,
-                ParamAsUuidNullable,
-                LiteralAsUuidNullable,
-                ConditionalUuidNullableRow
-            >)
-                value
-        )
-    { }
-
-    private UuidNullableRow(
-        OneOf<
-            FieldAsUuidNullable,
-            ParamAsUuidNullable,
-            LiteralAsUuidNullable,
-            ConditionalUuidNullableRow
-        > input
-    )
+    private UuidNullableRow(OneOf<UuidRow, ExactUuidNullableRow> input)
         : base(input) { }
 }

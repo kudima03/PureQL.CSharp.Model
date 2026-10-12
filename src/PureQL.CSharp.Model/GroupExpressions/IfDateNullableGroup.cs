@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record IfDateNullableGroup
+public sealed record IfDateNullableGroup : IOperator
 {
     public IfDateNullableGroup(
         BooleanGroup condition,
@@ -18,4 +20,6 @@ public sealed record IfDateNullableGroup
     public DateNullableGroup Then { get; }
 
     public DateNullableGroup Else { get; }
+
+    public IType Type => new TypeDateNullable();
 }

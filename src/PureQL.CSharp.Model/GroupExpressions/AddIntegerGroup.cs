@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record AddIntegerGroup
+public sealed record AddIntegerGroup : IOperator
 {
     public AddIntegerGroup(IEnumerable<IntegerGroup> values)
     {
@@ -8,4 +10,6 @@ public sealed record AddIntegerGroup
     }
 
     public IEnumerable<IntegerGroup> Values { get; }
+
+    public IType Type => new TypeInteger();
 }

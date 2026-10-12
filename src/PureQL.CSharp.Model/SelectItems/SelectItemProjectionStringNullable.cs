@@ -7,7 +7,7 @@ public sealed record SelectItemProjectionStringNullable : ISelectItem
 {
     public SelectItemProjectionStringNullable(
         string alias,
-        StringNullableProjection expression
+        ExactStringNullableProjection expression
     )
     {
         Alias = alias;
@@ -16,7 +16,7 @@ public sealed record SelectItemProjectionStringNullable : ISelectItem
 
     public string Alias { get; }
 
-    public StringNullableProjection Expression { get; }
+    public ExactStringNullableProjection Expression { get; }
 
     public IType Type => new TypeStringNullable();
 }

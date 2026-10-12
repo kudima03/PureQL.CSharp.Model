@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record DateAddDaysDateNullableProjection
+public sealed record DateAddDaysDateNullableProjection : IOperator
 {
     public DateAddDaysDateNullableProjection(
         DateNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record DateAddDaysDateNullableProjection
     public DateNullableProjection Left { get; }
 
     public IntegerNullableProjection Right { get; }
+
+    public IType Type => new TypeDateNullable();
 }

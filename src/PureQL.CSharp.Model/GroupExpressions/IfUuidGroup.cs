@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record IfUuidGroup
+public sealed record IfUuidGroup : IOperator
 {
     public IfUuidGroup(BooleanGroup condition, UuidGroup then, UuidGroup @else)
     {
@@ -14,4 +16,6 @@ public sealed record IfUuidGroup
     public UuidGroup Then { get; }
 
     public UuidGroup Else { get; }
+
+    public IType Type => new TypeUuid();
 }

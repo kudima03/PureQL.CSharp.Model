@@ -5,7 +5,7 @@ namespace PureQL.CSharp.Model.SelectItems;
 
 public sealed record SelectItemGroupDecimal : ISelectItem
 {
-    public SelectItemGroupDecimal(string alias, DecimalGroup expression)
+    public SelectItemGroupDecimal(string alias, ExactDecimalGroup expression)
     {
         Alias = alias;
         Expression = expression;
@@ -13,7 +13,7 @@ public sealed record SelectItemGroupDecimal : ISelectItem
 
     public string Alias { get; }
 
-    public DecimalGroup Expression { get; }
+    public ExactDecimalGroup Expression { get; }
 
     public IType Type => new TypeDecimal();
 }

@@ -1,11 +1,15 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record RoundIntegerNullableRow
+public sealed record RoundIntegerNullableRow : IOperator
 {
-    public RoundIntegerNullableRow(DecimalNullableRow value)
+    public RoundIntegerNullableRow(DecimalNullableRow operand)
     {
-        Value = value;
+        Operand = operand;
     }
 
-    public DecimalNullableRow Value { get; }
+    public DecimalNullableRow Operand { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

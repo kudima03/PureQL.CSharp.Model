@@ -1,11 +1,15 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record CeilingIntegerProjection
+public sealed record CeilingIntegerProjection : IOperator
 {
-    public CeilingIntegerProjection(DecimalProjection value)
+    public CeilingIntegerProjection(DecimalProjection operand)
     {
-        Value = value;
+        Operand = operand;
     }
 
-    public DecimalProjection Value { get; }
+    public DecimalProjection Operand { get; }
+
+    public IType Type => new TypeInteger();
 }

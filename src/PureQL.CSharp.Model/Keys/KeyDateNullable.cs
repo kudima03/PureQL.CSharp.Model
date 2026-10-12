@@ -4,12 +4,12 @@ namespace PureQL.CSharp.Model.Keys;
 
 public sealed record KeyDateNullable : IKey
 {
-    public KeyDateNullable(int key)
+    public KeyDateNullable(string key)
     {
         Key = key;
     }
 
-    public int Key { get; }
+    public string Key { get; }
 
     public IType Type => new TypeDateNullable();
 }

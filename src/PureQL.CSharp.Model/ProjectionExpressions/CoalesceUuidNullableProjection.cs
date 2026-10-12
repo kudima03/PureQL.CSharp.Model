@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record CoalesceUuidNullableProjection
+public sealed record CoalesceUuidNullableProjection : IOperator
 {
     public CoalesceUuidNullableProjection(IEnumerable<UuidNullableProjection> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceUuidNullableProjection
     }
 
     public IEnumerable<UuidNullableProjection> Values { get; }
+
+    public IType Type => new TypeUuidNullable();
 }

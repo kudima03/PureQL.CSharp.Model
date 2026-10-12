@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record NotEqualTimeProjection
+public sealed record NotEqualTimeProjection : IOperator
 {
     public NotEqualTimeProjection(
         TimeNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record NotEqualTimeProjection
     public TimeNullableProjection Left { get; }
 
     public TimeNullableProjection Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

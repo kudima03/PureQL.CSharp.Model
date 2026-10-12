@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record MultiplyDecimalNullableProjection
+public sealed record MultiplyDecimalNullableProjection : IOperator
 {
     public MultiplyDecimalNullableProjection(
         IEnumerable<DecimalNullableProjection> values
@@ -10,4 +12,6 @@ public sealed record MultiplyDecimalNullableProjection
     }
 
     public IEnumerable<DecimalNullableProjection> Values { get; }
+
+    public IType Type => new TypeDecimalNullable();
 }

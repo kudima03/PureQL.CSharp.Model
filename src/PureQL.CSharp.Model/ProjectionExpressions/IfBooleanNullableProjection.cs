@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record IfBooleanNullableProjection
+public sealed record IfBooleanNullableProjection : IOperator
 {
     public IfBooleanNullableProjection(
         BooleanProjection condition,
@@ -18,4 +20,6 @@ public sealed record IfBooleanNullableProjection
     public BooleanNullableProjection Then { get; }
 
     public BooleanNullableProjection Else { get; }
+
+    public IType Type => new TypeBooleanNullable();
 }

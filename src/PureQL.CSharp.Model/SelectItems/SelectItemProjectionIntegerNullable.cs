@@ -7,7 +7,7 @@ public sealed record SelectItemProjectionIntegerNullable : ISelectItem
 {
     public SelectItemProjectionIntegerNullable(
         string alias,
-        IntegerNullableProjection expression
+        ExactIntegerNullableProjection expression
     )
     {
         Alias = alias;
@@ -16,7 +16,7 @@ public sealed record SelectItemProjectionIntegerNullable : ISelectItem
 
     public string Alias { get; }
 
-    public IntegerNullableProjection Expression { get; }
+    public ExactIntegerNullableProjection Expression { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

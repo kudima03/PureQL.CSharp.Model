@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record DatetimeAddSecondsDatetimeNullableGroup
+public sealed record DatetimeAddSecondsDatetimeNullableGroup : IOperator
 {
     public DatetimeAddSecondsDatetimeNullableGroup(
         DatetimeNullableGroup left,
@@ -14,4 +16,6 @@ public sealed record DatetimeAddSecondsDatetimeNullableGroup
     public DatetimeNullableGroup Left { get; }
 
     public DecimalNullableGroup Right { get; }
+
+    public IType Type => new TypeDatetimeNullable();
 }

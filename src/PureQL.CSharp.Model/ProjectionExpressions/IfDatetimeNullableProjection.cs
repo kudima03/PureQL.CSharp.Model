@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record IfDatetimeNullableProjection
+public sealed record IfDatetimeNullableProjection : IOperator
 {
     public IfDatetimeNullableProjection(
         BooleanProjection condition,
@@ -18,4 +20,6 @@ public sealed record IfDatetimeNullableProjection
     public DatetimeNullableProjection Then { get; }
 
     public DatetimeNullableProjection Else { get; }
+
+    public IType Type => new TypeDatetimeNullable();
 }

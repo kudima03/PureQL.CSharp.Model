@@ -6,7 +6,7 @@ namespace PureQL.CSharp.Model;
 public sealed record PlainQuery
 {
     public PlainQuery(From from, IEnumerable<SelectItemProjection> select)
-        : this(from, select, null, null, null, null, false) { }
+        : this(from, select, null, null, null, null, null) { }
 
     public PlainQuery(
         From from,
@@ -15,7 +15,7 @@ public sealed record PlainQuery
         BooleanRow? where,
         IEnumerable<OrderItemProjection>? orderBy,
         Pagination? pagination,
-        bool distinct
+        IEnumerable<string>? distinctBy
     )
     {
         From = from;
@@ -24,7 +24,7 @@ public sealed record PlainQuery
         Where = where;
         OrderBy = orderBy;
         Pagination = pagination;
-        Distinct = distinct;
+        DistinctBy = distinctBy;
     }
 
     public From From { get; }
@@ -39,5 +39,5 @@ public sealed record PlainQuery
 
     public Pagination? Pagination { get; }
 
-    public bool Distinct { get; }
+    public IEnumerable<string>? DistinctBy { get; }
 }

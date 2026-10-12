@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record IfIntegerGroup
+public sealed record IfIntegerGroup : IOperator
 {
     public IfIntegerGroup(BooleanGroup condition, IntegerGroup then, IntegerGroup @else)
     {
@@ -14,4 +16,6 @@ public sealed record IfIntegerGroup
     public IntegerGroup Then { get; }
 
     public IntegerGroup Else { get; }
+
+    public IType Type => new TypeInteger();
 }

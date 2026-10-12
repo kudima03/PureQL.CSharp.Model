@@ -6,9 +6,11 @@ public sealed class LessThanProjection
     : OneOfBase<
         LessThanDecimalProjection,
         LessThanStringProjection,
+        LessThanBooleanProjection,
         LessThanDateProjection,
         LessThanTimeProjection,
-        LessThanDatetimeProjection
+        LessThanDatetimeProjection,
+        LessThanUuidProjection
     >
 {
     public LessThanProjection(LessThanDecimalProjection value)
@@ -16,9 +18,11 @@ public sealed class LessThanProjection
             (OneOf<
                 LessThanDecimalProjection,
                 LessThanStringProjection,
+                LessThanBooleanProjection,
                 LessThanDateProjection,
                 LessThanTimeProjection,
-                LessThanDatetimeProjection
+                LessThanDatetimeProjection,
+                LessThanUuidProjection
             >)
                 value
         )
@@ -29,9 +33,26 @@ public sealed class LessThanProjection
             (OneOf<
                 LessThanDecimalProjection,
                 LessThanStringProjection,
+                LessThanBooleanProjection,
                 LessThanDateProjection,
                 LessThanTimeProjection,
-                LessThanDatetimeProjection
+                LessThanDatetimeProjection,
+                LessThanUuidProjection
+            >)
+                value
+        )
+    { }
+
+    public LessThanProjection(LessThanBooleanProjection value)
+        : this(
+            (OneOf<
+                LessThanDecimalProjection,
+                LessThanStringProjection,
+                LessThanBooleanProjection,
+                LessThanDateProjection,
+                LessThanTimeProjection,
+                LessThanDatetimeProjection,
+                LessThanUuidProjection
             >)
                 value
         )
@@ -42,9 +63,11 @@ public sealed class LessThanProjection
             (OneOf<
                 LessThanDecimalProjection,
                 LessThanStringProjection,
+                LessThanBooleanProjection,
                 LessThanDateProjection,
                 LessThanTimeProjection,
-                LessThanDatetimeProjection
+                LessThanDatetimeProjection,
+                LessThanUuidProjection
             >)
                 value
         )
@@ -55,9 +78,11 @@ public sealed class LessThanProjection
             (OneOf<
                 LessThanDecimalProjection,
                 LessThanStringProjection,
+                LessThanBooleanProjection,
                 LessThanDateProjection,
                 LessThanTimeProjection,
-                LessThanDatetimeProjection
+                LessThanDatetimeProjection,
+                LessThanUuidProjection
             >)
                 value
         )
@@ -68,9 +93,26 @@ public sealed class LessThanProjection
             (OneOf<
                 LessThanDecimalProjection,
                 LessThanStringProjection,
+                LessThanBooleanProjection,
                 LessThanDateProjection,
                 LessThanTimeProjection,
-                LessThanDatetimeProjection
+                LessThanDatetimeProjection,
+                LessThanUuidProjection
+            >)
+                value
+        )
+    { }
+
+    public LessThanProjection(LessThanUuidProjection value)
+        : this(
+            (OneOf<
+                LessThanDecimalProjection,
+                LessThanStringProjection,
+                LessThanBooleanProjection,
+                LessThanDateProjection,
+                LessThanTimeProjection,
+                LessThanDatetimeProjection,
+                LessThanUuidProjection
             >)
                 value
         )
@@ -80,9 +122,11 @@ public sealed class LessThanProjection
         OneOf<
             LessThanDecimalProjection,
             LessThanStringProjection,
+            LessThanBooleanProjection,
             LessThanDateProjection,
             LessThanTimeProjection,
-            LessThanDatetimeProjection
+            LessThanDatetimeProjection,
+            LessThanUuidProjection
         > input
     )
         : base(input) { }

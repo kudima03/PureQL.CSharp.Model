@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record LessThanOrEqualDatetimeGroup
+public sealed record LessThanOrEqualDatetimeGroup : IOperator
 {
     public LessThanOrEqualDatetimeGroup(
         DatetimeNullableGroup left,
@@ -14,4 +16,6 @@ public sealed record LessThanOrEqualDatetimeGroup
     public DatetimeNullableGroup Left { get; }
 
     public DatetimeNullableGroup Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record MinIntegerNullableProjection
+public sealed record MinIntegerNullableProjection : IOperator
 {
     public MinIntegerNullableProjection(
         IntegerNullableRow selector,
@@ -16,4 +17,6 @@ public sealed record MinIntegerNullableProjection
     public IntegerNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

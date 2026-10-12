@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record TimeAddSecondsTimeNullableProjection
+public sealed record TimeAddSecondsTimeNullableProjection : IOperator
 {
     public TimeAddSecondsTimeNullableProjection(
         TimeNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record TimeAddSecondsTimeNullableProjection
     public TimeNullableProjection Left { get; }
 
     public DecimalNullableProjection Right { get; }
+
+    public IType Type => new TypeTimeNullable();
 }

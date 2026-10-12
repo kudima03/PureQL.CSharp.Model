@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record EqualDecimalProjection
+public sealed record EqualDecimalProjection : IOperator
 {
     public EqualDecimalProjection(
         DecimalNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record EqualDecimalProjection
     public DecimalNullableProjection Left { get; }
 
     public DecimalNullableProjection Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

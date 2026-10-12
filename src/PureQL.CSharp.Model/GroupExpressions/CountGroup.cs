@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record CountGroup
+public sealed record CountGroup : IOperator
 {
     public CountGroup(
         BooleanRow? predicate = null,
@@ -16,4 +17,6 @@ public sealed record CountGroup
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public IType Type => new TypeInteger();
 }

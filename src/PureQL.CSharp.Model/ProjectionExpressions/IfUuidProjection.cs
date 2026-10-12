@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record IfUuidProjection
+public sealed record IfUuidProjection : IOperator
 {
     public IfUuidProjection(
         BooleanProjection condition,
@@ -18,4 +20,6 @@ public sealed record IfUuidProjection
     public UuidProjection Then { get; }
 
     public UuidProjection Else { get; }
+
+    public IType Type => new TypeUuid();
 }

@@ -4,12 +4,12 @@ namespace PureQL.CSharp.Model.Keys;
 
 public sealed record KeyBooleanNullable : IKey
 {
-    public KeyBooleanNullable(int key)
+    public KeyBooleanNullable(string key)
     {
         Key = key;
     }
 
-    public int Key { get; }
+    public string Key { get; }
 
     public IType Type => new TypeBooleanNullable();
 }

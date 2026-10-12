@@ -1,16 +1,19 @@
 using PureQL.CSharp.Model.Lists;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record InBooleanProjection
+public sealed record InBooleanProjection : IOperator
 {
-    public InBooleanProjection(BooleanNullableProjection value, ListBoolean list)
+    public InBooleanProjection(BooleanNullableProjection operand, ListBoolean list)
     {
-        Value = value;
+        Operand = operand;
         List = list;
     }
 
-    public BooleanNullableProjection Value { get; }
+    public BooleanNullableProjection Operand { get; }
 
     public ListBoolean List { get; }
+
+    public IType Type => new TypeBoolean();
 }

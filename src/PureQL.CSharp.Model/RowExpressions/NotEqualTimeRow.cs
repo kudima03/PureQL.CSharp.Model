@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record NotEqualTimeRow
+public sealed record NotEqualTimeRow : IOperator
 {
     public NotEqualTimeRow(TimeNullableRow left, TimeNullableRow right)
     {
@@ -11,4 +13,6 @@ public sealed record NotEqualTimeRow
     public TimeNullableRow Left { get; }
 
     public TimeNullableRow Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

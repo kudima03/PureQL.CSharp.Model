@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record CoalesceDatetimeNullableGroup
+public sealed record CoalesceDatetimeNullableGroup : IOperator
 {
     public CoalesceDatetimeNullableGroup(IEnumerable<DatetimeNullableGroup> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceDatetimeNullableGroup
     }
 
     public IEnumerable<DatetimeNullableGroup> Values { get; }
+
+    public IType Type => new TypeDatetimeNullable();
 }

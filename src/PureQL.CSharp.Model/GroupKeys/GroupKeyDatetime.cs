@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.GroupKeys;
 
 public sealed record GroupKeyDatetime : IGroupKey
 {
-    public GroupKeyDatetime(DatetimeRow expression, string? alias = null)
+    public GroupKeyDatetime(string alias, DatetimeRow expression)
     {
-        Expression = expression;
         Alias = alias;
+        Expression = expression;
     }
 
-    public DatetimeRow Expression { get; }
+    public string Alias { get; }
 
-    public string? Alias { get; }
+    public DatetimeRow Expression { get; }
 
     public IType Type => new TypeDatetime();
 }

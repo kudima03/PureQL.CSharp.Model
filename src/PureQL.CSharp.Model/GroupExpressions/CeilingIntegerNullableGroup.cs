@@ -1,11 +1,15 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record CeilingIntegerNullableGroup
+public sealed record CeilingIntegerNullableGroup : IOperator
 {
-    public CeilingIntegerNullableGroup(DecimalNullableGroup value)
+    public CeilingIntegerNullableGroup(DecimalNullableGroup operand)
     {
-        Value = value;
+        Operand = operand;
     }
 
-    public DecimalNullableGroup Value { get; }
+    public DecimalNullableGroup Operand { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

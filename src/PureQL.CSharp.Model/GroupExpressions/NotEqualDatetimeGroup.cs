@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record NotEqualDatetimeGroup
+public sealed record NotEqualDatetimeGroup : IOperator
 {
     public NotEqualDatetimeGroup(DatetimeNullableGroup left, DatetimeNullableGroup right)
     {
@@ -11,4 +13,6 @@ public sealed record NotEqualDatetimeGroup
     public DatetimeNullableGroup Left { get; }
 
     public DatetimeNullableGroup Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

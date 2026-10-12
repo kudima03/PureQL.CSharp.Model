@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record LessThanStringGroup
+public sealed record LessThanStringGroup : IOperator
 {
     public LessThanStringGroup(StringNullableGroup left, StringNullableGroup right)
     {
@@ -11,4 +13,6 @@ public sealed record LessThanStringGroup
     public StringNullableGroup Left { get; }
 
     public StringNullableGroup Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

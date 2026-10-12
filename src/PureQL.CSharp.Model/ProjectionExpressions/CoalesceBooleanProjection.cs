@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record CoalesceBooleanProjection
+public sealed record CoalesceBooleanProjection : IOperator
 {
     public CoalesceBooleanProjection(IEnumerable<BooleanNullableProjection> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceBooleanProjection
     }
 
     public IEnumerable<BooleanNullableProjection> Values { get; }
+
+    public IType Type => new TypeBoolean();
 }

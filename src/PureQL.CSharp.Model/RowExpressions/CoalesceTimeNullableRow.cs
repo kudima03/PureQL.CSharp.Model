@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record CoalesceTimeNullableRow
+public sealed record CoalesceTimeNullableRow : IOperator
 {
     public CoalesceTimeNullableRow(IEnumerable<TimeNullableRow> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceTimeNullableRow
     }
 
     public IEnumerable<TimeNullableRow> Values { get; }
+
+    public IType Type => new TypeTimeNullable();
 }

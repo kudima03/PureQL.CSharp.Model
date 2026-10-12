@@ -1,16 +1,19 @@
 using PureQL.CSharp.Model.Lists;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record InTimeProjection
+public sealed record InTimeProjection : IOperator
 {
-    public InTimeProjection(TimeNullableProjection value, ListTime list)
+    public InTimeProjection(TimeNullableProjection operand, ListTime list)
     {
-        Value = value;
+        Operand = operand;
         List = list;
     }
 
-    public TimeNullableProjection Value { get; }
+    public TimeNullableProjection Operand { get; }
 
     public ListTime List { get; }
+
+    public IType Type => new TypeBoolean();
 }

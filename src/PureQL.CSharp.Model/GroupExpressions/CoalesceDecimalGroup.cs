@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record CoalesceDecimalGroup
+public sealed record CoalesceDecimalGroup : IOperator
 {
     public CoalesceDecimalGroup(IEnumerable<DecimalNullableGroup> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceDecimalGroup
     }
 
     public IEnumerable<DecimalNullableGroup> Values { get; }
+
+    public IType Type => new TypeDecimal();
 }

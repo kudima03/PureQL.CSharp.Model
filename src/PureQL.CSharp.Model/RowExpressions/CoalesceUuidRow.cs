@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record CoalesceUuidRow
+public sealed record CoalesceUuidRow : IOperator
 {
     public CoalesceUuidRow(IEnumerable<UuidNullableRow> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceUuidRow
     }
 
     public IEnumerable<UuidNullableRow> Values { get; }
+
+    public IType Type => new TypeUuid();
 }

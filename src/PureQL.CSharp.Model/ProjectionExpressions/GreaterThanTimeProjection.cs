@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record GreaterThanTimeProjection
+public sealed record GreaterThanTimeProjection : IOperator
 {
     public GreaterThanTimeProjection(
         TimeNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record GreaterThanTimeProjection
     public TimeNullableProjection Left { get; }
 
     public TimeNullableProjection Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

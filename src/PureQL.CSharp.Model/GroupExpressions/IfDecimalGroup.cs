@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record IfDecimalGroup
+public sealed record IfDecimalGroup : IOperator
 {
     public IfDecimalGroup(BooleanGroup condition, DecimalGroup then, DecimalGroup @else)
     {
@@ -14,4 +16,6 @@ public sealed record IfDecimalGroup
     public DecimalGroup Then { get; }
 
     public DecimalGroup Else { get; }
+
+    public IType Type => new TypeDecimal();
 }

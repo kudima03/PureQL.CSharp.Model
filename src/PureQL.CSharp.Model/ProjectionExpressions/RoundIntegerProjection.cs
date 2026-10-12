@@ -1,11 +1,15 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record RoundIntegerProjection
+public sealed record RoundIntegerProjection : IOperator
 {
-    public RoundIntegerProjection(DecimalProjection value)
+    public RoundIntegerProjection(DecimalProjection operand)
     {
-        Value = value;
+        Operand = operand;
     }
 
-    public DecimalProjection Value { get; }
+    public DecimalProjection Operand { get; }
+
+    public IType Type => new TypeInteger();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record LessThanOrEqualDatetimeRow
+public sealed record LessThanOrEqualDatetimeRow : IOperator
 {
     public LessThanOrEqualDatetimeRow(DatetimeNullableRow left, DatetimeNullableRow right)
     {
@@ -11,4 +13,6 @@ public sealed record LessThanOrEqualDatetimeRow
     public DatetimeNullableRow Left { get; }
 
     public DatetimeNullableRow Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

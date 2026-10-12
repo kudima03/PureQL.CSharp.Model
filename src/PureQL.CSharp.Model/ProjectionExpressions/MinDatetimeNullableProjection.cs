@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record MinDatetimeNullableProjection
+public sealed record MinDatetimeNullableProjection : IOperator
 {
     public MinDatetimeNullableProjection(
         DatetimeNullableRow selector,
@@ -16,4 +17,6 @@ public sealed record MinDatetimeNullableProjection
     public DatetimeNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
+
+    public IType Type => new TypeDatetimeNullable();
 }

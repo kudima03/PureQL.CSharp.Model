@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record IfBooleanGroup
+public sealed record IfBooleanGroup : IOperator
 {
     public IfBooleanGroup(BooleanGroup condition, BooleanGroup then, BooleanGroup @else)
     {
@@ -14,4 +16,6 @@ public sealed record IfBooleanGroup
     public BooleanGroup Then { get; }
 
     public BooleanGroup Else { get; }
+
+    public IType Type => new TypeBoolean();
 }

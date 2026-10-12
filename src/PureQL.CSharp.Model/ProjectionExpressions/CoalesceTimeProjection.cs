@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record CoalesceTimeProjection
+public sealed record CoalesceTimeProjection : IOperator
 {
     public CoalesceTimeProjection(IEnumerable<TimeNullableProjection> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceTimeProjection
     }
 
     public IEnumerable<TimeNullableProjection> Values { get; }
+
+    public IType Type => new TypeTime();
 }

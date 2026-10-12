@@ -7,7 +7,7 @@ public sealed record SelectItemProjectionUuidNullable : ISelectItem
 {
     public SelectItemProjectionUuidNullable(
         string alias,
-        UuidNullableProjection expression
+        ExactUuidNullableProjection expression
     )
     {
         Alias = alias;
@@ -16,7 +16,7 @@ public sealed record SelectItemProjectionUuidNullable : ISelectItem
 
     public string Alias { get; }
 
-    public UuidNullableProjection Expression { get; }
+    public ExactUuidNullableProjection Expression { get; }
 
     public IType Type => new TypeUuidNullable();
 }

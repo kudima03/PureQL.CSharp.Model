@@ -3,40 +3,36 @@ using OneOf;
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
 public sealed class AggregateDatetimeProjection
-    : OneOfBase<
-        AverageDatetimeNullableProjection,
-        MinDatetimeNullableProjection,
-        MaxDatetimeNullableProjection
-    >
+    : OneOfBase<AverageDatetimeProjection, MinDatetimeProjection, MaxDatetimeProjection>
 {
-    public AggregateDatetimeProjection(AverageDatetimeNullableProjection value)
+    public AggregateDatetimeProjection(AverageDatetimeProjection value)
         : this(
             (OneOf<
-                AverageDatetimeNullableProjection,
-                MinDatetimeNullableProjection,
-                MaxDatetimeNullableProjection
+                AverageDatetimeProjection,
+                MinDatetimeProjection,
+                MaxDatetimeProjection
             >)
                 value
         )
     { }
 
-    public AggregateDatetimeProjection(MinDatetimeNullableProjection value)
+    public AggregateDatetimeProjection(MinDatetimeProjection value)
         : this(
             (OneOf<
-                AverageDatetimeNullableProjection,
-                MinDatetimeNullableProjection,
-                MaxDatetimeNullableProjection
+                AverageDatetimeProjection,
+                MinDatetimeProjection,
+                MaxDatetimeProjection
             >)
                 value
         )
     { }
 
-    public AggregateDatetimeProjection(MaxDatetimeNullableProjection value)
+    public AggregateDatetimeProjection(MaxDatetimeProjection value)
         : this(
             (OneOf<
-                AverageDatetimeNullableProjection,
-                MinDatetimeNullableProjection,
-                MaxDatetimeNullableProjection
+                AverageDatetimeProjection,
+                MinDatetimeProjection,
+                MaxDatetimeProjection
             >)
                 value
         )
@@ -44,9 +40,9 @@ public sealed class AggregateDatetimeProjection
 
     private AggregateDatetimeProjection(
         OneOf<
-            AverageDatetimeNullableProjection,
-            MinDatetimeNullableProjection,
-            MaxDatetimeNullableProjection
+            AverageDatetimeProjection,
+            MinDatetimeProjection,
+            MaxDatetimeProjection
         > input
     )
         : base(input) { }

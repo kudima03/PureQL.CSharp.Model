@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record GreaterThanDateRow
+public sealed record GreaterThanDateRow : IOperator
 {
     public GreaterThanDateRow(DateNullableRow left, DateNullableRow right)
     {
@@ -11,4 +13,6 @@ public sealed record GreaterThanDateRow
     public DateNullableRow Left { get; }
 
     public DateNullableRow Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

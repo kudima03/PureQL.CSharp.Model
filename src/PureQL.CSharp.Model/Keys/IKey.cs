@@ -4,7 +4,7 @@ namespace PureQL.CSharp.Model.Keys;
 
 public interface IKey
 {
-    public int Key { get; }
+    public string Key { get; }
 
     public IType Type { get; }
 }

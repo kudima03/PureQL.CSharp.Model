@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record CoalesceDecimalRow
+public sealed record CoalesceDecimalRow : IOperator
 {
     public CoalesceDecimalRow(IEnumerable<DecimalNullableRow> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceDecimalRow
     }
 
     public IEnumerable<DecimalNullableRow> Values { get; }
+
+    public IType Type => new TypeDecimal();
 }

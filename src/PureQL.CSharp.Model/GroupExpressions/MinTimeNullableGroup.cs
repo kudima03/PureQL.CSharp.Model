@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record MinTimeNullableGroup
+public sealed record MinTimeNullableGroup : IOperator
 {
     public MinTimeNullableGroup(
         TimeNullableRow selector,
@@ -20,4 +21,6 @@ public sealed record MinTimeNullableGroup
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public IType Type => new TypeTimeNullable();
 }

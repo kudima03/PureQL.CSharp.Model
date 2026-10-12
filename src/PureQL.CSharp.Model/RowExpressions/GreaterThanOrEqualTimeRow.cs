@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record GreaterThanOrEqualTimeRow
+public sealed record GreaterThanOrEqualTimeRow : IOperator
 {
     public GreaterThanOrEqualTimeRow(TimeNullableRow left, TimeNullableRow right)
     {
@@ -11,4 +13,6 @@ public sealed record GreaterThanOrEqualTimeRow
     public TimeNullableRow Left { get; }
 
     public TimeNullableRow Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

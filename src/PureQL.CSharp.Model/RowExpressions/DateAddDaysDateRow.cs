@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record DateAddDaysDateRow
+public sealed record DateAddDaysDateRow : IOperator
 {
     public DateAddDaysDateRow(DateRow left, IntegerRow right)
     {
@@ -11,4 +13,6 @@ public sealed record DateAddDaysDateRow
     public DateRow Left { get; }
 
     public IntegerRow Right { get; }
+
+    public IType Type => new TypeDate();
 }

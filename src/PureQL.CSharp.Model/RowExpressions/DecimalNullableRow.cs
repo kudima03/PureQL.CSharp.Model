@@ -1,121 +1,58 @@
 using OneOf;
-using PureQL.CSharp.Model.Fields;
-using PureQL.CSharp.Model.Literals;
-using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
 public sealed class DecimalNullableRow
     : OneOfBase<
-        FieldAsDecimalNullable,
-        ParamAsDecimalNullable,
-        LiteralAsDecimalNullable,
-        ArithmeticDecimalNullableRow,
-        RoundingDecimalNullableRow,
-        DifferenceDecimalNullableRow,
-        ConditionalDecimalNullableRow
+        ExactDecimalRow,
+        ExactDecimalNullableRow,
+        IntegerRow,
+        ExactIntegerNullableRow
     >
 {
-    public DecimalNullableRow(FieldAsDecimalNullable value)
+    public DecimalNullableRow(ExactDecimalRow value)
         : this(
             (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableRow,
-                RoundingDecimalNullableRow,
-                DifferenceDecimalNullableRow,
-                ConditionalDecimalNullableRow
+                ExactDecimalRow,
+                ExactDecimalNullableRow,
+                IntegerRow,
+                ExactIntegerNullableRow
             >)
                 value
         )
     { }
 
-    public DecimalNullableRow(ParamAsDecimalNullable value)
+    public DecimalNullableRow(ExactDecimalNullableRow value)
         : this(
             (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableRow,
-                RoundingDecimalNullableRow,
-                DifferenceDecimalNullableRow,
-                ConditionalDecimalNullableRow
+                ExactDecimalRow,
+                ExactDecimalNullableRow,
+                IntegerRow,
+                ExactIntegerNullableRow
             >)
                 value
         )
     { }
 
-    public DecimalNullableRow(LiteralAsDecimalNullable value)
+    public DecimalNullableRow(IntegerRow value)
         : this(
             (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableRow,
-                RoundingDecimalNullableRow,
-                DifferenceDecimalNullableRow,
-                ConditionalDecimalNullableRow
+                ExactDecimalRow,
+                ExactDecimalNullableRow,
+                IntegerRow,
+                ExactIntegerNullableRow
             >)
                 value
         )
     { }
 
-    public DecimalNullableRow(ArithmeticDecimalNullableRow value)
+    public DecimalNullableRow(ExactIntegerNullableRow value)
         : this(
             (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableRow,
-                RoundingDecimalNullableRow,
-                DifferenceDecimalNullableRow,
-                ConditionalDecimalNullableRow
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableRow(RoundingDecimalNullableRow value)
-        : this(
-            (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableRow,
-                RoundingDecimalNullableRow,
-                DifferenceDecimalNullableRow,
-                ConditionalDecimalNullableRow
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableRow(DifferenceDecimalNullableRow value)
-        : this(
-            (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableRow,
-                RoundingDecimalNullableRow,
-                DifferenceDecimalNullableRow,
-                ConditionalDecimalNullableRow
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableRow(ConditionalDecimalNullableRow value)
-        : this(
-            (OneOf<
-                FieldAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableRow,
-                RoundingDecimalNullableRow,
-                DifferenceDecimalNullableRow,
-                ConditionalDecimalNullableRow
+                ExactDecimalRow,
+                ExactDecimalNullableRow,
+                IntegerRow,
+                ExactIntegerNullableRow
             >)
                 value
         )
@@ -123,13 +60,10 @@ public sealed class DecimalNullableRow
 
     private DecimalNullableRow(
         OneOf<
-            FieldAsDecimalNullable,
-            ParamAsDecimalNullable,
-            LiteralAsDecimalNullable,
-            ArithmeticDecimalNullableRow,
-            RoundingDecimalNullableRow,
-            DifferenceDecimalNullableRow,
-            ConditionalDecimalNullableRow
+            ExactDecimalRow,
+            ExactDecimalNullableRow,
+            IntegerRow,
+            ExactIntegerNullableRow
         > input
     )
         : base(input) { }

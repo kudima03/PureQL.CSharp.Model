@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record AverageDatetimeNullableProjection
+public sealed record AverageDatetimeNullableProjection : IOperator
 {
     public AverageDatetimeNullableProjection(
         DatetimeNullableRow selector,
@@ -16,4 +17,6 @@ public sealed record AverageDatetimeNullableProjection
     public DatetimeNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
+
+    public IType Type => new TypeDatetimeNullable();
 }

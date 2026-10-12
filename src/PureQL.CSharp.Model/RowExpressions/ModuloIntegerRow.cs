@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record ModuloIntegerRow
+public sealed record ModuloIntegerRow : IOperator
 {
     public ModuloIntegerRow(IntegerRow left, IntegerRow right)
     {
@@ -11,4 +13,6 @@ public sealed record ModuloIntegerRow
     public IntegerRow Left { get; }
 
     public IntegerRow Right { get; }
+
+    public IType Type => new TypeInteger();
 }

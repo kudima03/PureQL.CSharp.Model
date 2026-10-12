@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record DatetimeAddSecondsDatetimeProjection
+public sealed record DatetimeAddSecondsDatetimeProjection : IOperator
 {
     public DatetimeAddSecondsDatetimeProjection(
         DatetimeProjection left,
@@ -14,4 +16,6 @@ public sealed record DatetimeAddSecondsDatetimeProjection
     public DatetimeProjection Left { get; }
 
     public DecimalProjection Right { get; }
+
+    public IType Type => new TypeDatetime();
 }

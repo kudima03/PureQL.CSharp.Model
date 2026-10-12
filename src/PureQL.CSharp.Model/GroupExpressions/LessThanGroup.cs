@@ -6,9 +6,11 @@ public sealed class LessThanGroup
     : OneOfBase<
         LessThanDecimalGroup,
         LessThanStringGroup,
+        LessThanBooleanGroup,
         LessThanDateGroup,
         LessThanTimeGroup,
-        LessThanDatetimeGroup
+        LessThanDatetimeGroup,
+        LessThanUuidGroup
     >
 {
     public LessThanGroup(LessThanDecimalGroup value)
@@ -16,9 +18,11 @@ public sealed class LessThanGroup
             (OneOf<
                 LessThanDecimalGroup,
                 LessThanStringGroup,
+                LessThanBooleanGroup,
                 LessThanDateGroup,
                 LessThanTimeGroup,
-                LessThanDatetimeGroup
+                LessThanDatetimeGroup,
+                LessThanUuidGroup
             >)
                 value
         )
@@ -29,9 +33,26 @@ public sealed class LessThanGroup
             (OneOf<
                 LessThanDecimalGroup,
                 LessThanStringGroup,
+                LessThanBooleanGroup,
                 LessThanDateGroup,
                 LessThanTimeGroup,
-                LessThanDatetimeGroup
+                LessThanDatetimeGroup,
+                LessThanUuidGroup
+            >)
+                value
+        )
+    { }
+
+    public LessThanGroup(LessThanBooleanGroup value)
+        : this(
+            (OneOf<
+                LessThanDecimalGroup,
+                LessThanStringGroup,
+                LessThanBooleanGroup,
+                LessThanDateGroup,
+                LessThanTimeGroup,
+                LessThanDatetimeGroup,
+                LessThanUuidGroup
             >)
                 value
         )
@@ -42,9 +63,11 @@ public sealed class LessThanGroup
             (OneOf<
                 LessThanDecimalGroup,
                 LessThanStringGroup,
+                LessThanBooleanGroup,
                 LessThanDateGroup,
                 LessThanTimeGroup,
-                LessThanDatetimeGroup
+                LessThanDatetimeGroup,
+                LessThanUuidGroup
             >)
                 value
         )
@@ -55,9 +78,11 @@ public sealed class LessThanGroup
             (OneOf<
                 LessThanDecimalGroup,
                 LessThanStringGroup,
+                LessThanBooleanGroup,
                 LessThanDateGroup,
                 LessThanTimeGroup,
-                LessThanDatetimeGroup
+                LessThanDatetimeGroup,
+                LessThanUuidGroup
             >)
                 value
         )
@@ -68,9 +93,26 @@ public sealed class LessThanGroup
             (OneOf<
                 LessThanDecimalGroup,
                 LessThanStringGroup,
+                LessThanBooleanGroup,
                 LessThanDateGroup,
                 LessThanTimeGroup,
-                LessThanDatetimeGroup
+                LessThanDatetimeGroup,
+                LessThanUuidGroup
+            >)
+                value
+        )
+    { }
+
+    public LessThanGroup(LessThanUuidGroup value)
+        : this(
+            (OneOf<
+                LessThanDecimalGroup,
+                LessThanStringGroup,
+                LessThanBooleanGroup,
+                LessThanDateGroup,
+                LessThanTimeGroup,
+                LessThanDatetimeGroup,
+                LessThanUuidGroup
             >)
                 value
         )
@@ -80,9 +122,11 @@ public sealed class LessThanGroup
         OneOf<
             LessThanDecimalGroup,
             LessThanStringGroup,
+            LessThanBooleanGroup,
             LessThanDateGroup,
             LessThanTimeGroup,
-            LessThanDatetimeGroup
+            LessThanDatetimeGroup,
+            LessThanUuidGroup
         > input
     )
         : base(input) { }

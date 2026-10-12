@@ -1,113 +1,16 @@
 using OneOf;
-using PureQL.CSharp.Model.Keys;
-using PureQL.CSharp.Model.Literals;
-using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
 public sealed class DatetimeNullableGroup
-    : OneOfBase<
-        KeyAsDatetimeNullable,
-        ParamAsDatetimeNullable,
-        LiteralAsDatetimeNullable,
-        DatetimeAddSecondsDatetimeNullableGroup,
-        ConditionalDatetimeNullableGroup,
-        AggregateDatetimeNullableGroup
-    >
+    : OneOfBase<DatetimeGroup, ExactDatetimeNullableGroup>
 {
-    public DatetimeNullableGroup(KeyAsDatetimeNullable value)
-        : this(
-            (OneOf<
-                KeyAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableGroup,
-                ConditionalDatetimeNullableGroup,
-                AggregateDatetimeNullableGroup
-            >)
-                value
-        )
-    { }
+    public DatetimeNullableGroup(DatetimeGroup value)
+        : this((OneOf<DatetimeGroup, ExactDatetimeNullableGroup>)value) { }
 
-    public DatetimeNullableGroup(ParamAsDatetimeNullable value)
-        : this(
-            (OneOf<
-                KeyAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableGroup,
-                ConditionalDatetimeNullableGroup,
-                AggregateDatetimeNullableGroup
-            >)
-                value
-        )
-    { }
+    public DatetimeNullableGroup(ExactDatetimeNullableGroup value)
+        : this((OneOf<DatetimeGroup, ExactDatetimeNullableGroup>)value) { }
 
-    public DatetimeNullableGroup(LiteralAsDatetimeNullable value)
-        : this(
-            (OneOf<
-                KeyAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableGroup,
-                ConditionalDatetimeNullableGroup,
-                AggregateDatetimeNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public DatetimeNullableGroup(DatetimeAddSecondsDatetimeNullableGroup value)
-        : this(
-            (OneOf<
-                KeyAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableGroup,
-                ConditionalDatetimeNullableGroup,
-                AggregateDatetimeNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public DatetimeNullableGroup(ConditionalDatetimeNullableGroup value)
-        : this(
-            (OneOf<
-                KeyAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableGroup,
-                ConditionalDatetimeNullableGroup,
-                AggregateDatetimeNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public DatetimeNullableGroup(AggregateDatetimeNullableGroup value)
-        : this(
-            (OneOf<
-                KeyAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableGroup,
-                ConditionalDatetimeNullableGroup,
-                AggregateDatetimeNullableGroup
-            >)
-                value
-        )
-    { }
-
-    private DatetimeNullableGroup(
-        OneOf<
-            KeyAsDatetimeNullable,
-            ParamAsDatetimeNullable,
-            LiteralAsDatetimeNullable,
-            DatetimeAddSecondsDatetimeNullableGroup,
-            ConditionalDatetimeNullableGroup,
-            AggregateDatetimeNullableGroup
-        > input
-    )
+    private DatetimeNullableGroup(OneOf<DatetimeGroup, ExactDatetimeNullableGroup> input)
         : base(input) { }
 }

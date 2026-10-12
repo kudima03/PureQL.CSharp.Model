@@ -5,7 +5,10 @@ namespace PureQL.CSharp.Model.SelectItems;
 
 public sealed record SelectItemGroupStringNullable : ISelectItem
 {
-    public SelectItemGroupStringNullable(string alias, StringNullableGroup expression)
+    public SelectItemGroupStringNullable(
+        string alias,
+        ExactStringNullableGroup expression
+    )
     {
         Alias = alias;
         Expression = expression;
@@ -13,7 +16,7 @@ public sealed record SelectItemGroupStringNullable : ISelectItem
 
     public string Alias { get; }
 
-    public StringNullableGroup Expression { get; }
+    public ExactStringNullableGroup Expression { get; }
 
     public IType Type => new TypeStringNullable();
 }

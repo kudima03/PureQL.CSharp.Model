@@ -6,9 +6,11 @@ public sealed class GreaterThanProjection
     : OneOfBase<
         GreaterThanDecimalProjection,
         GreaterThanStringProjection,
+        GreaterThanBooleanProjection,
         GreaterThanDateProjection,
         GreaterThanTimeProjection,
-        GreaterThanDatetimeProjection
+        GreaterThanDatetimeProjection,
+        GreaterThanUuidProjection
     >
 {
     public GreaterThanProjection(GreaterThanDecimalProjection value)
@@ -16,9 +18,11 @@ public sealed class GreaterThanProjection
             (OneOf<
                 GreaterThanDecimalProjection,
                 GreaterThanStringProjection,
+                GreaterThanBooleanProjection,
                 GreaterThanDateProjection,
                 GreaterThanTimeProjection,
-                GreaterThanDatetimeProjection
+                GreaterThanDatetimeProjection,
+                GreaterThanUuidProjection
             >)
                 value
         )
@@ -29,9 +33,26 @@ public sealed class GreaterThanProjection
             (OneOf<
                 GreaterThanDecimalProjection,
                 GreaterThanStringProjection,
+                GreaterThanBooleanProjection,
                 GreaterThanDateProjection,
                 GreaterThanTimeProjection,
-                GreaterThanDatetimeProjection
+                GreaterThanDatetimeProjection,
+                GreaterThanUuidProjection
+            >)
+                value
+        )
+    { }
+
+    public GreaterThanProjection(GreaterThanBooleanProjection value)
+        : this(
+            (OneOf<
+                GreaterThanDecimalProjection,
+                GreaterThanStringProjection,
+                GreaterThanBooleanProjection,
+                GreaterThanDateProjection,
+                GreaterThanTimeProjection,
+                GreaterThanDatetimeProjection,
+                GreaterThanUuidProjection
             >)
                 value
         )
@@ -42,9 +63,11 @@ public sealed class GreaterThanProjection
             (OneOf<
                 GreaterThanDecimalProjection,
                 GreaterThanStringProjection,
+                GreaterThanBooleanProjection,
                 GreaterThanDateProjection,
                 GreaterThanTimeProjection,
-                GreaterThanDatetimeProjection
+                GreaterThanDatetimeProjection,
+                GreaterThanUuidProjection
             >)
                 value
         )
@@ -55,9 +78,11 @@ public sealed class GreaterThanProjection
             (OneOf<
                 GreaterThanDecimalProjection,
                 GreaterThanStringProjection,
+                GreaterThanBooleanProjection,
                 GreaterThanDateProjection,
                 GreaterThanTimeProjection,
-                GreaterThanDatetimeProjection
+                GreaterThanDatetimeProjection,
+                GreaterThanUuidProjection
             >)
                 value
         )
@@ -68,9 +93,26 @@ public sealed class GreaterThanProjection
             (OneOf<
                 GreaterThanDecimalProjection,
                 GreaterThanStringProjection,
+                GreaterThanBooleanProjection,
                 GreaterThanDateProjection,
                 GreaterThanTimeProjection,
-                GreaterThanDatetimeProjection
+                GreaterThanDatetimeProjection,
+                GreaterThanUuidProjection
+            >)
+                value
+        )
+    { }
+
+    public GreaterThanProjection(GreaterThanUuidProjection value)
+        : this(
+            (OneOf<
+                GreaterThanDecimalProjection,
+                GreaterThanStringProjection,
+                GreaterThanBooleanProjection,
+                GreaterThanDateProjection,
+                GreaterThanTimeProjection,
+                GreaterThanDatetimeProjection,
+                GreaterThanUuidProjection
             >)
                 value
         )
@@ -80,9 +122,11 @@ public sealed class GreaterThanProjection
         OneOf<
             GreaterThanDecimalProjection,
             GreaterThanStringProjection,
+            GreaterThanBooleanProjection,
             GreaterThanDateProjection,
             GreaterThanTimeProjection,
-            GreaterThanDatetimeProjection
+            GreaterThanDatetimeProjection,
+            GreaterThanUuidProjection
         > input
     )
         : base(input) { }

@@ -1,16 +1,19 @@
 using PureQL.CSharp.Model.Lists;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record InUuidGroup
+public sealed record InUuidGroup : IOperator
 {
-    public InUuidGroup(UuidNullableGroup value, ListUuid list)
+    public InUuidGroup(UuidNullableGroup operand, ListUuid list)
     {
-        Value = value;
+        Operand = operand;
         List = list;
     }
 
-    public UuidNullableGroup Value { get; }
+    public UuidNullableGroup Operand { get; }
 
     public ListUuid List { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -7,6 +7,61 @@ Versioning mirrors the PureQL specification with a `-csharp.N` suffix where need
 
 ---
 
+## [Unreleased] — spec 0.1.0-preview.2.0.0
+
+Adapts the model to PureQL specification `0.1.0-preview.2.0.0`, where every
+operator node declares its exact result type, and adds total queries and
+`distinctBy`. Every existing query must be rebuilt: positions are now unions
+of exact-type unions, and the leaf unions are gone.
+
+### Added
+
+- **Total queries** — `MainTotalQuery` / `TotalQuery` with `Aggregate`
+  columns (`SelectItemTotal*`), and the `TotalExpressions` context, where
+  `average`, `min` and `max` are always nullable.
+- **Exact unions** — `Exact{T}{Ctx}` (`ExactDecimalRow`,
+  `ExactIntegerNullableGroup`, …) hold everything that declares exactly one
+  type. Positions (`DecimalNullableRow`, …) are unions of the exact unions
+  they accept: `DecimalNullableRow` = `ExactDecimalRow` |
+  `ExactDecimalNullableRow` | `IntegerRow` | `ExactIntegerNullableRow`.
+- **Declared types on operators** — every operator record implements the new
+  `IOperator` and exposes `IType Type`.
+- **Every type is ordered** — comparisons over `boolean` and `uuid`
+  (`GreaterThanBooleanRow`, `LessThanUuidGroup`, …) and `min` / `max` over
+  them (`MinUuidGroup`, `MaxBooleanNullableProjection`, …).
+- **`DistinctBy`** (`IEnumerable<string>?`) on plain and grouped queries.
+- Non-null `average` / `min` / `max` with `Over` in grouped queries, which
+  the specification now declares non-null over all rows too.
+
+### Changed
+
+- Group keys and select columns take an exact union, so their `Type` is the
+  type their expression declares: `GroupKeyDecimal(alias, ExactDecimalRow)`,
+  `SelectItemProjectionDecimal(alias, ExactDecimalProjection)`.
+- Group keys require an alias, now the first argument
+  (`GroupKeyUuid(alias, expression)`), and are referenced by it:
+  `Key*.Key` and `IKey.Key` are `string`, and `IGroupKey.Alias` is non-null.
+- `JoinType` is renamed `JoinKind`, and `JoinEntity.Type` /
+  `JoinSubquery.Type` are renamed `Kind`.
+- `floor`, `ceiling`, `round` and `in` take `Operand` instead of `Value`.
+- `RoundDecimalDigits*` is renamed `RoundDecimal*` (`round.decimal@ctx`).
+- `ValueProjection` / `ValueGroup` are renamed `ExprProjection` /
+  `ExprGroup`.
+- `Query` and `PureQLQuery` gain a third case, `TotalQuery` /
+  `MainTotalQuery`.
+- Family unions hold the operators that declare one type
+  (`ArithmeticDecimalRow` holds `add`, `subtract`, `multiply` and `divide`
+  declaring `decimal`). `Logical*` and `Comparison*` are cases of
+  `Boolean{Ctx}` only.
+
+### Removed
+
+- `Distinct` — use `DistinctBy` with every `select` alias.
+- The leaf unions `FieldAs*`, `ParamAs*`, `LiteralAs*` and `KeyAs*` —
+  positions reach the leaves through the exact unions.
+
+---
+
 ## [0.1.0-preview.12.0.0] - 2026-10-09 — spec 0.1.0-preview.1.0.0
 
 Rewrites the model for PureQL specification `0.1.0-preview.1.0.0`, which

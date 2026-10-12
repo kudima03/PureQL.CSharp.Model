@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record EqualUuidProjection
+public sealed record EqualUuidProjection : IOperator
 {
     public EqualUuidProjection(UuidNullableProjection left, UuidNullableProjection right)
     {
@@ -11,4 +13,6 @@ public sealed record EqualUuidProjection
     public UuidNullableProjection Left { get; }
 
     public UuidNullableProjection Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record NotEqualTimeGroup
+public sealed record NotEqualTimeGroup : IOperator
 {
     public NotEqualTimeGroup(TimeNullableGroup left, TimeNullableGroup right)
     {
@@ -11,4 +13,6 @@ public sealed record NotEqualTimeGroup
     public TimeNullableGroup Left { get; }
 
     public TimeNullableGroup Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

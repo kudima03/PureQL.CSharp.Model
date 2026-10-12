@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record EqualDateGroup
+public sealed record EqualDateGroup : IOperator
 {
     public EqualDateGroup(DateNullableGroup left, DateNullableGroup right)
     {
@@ -11,4 +13,6 @@ public sealed record EqualDateGroup
     public DateNullableGroup Left { get; }
 
     public DateNullableGroup Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

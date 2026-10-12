@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record AverageDateNullableGroup
+public sealed record AverageDateNullableGroup : IOperator
 {
     public AverageDateNullableGroup(
         DateNullableRow selector,
@@ -20,4 +21,6 @@ public sealed record AverageDateNullableGroup
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public IType Type => new TypeDateNullable();
 }

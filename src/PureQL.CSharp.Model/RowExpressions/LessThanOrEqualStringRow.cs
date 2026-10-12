@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record LessThanOrEqualStringRow
+public sealed record LessThanOrEqualStringRow : IOperator
 {
     public LessThanOrEqualStringRow(StringNullableRow left, StringNullableRow right)
     {
@@ -11,4 +13,6 @@ public sealed record LessThanOrEqualStringRow
     public StringNullableRow Left { get; }
 
     public StringNullableRow Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

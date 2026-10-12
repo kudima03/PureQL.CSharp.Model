@@ -4,26 +4,13 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 
 public sealed class DifferenceDecimalNullableGroup
     : OneOfBase<
-        DateDiffDaysIntegerNullableGroup,
         TimeDiffSecondsDecimalNullableGroup,
         DatetimeDiffSecondsDecimalNullableGroup
     >
 {
-    public DifferenceDecimalNullableGroup(DateDiffDaysIntegerNullableGroup value)
-        : this(
-            (OneOf<
-                DateDiffDaysIntegerNullableGroup,
-                TimeDiffSecondsDecimalNullableGroup,
-                DatetimeDiffSecondsDecimalNullableGroup
-            >)
-                value
-        )
-    { }
-
     public DifferenceDecimalNullableGroup(TimeDiffSecondsDecimalNullableGroup value)
         : this(
             (OneOf<
-                DateDiffDaysIntegerNullableGroup,
                 TimeDiffSecondsDecimalNullableGroup,
                 DatetimeDiffSecondsDecimalNullableGroup
             >)
@@ -34,7 +21,6 @@ public sealed class DifferenceDecimalNullableGroup
     public DifferenceDecimalNullableGroup(DatetimeDiffSecondsDecimalNullableGroup value)
         : this(
             (OneOf<
-                DateDiffDaysIntegerNullableGroup,
                 TimeDiffSecondsDecimalNullableGroup,
                 DatetimeDiffSecondsDecimalNullableGroup
             >)
@@ -44,7 +30,6 @@ public sealed class DifferenceDecimalNullableGroup
 
     private DifferenceDecimalNullableGroup(
         OneOf<
-            DateDiffDaysIntegerNullableGroup,
             TimeDiffSecondsDecimalNullableGroup,
             DatetimeDiffSecondsDecimalNullableGroup
         > input

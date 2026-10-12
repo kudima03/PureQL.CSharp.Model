@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record MinStringNullableGroup
+public sealed record MinStringNullableGroup : IOperator
 {
     public MinStringNullableGroup(
         StringNullableRow selector,
@@ -20,4 +21,6 @@ public sealed record MinStringNullableGroup
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public IType Type => new TypeStringNullable();
 }

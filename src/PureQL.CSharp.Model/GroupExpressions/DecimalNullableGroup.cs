@@ -1,145 +1,58 @@
 using OneOf;
-using PureQL.CSharp.Model.Keys;
-using PureQL.CSharp.Model.Literals;
-using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
 public sealed class DecimalNullableGroup
     : OneOfBase<
-        KeyAsDecimalNullable,
-        ParamAsDecimalNullable,
-        LiteralAsDecimalNullable,
-        ArithmeticDecimalNullableGroup,
-        RoundingDecimalNullableGroup,
-        DifferenceDecimalNullableGroup,
-        ConditionalDecimalNullableGroup,
-        AggregateDecimalNullableGroup
+        ExactDecimalGroup,
+        ExactDecimalNullableGroup,
+        IntegerGroup,
+        ExactIntegerNullableGroup
     >
 {
-    public DecimalNullableGroup(KeyAsDecimalNullable value)
+    public DecimalNullableGroup(ExactDecimalGroup value)
         : this(
             (OneOf<
-                KeyAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableGroup,
-                RoundingDecimalNullableGroup,
-                DifferenceDecimalNullableGroup,
-                ConditionalDecimalNullableGroup,
-                AggregateDecimalNullableGroup
+                ExactDecimalGroup,
+                ExactDecimalNullableGroup,
+                IntegerGroup,
+                ExactIntegerNullableGroup
             >)
                 value
         )
     { }
 
-    public DecimalNullableGroup(ParamAsDecimalNullable value)
+    public DecimalNullableGroup(ExactDecimalNullableGroup value)
         : this(
             (OneOf<
-                KeyAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableGroup,
-                RoundingDecimalNullableGroup,
-                DifferenceDecimalNullableGroup,
-                ConditionalDecimalNullableGroup,
-                AggregateDecimalNullableGroup
+                ExactDecimalGroup,
+                ExactDecimalNullableGroup,
+                IntegerGroup,
+                ExactIntegerNullableGroup
             >)
                 value
         )
     { }
 
-    public DecimalNullableGroup(LiteralAsDecimalNullable value)
+    public DecimalNullableGroup(IntegerGroup value)
         : this(
             (OneOf<
-                KeyAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableGroup,
-                RoundingDecimalNullableGroup,
-                DifferenceDecimalNullableGroup,
-                ConditionalDecimalNullableGroup,
-                AggregateDecimalNullableGroup
+                ExactDecimalGroup,
+                ExactDecimalNullableGroup,
+                IntegerGroup,
+                ExactIntegerNullableGroup
             >)
                 value
         )
     { }
 
-    public DecimalNullableGroup(ArithmeticDecimalNullableGroup value)
+    public DecimalNullableGroup(ExactIntegerNullableGroup value)
         : this(
             (OneOf<
-                KeyAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableGroup,
-                RoundingDecimalNullableGroup,
-                DifferenceDecimalNullableGroup,
-                ConditionalDecimalNullableGroup,
-                AggregateDecimalNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableGroup(RoundingDecimalNullableGroup value)
-        : this(
-            (OneOf<
-                KeyAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableGroup,
-                RoundingDecimalNullableGroup,
-                DifferenceDecimalNullableGroup,
-                ConditionalDecimalNullableGroup,
-                AggregateDecimalNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableGroup(DifferenceDecimalNullableGroup value)
-        : this(
-            (OneOf<
-                KeyAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableGroup,
-                RoundingDecimalNullableGroup,
-                DifferenceDecimalNullableGroup,
-                ConditionalDecimalNullableGroup,
-                AggregateDecimalNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableGroup(ConditionalDecimalNullableGroup value)
-        : this(
-            (OneOf<
-                KeyAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableGroup,
-                RoundingDecimalNullableGroup,
-                DifferenceDecimalNullableGroup,
-                ConditionalDecimalNullableGroup,
-                AggregateDecimalNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableGroup(AggregateDecimalNullableGroup value)
-        : this(
-            (OneOf<
-                KeyAsDecimalNullable,
-                ParamAsDecimalNullable,
-                LiteralAsDecimalNullable,
-                ArithmeticDecimalNullableGroup,
-                RoundingDecimalNullableGroup,
-                DifferenceDecimalNullableGroup,
-                ConditionalDecimalNullableGroup,
-                AggregateDecimalNullableGroup
+                ExactDecimalGroup,
+                ExactDecimalNullableGroup,
+                IntegerGroup,
+                ExactIntegerNullableGroup
             >)
                 value
         )
@@ -147,14 +60,10 @@ public sealed class DecimalNullableGroup
 
     private DecimalNullableGroup(
         OneOf<
-            KeyAsDecimalNullable,
-            ParamAsDecimalNullable,
-            LiteralAsDecimalNullable,
-            ArithmeticDecimalNullableGroup,
-            RoundingDecimalNullableGroup,
-            DifferenceDecimalNullableGroup,
-            ConditionalDecimalNullableGroup,
-            AggregateDecimalNullableGroup
+            ExactDecimalGroup,
+            ExactDecimalNullableGroup,
+            IntegerGroup,
+            ExactIntegerNullableGroup
         > input
     )
         : base(input) { }

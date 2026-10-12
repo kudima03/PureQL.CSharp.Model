@@ -4,30 +4,15 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 
 public sealed class DifferenceDecimalNullableProjection
     : OneOfBase<
-        DateDiffDaysIntegerNullableProjection,
         TimeDiffSecondsDecimalNullableProjection,
         DatetimeDiffSecondsDecimalNullableProjection
     >
 {
     public DifferenceDecimalNullableProjection(
-        DateDiffDaysIntegerNullableProjection value
-    )
-        : this(
-            (OneOf<
-                DateDiffDaysIntegerNullableProjection,
-                TimeDiffSecondsDecimalNullableProjection,
-                DatetimeDiffSecondsDecimalNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public DifferenceDecimalNullableProjection(
         TimeDiffSecondsDecimalNullableProjection value
     )
         : this(
             (OneOf<
-                DateDiffDaysIntegerNullableProjection,
                 TimeDiffSecondsDecimalNullableProjection,
                 DatetimeDiffSecondsDecimalNullableProjection
             >)
@@ -40,7 +25,6 @@ public sealed class DifferenceDecimalNullableProjection
     )
         : this(
             (OneOf<
-                DateDiffDaysIntegerNullableProjection,
                 TimeDiffSecondsDecimalNullableProjection,
                 DatetimeDiffSecondsDecimalNullableProjection
             >)
@@ -50,7 +34,6 @@ public sealed class DifferenceDecimalNullableProjection
 
     private DifferenceDecimalNullableProjection(
         OneOf<
-            DateDiffDaysIntegerNullableProjection,
             TimeDiffSecondsDecimalNullableProjection,
             DatetimeDiffSecondsDecimalNullableProjection
         > input

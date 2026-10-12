@@ -11,7 +11,8 @@ public sealed class StringProjection
         ParamString,
         LiteralString,
         ConcatStringProjection,
-        ConditionalStringProjection
+        ConditionalStringProjection,
+        AggregateStringProjection
     >
 {
     public StringProjection(FieldString value)
@@ -21,7 +22,8 @@ public sealed class StringProjection
                 ParamString,
                 LiteralString,
                 ConcatStringProjection,
-                ConditionalStringProjection
+                ConditionalStringProjection,
+                AggregateStringProjection
             >)
                 value
         )
@@ -34,7 +36,8 @@ public sealed class StringProjection
                 ParamString,
                 LiteralString,
                 ConcatStringProjection,
-                ConditionalStringProjection
+                ConditionalStringProjection,
+                AggregateStringProjection
             >)
                 value
         )
@@ -47,7 +50,8 @@ public sealed class StringProjection
                 ParamString,
                 LiteralString,
                 ConcatStringProjection,
-                ConditionalStringProjection
+                ConditionalStringProjection,
+                AggregateStringProjection
             >)
                 value
         )
@@ -60,7 +64,8 @@ public sealed class StringProjection
                 ParamString,
                 LiteralString,
                 ConcatStringProjection,
-                ConditionalStringProjection
+                ConditionalStringProjection,
+                AggregateStringProjection
             >)
                 value
         )
@@ -73,7 +78,22 @@ public sealed class StringProjection
                 ParamString,
                 LiteralString,
                 ConcatStringProjection,
-                ConditionalStringProjection
+                ConditionalStringProjection,
+                AggregateStringProjection
+            >)
+                value
+        )
+    { }
+
+    public StringProjection(AggregateStringProjection value)
+        : this(
+            (OneOf<
+                FieldString,
+                ParamString,
+                LiteralString,
+                ConcatStringProjection,
+                ConditionalStringProjection,
+                AggregateStringProjection
             >)
                 value
         )
@@ -85,7 +105,8 @@ public sealed class StringProjection
             ParamString,
             LiteralString,
             ConcatStringProjection,
-            ConditionalStringProjection
+            ConditionalStringProjection,
+            AggregateStringProjection
         > input
     )
         : base(input) { }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record SubtractIntegerNullableRow
+public sealed record SubtractIntegerNullableRow : IOperator
 {
     public SubtractIntegerNullableRow(IEnumerable<IntegerNullableRow> values)
     {
@@ -8,4 +10,6 @@ public sealed record SubtractIntegerNullableRow
     }
 
     public IEnumerable<IntegerNullableRow> Values { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

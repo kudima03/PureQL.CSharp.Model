@@ -7,9 +7,7 @@ public sealed class ArithmeticDecimalGroup
         AddDecimalGroup,
         SubtractDecimalGroup,
         MultiplyDecimalGroup,
-        DivideDecimalGroup,
-        IntegerDivideIntegerGroup,
-        ModuloIntegerGroup
+        DivideDecimalGroup
     >
 {
     public ArithmeticDecimalGroup(AddDecimalGroup value)
@@ -18,9 +16,7 @@ public sealed class ArithmeticDecimalGroup
                 AddDecimalGroup,
                 SubtractDecimalGroup,
                 MultiplyDecimalGroup,
-                DivideDecimalGroup,
-                IntegerDivideIntegerGroup,
-                ModuloIntegerGroup
+                DivideDecimalGroup
             >)
                 value
         )
@@ -32,9 +28,7 @@ public sealed class ArithmeticDecimalGroup
                 AddDecimalGroup,
                 SubtractDecimalGroup,
                 MultiplyDecimalGroup,
-                DivideDecimalGroup,
-                IntegerDivideIntegerGroup,
-                ModuloIntegerGroup
+                DivideDecimalGroup
             >)
                 value
         )
@@ -46,9 +40,7 @@ public sealed class ArithmeticDecimalGroup
                 AddDecimalGroup,
                 SubtractDecimalGroup,
                 MultiplyDecimalGroup,
-                DivideDecimalGroup,
-                IntegerDivideIntegerGroup,
-                ModuloIntegerGroup
+                DivideDecimalGroup
             >)
                 value
         )
@@ -60,37 +52,7 @@ public sealed class ArithmeticDecimalGroup
                 AddDecimalGroup,
                 SubtractDecimalGroup,
                 MultiplyDecimalGroup,
-                DivideDecimalGroup,
-                IntegerDivideIntegerGroup,
-                ModuloIntegerGroup
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalGroup(IntegerDivideIntegerGroup value)
-        : this(
-            (OneOf<
-                AddDecimalGroup,
-                SubtractDecimalGroup,
-                MultiplyDecimalGroup,
-                DivideDecimalGroup,
-                IntegerDivideIntegerGroup,
-                ModuloIntegerGroup
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalGroup(ModuloIntegerGroup value)
-        : this(
-            (OneOf<
-                AddDecimalGroup,
-                SubtractDecimalGroup,
-                MultiplyDecimalGroup,
-                DivideDecimalGroup,
-                IntegerDivideIntegerGroup,
-                ModuloIntegerGroup
+                DivideDecimalGroup
             >)
                 value
         )
@@ -101,9 +63,7 @@ public sealed class ArithmeticDecimalGroup
             AddDecimalGroup,
             SubtractDecimalGroup,
             MultiplyDecimalGroup,
-            DivideDecimalGroup,
-            IntegerDivideIntegerGroup,
-            ModuloIntegerGroup
+            DivideDecimalGroup
         > input
     )
         : base(input) { }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record IfIntegerNullableGroup
+public sealed record IfIntegerNullableGroup : IOperator
 {
     public IfIntegerNullableGroup(
         BooleanGroup condition,
@@ -18,4 +20,6 @@ public sealed record IfIntegerNullableGroup
     public IntegerNullableGroup Then { get; }
 
     public IntegerNullableGroup Else { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

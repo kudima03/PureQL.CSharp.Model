@@ -1,11 +1,15 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record CeilingIntegerRow
+public sealed record CeilingIntegerRow : IOperator
 {
-    public CeilingIntegerRow(DecimalRow value)
+    public CeilingIntegerRow(DecimalRow operand)
     {
-        Value = value;
+        Operand = operand;
     }
 
-    public DecimalRow Value { get; }
+    public DecimalRow Operand { get; }
+
+    public IType Type => new TypeInteger();
 }

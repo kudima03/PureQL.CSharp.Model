@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record SubtractDecimalGroup
+public sealed record SubtractDecimalGroup : IOperator
 {
     public SubtractDecimalGroup(IEnumerable<DecimalGroup> values)
     {
@@ -8,4 +10,6 @@ public sealed record SubtractDecimalGroup
     }
 
     public IEnumerable<DecimalGroup> Values { get; }
+
+    public IType Type => new TypeDecimal();
 }

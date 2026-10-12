@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record DatetimeDiffSecondsDecimalNullableProjection
+public sealed record DatetimeDiffSecondsDecimalNullableProjection : IOperator
 {
     public DatetimeDiffSecondsDecimalNullableProjection(
         DatetimeNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record DatetimeDiffSecondsDecimalNullableProjection
     public DatetimeNullableProjection Left { get; }
 
     public DatetimeNullableProjection Right { get; }
+
+    public IType Type => new TypeDecimalNullable();
 }
