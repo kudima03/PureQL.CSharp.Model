@@ -1,13 +1,22 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record AverageDatetimeGroup
+public sealed record AverageDatetimeGroup : IOperator
 {
-    public AverageDatetimeGroup(DatetimeRow selector)
+    public AverageDatetimeGroup(
+        DatetimeRow selector,
+        AggregateOver over = AggregateOver.Group
+    )
     {
         Selector = selector;
+        Over = over;
     }
 
     public DatetimeRow Selector { get; }
+
+    public AggregateOver Over { get; }
+
+    public IType Type => new TypeDatetime();
 }

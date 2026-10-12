@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record IfIntegerProjection
+public sealed record IfIntegerProjection : IOperator
 {
     public IfIntegerProjection(
         BooleanProjection condition,
@@ -18,4 +20,6 @@ public sealed record IfIntegerProjection
     public IntegerProjection Then { get; }
 
     public IntegerProjection Else { get; }
+
+    public IType Type => new TypeInteger();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record EqualUuidRow
+public sealed record EqualUuidRow : IOperator
 {
     public EqualUuidRow(UuidNullableRow left, UuidNullableRow right)
     {
@@ -11,4 +13,6 @@ public sealed record EqualUuidRow
     public UuidNullableRow Left { get; }
 
     public UuidNullableRow Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

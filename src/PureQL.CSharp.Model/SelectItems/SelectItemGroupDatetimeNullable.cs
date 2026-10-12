@@ -5,7 +5,10 @@ namespace PureQL.CSharp.Model.SelectItems;
 
 public sealed record SelectItemGroupDatetimeNullable : ISelectItem
 {
-    public SelectItemGroupDatetimeNullable(string alias, DatetimeNullableGroup expression)
+    public SelectItemGroupDatetimeNullable(
+        string alias,
+        ExactDatetimeNullableGroup expression
+    )
     {
         Alias = alias;
         Expression = expression;
@@ -13,7 +16,7 @@ public sealed record SelectItemGroupDatetimeNullable : ISelectItem
 
     public string Alias { get; }
 
-    public DatetimeNullableGroup Expression { get; }
+    public ExactDatetimeNullableGroup Expression { get; }
 
     public IType Type => new TypeDatetimeNullable();
 }

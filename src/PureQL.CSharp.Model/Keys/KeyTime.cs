@@ -4,12 +4,12 @@ namespace PureQL.CSharp.Model.Keys;
 
 public sealed record KeyTime : IKey
 {
-    public KeyTime(int key)
+    public KeyTime(string key)
     {
         Key = key;
     }
 
-    public int Key { get; }
+    public string Key { get; }
 
     public IType Type => new TypeTime();
 }

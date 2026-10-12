@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.GroupKeys;
 
 public sealed record GroupKeyUuid : IGroupKey
 {
-    public GroupKeyUuid(UuidRow expression, string? alias = null)
+    public GroupKeyUuid(string alias, UuidRow expression)
     {
-        Expression = expression;
         Alias = alias;
+        Expression = expression;
     }
 
-    public UuidRow Expression { get; }
+    public string Alias { get; }
 
-    public string? Alias { get; }
+    public UuidRow Expression { get; }
 
     public IType Type => new TypeUuid();
 }

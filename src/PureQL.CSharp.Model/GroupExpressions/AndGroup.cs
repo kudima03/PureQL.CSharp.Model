@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record AndGroup
+public sealed record AndGroup : IOperator
 {
     public AndGroup(IEnumerable<BooleanGroup> conditions)
     {
@@ -8,4 +10,6 @@ public sealed record AndGroup
     }
 
     public IEnumerable<BooleanGroup> Conditions { get; }
+
+    public IType Type => new TypeBoolean();
 }

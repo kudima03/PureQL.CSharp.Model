@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record GreaterThanStringProjection
+public sealed record GreaterThanStringProjection : IOperator
 {
     public GreaterThanStringProjection(
         StringNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record GreaterThanStringProjection
     public StringNullableProjection Left { get; }
 
     public StringNullableProjection Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

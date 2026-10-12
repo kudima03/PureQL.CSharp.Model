@@ -5,7 +5,7 @@ namespace PureQL.CSharp.Model;
 public sealed record OrderItemProjection
 {
     public OrderItemProjection(
-        ValueProjection expression,
+        ExprProjection expression,
         SortDirection direction = SortDirection.Asc
     )
     {
@@ -13,7 +13,7 @@ public sealed record OrderItemProjection
         Direction = direction;
     }
 
-    public ValueProjection Expression { get; }
+    public ExprProjection Expression { get; }
 
     public SortDirection Direction { get; }
 }

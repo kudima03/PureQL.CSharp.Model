@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record SubtractIntegerProjection
+public sealed record SubtractIntegerProjection : IOperator
 {
     public SubtractIntegerProjection(IEnumerable<IntegerProjection> values)
     {
@@ -8,4 +10,6 @@ public sealed record SubtractIntegerProjection
     }
 
     public IEnumerable<IntegerProjection> Values { get; }
+
+    public IType Type => new TypeInteger();
 }

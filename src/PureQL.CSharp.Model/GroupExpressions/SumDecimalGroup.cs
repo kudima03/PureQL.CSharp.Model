@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record SumDecimalGroup
+public sealed record SumDecimalGroup : IOperator
 {
     public SumDecimalGroup(
         DecimalNullableRow selector,
@@ -20,4 +21,6 @@ public sealed record SumDecimalGroup
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public IType Type => new TypeDecimal();
 }

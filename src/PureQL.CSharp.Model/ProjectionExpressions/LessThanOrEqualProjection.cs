@@ -6,9 +6,11 @@ public sealed class LessThanOrEqualProjection
     : OneOfBase<
         LessThanOrEqualDecimalProjection,
         LessThanOrEqualStringProjection,
+        LessThanOrEqualBooleanProjection,
         LessThanOrEqualDateProjection,
         LessThanOrEqualTimeProjection,
-        LessThanOrEqualDatetimeProjection
+        LessThanOrEqualDatetimeProjection,
+        LessThanOrEqualUuidProjection
     >
 {
     public LessThanOrEqualProjection(LessThanOrEqualDecimalProjection value)
@@ -16,9 +18,11 @@ public sealed class LessThanOrEqualProjection
             (OneOf<
                 LessThanOrEqualDecimalProjection,
                 LessThanOrEqualStringProjection,
+                LessThanOrEqualBooleanProjection,
                 LessThanOrEqualDateProjection,
                 LessThanOrEqualTimeProjection,
-                LessThanOrEqualDatetimeProjection
+                LessThanOrEqualDatetimeProjection,
+                LessThanOrEqualUuidProjection
             >)
                 value
         )
@@ -29,9 +33,26 @@ public sealed class LessThanOrEqualProjection
             (OneOf<
                 LessThanOrEqualDecimalProjection,
                 LessThanOrEqualStringProjection,
+                LessThanOrEqualBooleanProjection,
                 LessThanOrEqualDateProjection,
                 LessThanOrEqualTimeProjection,
-                LessThanOrEqualDatetimeProjection
+                LessThanOrEqualDatetimeProjection,
+                LessThanOrEqualUuidProjection
+            >)
+                value
+        )
+    { }
+
+    public LessThanOrEqualProjection(LessThanOrEqualBooleanProjection value)
+        : this(
+            (OneOf<
+                LessThanOrEqualDecimalProjection,
+                LessThanOrEqualStringProjection,
+                LessThanOrEqualBooleanProjection,
+                LessThanOrEqualDateProjection,
+                LessThanOrEqualTimeProjection,
+                LessThanOrEqualDatetimeProjection,
+                LessThanOrEqualUuidProjection
             >)
                 value
         )
@@ -42,9 +63,11 @@ public sealed class LessThanOrEqualProjection
             (OneOf<
                 LessThanOrEqualDecimalProjection,
                 LessThanOrEqualStringProjection,
+                LessThanOrEqualBooleanProjection,
                 LessThanOrEqualDateProjection,
                 LessThanOrEqualTimeProjection,
-                LessThanOrEqualDatetimeProjection
+                LessThanOrEqualDatetimeProjection,
+                LessThanOrEqualUuidProjection
             >)
                 value
         )
@@ -55,9 +78,11 @@ public sealed class LessThanOrEqualProjection
             (OneOf<
                 LessThanOrEqualDecimalProjection,
                 LessThanOrEqualStringProjection,
+                LessThanOrEqualBooleanProjection,
                 LessThanOrEqualDateProjection,
                 LessThanOrEqualTimeProjection,
-                LessThanOrEqualDatetimeProjection
+                LessThanOrEqualDatetimeProjection,
+                LessThanOrEqualUuidProjection
             >)
                 value
         )
@@ -68,9 +93,26 @@ public sealed class LessThanOrEqualProjection
             (OneOf<
                 LessThanOrEqualDecimalProjection,
                 LessThanOrEqualStringProjection,
+                LessThanOrEqualBooleanProjection,
                 LessThanOrEqualDateProjection,
                 LessThanOrEqualTimeProjection,
-                LessThanOrEqualDatetimeProjection
+                LessThanOrEqualDatetimeProjection,
+                LessThanOrEqualUuidProjection
+            >)
+                value
+        )
+    { }
+
+    public LessThanOrEqualProjection(LessThanOrEqualUuidProjection value)
+        : this(
+            (OneOf<
+                LessThanOrEqualDecimalProjection,
+                LessThanOrEqualStringProjection,
+                LessThanOrEqualBooleanProjection,
+                LessThanOrEqualDateProjection,
+                LessThanOrEqualTimeProjection,
+                LessThanOrEqualDatetimeProjection,
+                LessThanOrEqualUuidProjection
             >)
                 value
         )
@@ -80,9 +122,11 @@ public sealed class LessThanOrEqualProjection
         OneOf<
             LessThanOrEqualDecimalProjection,
             LessThanOrEqualStringProjection,
+            LessThanOrEqualBooleanProjection,
             LessThanOrEqualDateProjection,
             LessThanOrEqualTimeProjection,
-            LessThanOrEqualDatetimeProjection
+            LessThanOrEqualDatetimeProjection,
+            LessThanOrEqualUuidProjection
         > input
     )
         : base(input) { }

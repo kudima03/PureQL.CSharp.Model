@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record DateAddDaysDateProjection
+public sealed record DateAddDaysDateProjection : IOperator
 {
     public DateAddDaysDateProjection(DateProjection left, IntegerProjection right)
     {
@@ -11,4 +13,6 @@ public sealed record DateAddDaysDateProjection
     public DateProjection Left { get; }
 
     public IntegerProjection Right { get; }
+
+    public IType Type => new TypeDate();
 }

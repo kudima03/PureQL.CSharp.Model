@@ -1,16 +1,19 @@
 using PureQL.CSharp.Model.Lists;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record InStringGroup
+public sealed record InStringGroup : IOperator
 {
-    public InStringGroup(StringNullableGroup value, ListString list)
+    public InStringGroup(StringNullableGroup operand, ListString list)
     {
-        Value = value;
+        Operand = operand;
         List = list;
     }
 
-    public StringNullableGroup Value { get; }
+    public StringNullableGroup Operand { get; }
 
     public ListString List { get; }
+
+    public IType Type => new TypeBoolean();
 }

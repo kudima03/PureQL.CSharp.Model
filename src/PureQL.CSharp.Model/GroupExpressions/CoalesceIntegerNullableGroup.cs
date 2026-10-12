@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record CoalesceIntegerNullableGroup
+public sealed record CoalesceIntegerNullableGroup : IOperator
 {
     public CoalesceIntegerNullableGroup(IEnumerable<IntegerNullableGroup> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceIntegerNullableGroup
     }
 
     public IEnumerable<IntegerNullableGroup> Values { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

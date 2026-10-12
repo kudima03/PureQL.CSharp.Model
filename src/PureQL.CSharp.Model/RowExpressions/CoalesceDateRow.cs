@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record CoalesceDateRow
+public sealed record CoalesceDateRow : IOperator
 {
     public CoalesceDateRow(IEnumerable<DateNullableRow> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceDateRow
     }
 
     public IEnumerable<DateNullableRow> Values { get; }
+
+    public IType Type => new TypeDate();
 }

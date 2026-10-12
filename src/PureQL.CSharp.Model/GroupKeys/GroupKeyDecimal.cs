@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.GroupKeys;
 
 public sealed record GroupKeyDecimal : IGroupKey
 {
-    public GroupKeyDecimal(DecimalRow expression, string? alias = null)
+    public GroupKeyDecimal(string alias, ExactDecimalRow expression)
     {
-        Expression = expression;
         Alias = alias;
+        Expression = expression;
     }
 
-    public DecimalRow Expression { get; }
+    public string Alias { get; }
 
-    public string? Alias { get; }
+    public ExactDecimalRow Expression { get; }
 
     public IType Type => new TypeDecimal();
 }

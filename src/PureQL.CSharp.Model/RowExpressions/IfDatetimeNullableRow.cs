@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record IfDatetimeNullableRow
+public sealed record IfDatetimeNullableRow : IOperator
 {
     public IfDatetimeNullableRow(
         BooleanRow condition,
@@ -18,4 +20,6 @@ public sealed record IfDatetimeNullableRow
     public DatetimeNullableRow Then { get; }
 
     public DatetimeNullableRow Else { get; }
+
+    public IType Type => new TypeDatetimeNullable();
 }

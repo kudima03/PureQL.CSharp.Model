@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record ConcatStringGroup
+public sealed record ConcatStringGroup : IOperator
 {
     public ConcatStringGroup(IEnumerable<StringGroup> values)
     {
@@ -8,4 +10,6 @@ public sealed record ConcatStringGroup
     }
 
     public IEnumerable<StringGroup> Values { get; }
+
+    public IType Type => new TypeString();
 }

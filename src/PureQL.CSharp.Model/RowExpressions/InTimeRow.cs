@@ -1,16 +1,19 @@
 using PureQL.CSharp.Model.Lists;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record InTimeRow
+public sealed record InTimeRow : IOperator
 {
-    public InTimeRow(TimeNullableRow value, ListTime list)
+    public InTimeRow(TimeNullableRow operand, ListTime list)
     {
-        Value = value;
+        Operand = operand;
         List = list;
     }
 
-    public TimeNullableRow Value { get; }
+    public TimeNullableRow Operand { get; }
 
     public ListTime List { get; }
+
+    public IType Type => new TypeBoolean();
 }

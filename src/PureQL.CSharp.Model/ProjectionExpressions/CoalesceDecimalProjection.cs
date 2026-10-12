@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record CoalesceDecimalProjection
+public sealed record CoalesceDecimalProjection : IOperator
 {
     public CoalesceDecimalProjection(IEnumerable<DecimalNullableProjection> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceDecimalProjection
     }
 
     public IEnumerable<DecimalNullableProjection> Values { get; }
+
+    public IType Type => new TypeDecimal();
 }

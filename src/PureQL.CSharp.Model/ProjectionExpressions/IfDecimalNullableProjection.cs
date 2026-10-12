@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record IfDecimalNullableProjection
+public sealed record IfDecimalNullableProjection : IOperator
 {
     public IfDecimalNullableProjection(
         BooleanProjection condition,
@@ -18,4 +20,6 @@ public sealed record IfDecimalNullableProjection
     public DecimalNullableProjection Then { get; }
 
     public DecimalNullableProjection Else { get; }
+
+    public IType Type => new TypeDecimalNullable();
 }

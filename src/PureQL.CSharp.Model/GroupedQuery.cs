@@ -12,7 +12,7 @@ public sealed record GroupedQuery
         IEnumerable<GroupKey> groupBy,
         IEnumerable<SelectItemGroup> select
     )
-        : this(from, groupBy, select, null, null, null, null, null, false) { }
+        : this(from, groupBy, select, null, null, null, null, null, null) { }
 
     public GroupedQuery(
         From from,
@@ -23,7 +23,7 @@ public sealed record GroupedQuery
         BooleanGroup? having,
         IEnumerable<OrderItemGroup>? orderBy,
         Pagination? pagination,
-        bool distinct
+        IEnumerable<string>? distinctBy
     )
     {
         From = from;
@@ -34,7 +34,7 @@ public sealed record GroupedQuery
         Having = having;
         OrderBy = orderBy;
         Pagination = pagination;
-        Distinct = distinct;
+        DistinctBy = distinctBy;
     }
 
     public From From { get; }
@@ -53,5 +53,5 @@ public sealed record GroupedQuery
 
     public Pagination? Pagination { get; }
 
-    public bool Distinct { get; }
+    public IEnumerable<string>? DistinctBy { get; }
 }

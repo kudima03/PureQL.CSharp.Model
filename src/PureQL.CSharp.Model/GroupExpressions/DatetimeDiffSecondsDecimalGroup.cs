@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record DatetimeDiffSecondsDecimalGroup
+public sealed record DatetimeDiffSecondsDecimalGroup : IOperator
 {
     public DatetimeDiffSecondsDecimalGroup(DatetimeGroup left, DatetimeGroup right)
     {
@@ -11,4 +13,6 @@ public sealed record DatetimeDiffSecondsDecimalGroup
     public DatetimeGroup Left { get; }
 
     public DatetimeGroup Right { get; }
+
+    public IType Type => new TypeDecimal();
 }

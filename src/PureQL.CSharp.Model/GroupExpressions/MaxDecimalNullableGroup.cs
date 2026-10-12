@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record MaxDecimalNullableGroup
+public sealed record MaxDecimalNullableGroup : IOperator
 {
     public MaxDecimalNullableGroup(
         DecimalNullableRow selector,
@@ -20,4 +21,6 @@ public sealed record MaxDecimalNullableGroup
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public IType Type => new TypeDecimalNullable();
 }

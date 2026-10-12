@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record MultiplyDecimalNullableGroup
+public sealed record MultiplyDecimalNullableGroup : IOperator
 {
     public MultiplyDecimalNullableGroup(IEnumerable<DecimalNullableGroup> values)
     {
@@ -8,4 +10,6 @@ public sealed record MultiplyDecimalNullableGroup
     }
 
     public IEnumerable<DecimalNullableGroup> Values { get; }
+
+    public IType Type => new TypeDecimalNullable();
 }

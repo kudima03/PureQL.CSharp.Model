@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record DateDiffDaysIntegerGroup
+public sealed record DateDiffDaysIntegerGroup : IOperator
 {
     public DateDiffDaysIntegerGroup(DateGroup left, DateGroup right)
     {
@@ -11,4 +13,6 @@ public sealed record DateDiffDaysIntegerGroup
     public DateGroup Left { get; }
 
     public DateGroup Right { get; }
+
+    public IType Type => new TypeInteger();
 }

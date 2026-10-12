@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record EqualUuidGroup
+public sealed record EqualUuidGroup : IOperator
 {
     public EqualUuidGroup(UuidNullableGroup left, UuidNullableGroup right)
     {
@@ -11,4 +13,6 @@ public sealed record EqualUuidGroup
     public UuidNullableGroup Left { get; }
 
     public UuidNullableGroup Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record CoalesceBooleanRow
+public sealed record CoalesceBooleanRow : IOperator
 {
     public CoalesceBooleanRow(IEnumerable<BooleanNullableRow> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceBooleanRow
     }
 
     public IEnumerable<BooleanNullableRow> Values { get; }
+
+    public IType Type => new TypeBoolean();
 }

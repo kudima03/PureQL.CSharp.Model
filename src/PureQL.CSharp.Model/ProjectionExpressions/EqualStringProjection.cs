@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record EqualStringProjection
+public sealed record EqualStringProjection : IOperator
 {
     public EqualStringProjection(
         StringNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record EqualStringProjection
     public StringNullableProjection Left { get; }
 
     public StringNullableProjection Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

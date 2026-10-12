@@ -4,12 +4,12 @@ namespace PureQL.CSharp.Model.Keys;
 
 public sealed record KeyInteger : IKey
 {
-    public KeyInteger(int key)
+    public KeyInteger(string key)
     {
         Key = key;
     }
 
-    public int Key { get; }
+    public string Key { get; }
 
     public IType Type => new TypeInteger();
 }

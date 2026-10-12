@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record GreaterThanOrEqualDecimalGroup
+public sealed record GreaterThanOrEqualDecimalGroup : IOperator
 {
     public GreaterThanOrEqualDecimalGroup(
         DecimalNullableGroup left,
@@ -14,4 +16,6 @@ public sealed record GreaterThanOrEqualDecimalGroup
     public DecimalNullableGroup Left { get; }
 
     public DecimalNullableGroup Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -1,11 +1,15 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record FloorIntegerRow
+public sealed record FloorIntegerRow : IOperator
 {
-    public FloorIntegerRow(DecimalRow value)
+    public FloorIntegerRow(DecimalRow operand)
     {
-        Value = value;
+        Operand = operand;
     }
 
-    public DecimalRow Value { get; }
+    public DecimalRow Operand { get; }
+
+    public IType Type => new TypeInteger();
 }

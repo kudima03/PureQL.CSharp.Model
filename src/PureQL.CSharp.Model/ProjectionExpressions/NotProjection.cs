@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record NotProjection
+public sealed record NotProjection : IOperator
 {
     public NotProjection(BooleanProjection condition)
     {
@@ -8,4 +10,6 @@ public sealed record NotProjection
     }
 
     public BooleanProjection Condition { get; }
+
+    public IType Type => new TypeBoolean();
 }

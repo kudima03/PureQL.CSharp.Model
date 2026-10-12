@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record IntegerDivideIntegerNullableRow
+public sealed record IntegerDivideIntegerNullableRow : IOperator
 {
     public IntegerDivideIntegerNullableRow(
         IntegerNullableRow left,
@@ -14,4 +16,6 @@ public sealed record IntegerDivideIntegerNullableRow
     public IntegerNullableRow Left { get; }
 
     public IntegerNullableRow Right { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

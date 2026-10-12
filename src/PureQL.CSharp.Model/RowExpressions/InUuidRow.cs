@@ -1,16 +1,19 @@
 using PureQL.CSharp.Model.Lists;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record InUuidRow
+public sealed record InUuidRow : IOperator
 {
-    public InUuidRow(UuidNullableRow value, ListUuid list)
+    public InUuidRow(UuidNullableRow operand, ListUuid list)
     {
-        Value = value;
+        Operand = operand;
         List = list;
     }
 
-    public UuidNullableRow Value { get; }
+    public UuidNullableRow Operand { get; }
 
     public ListUuid List { get; }
+
+    public IType Type => new TypeBoolean();
 }

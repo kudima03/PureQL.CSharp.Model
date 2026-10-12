@@ -7,9 +7,7 @@ public sealed class ArithmeticDecimalNullableProjection
         AddDecimalNullableProjection,
         SubtractDecimalNullableProjection,
         MultiplyDecimalNullableProjection,
-        DivideDecimalNullableProjection,
-        IntegerDivideIntegerNullableProjection,
-        ModuloIntegerNullableProjection
+        DivideDecimalNullableProjection
     >
 {
     public ArithmeticDecimalNullableProjection(AddDecimalNullableProjection value)
@@ -18,9 +16,7 @@ public sealed class ArithmeticDecimalNullableProjection
                 AddDecimalNullableProjection,
                 SubtractDecimalNullableProjection,
                 MultiplyDecimalNullableProjection,
-                DivideDecimalNullableProjection,
-                IntegerDivideIntegerNullableProjection,
-                ModuloIntegerNullableProjection
+                DivideDecimalNullableProjection
             >)
                 value
         )
@@ -32,9 +28,7 @@ public sealed class ArithmeticDecimalNullableProjection
                 AddDecimalNullableProjection,
                 SubtractDecimalNullableProjection,
                 MultiplyDecimalNullableProjection,
-                DivideDecimalNullableProjection,
-                IntegerDivideIntegerNullableProjection,
-                ModuloIntegerNullableProjection
+                DivideDecimalNullableProjection
             >)
                 value
         )
@@ -46,9 +40,7 @@ public sealed class ArithmeticDecimalNullableProjection
                 AddDecimalNullableProjection,
                 SubtractDecimalNullableProjection,
                 MultiplyDecimalNullableProjection,
-                DivideDecimalNullableProjection,
-                IntegerDivideIntegerNullableProjection,
-                ModuloIntegerNullableProjection
+                DivideDecimalNullableProjection
             >)
                 value
         )
@@ -60,39 +52,7 @@ public sealed class ArithmeticDecimalNullableProjection
                 AddDecimalNullableProjection,
                 SubtractDecimalNullableProjection,
                 MultiplyDecimalNullableProjection,
-                DivideDecimalNullableProjection,
-                IntegerDivideIntegerNullableProjection,
-                ModuloIntegerNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalNullableProjection(
-        IntegerDivideIntegerNullableProjection value
-    )
-        : this(
-            (OneOf<
-                AddDecimalNullableProjection,
-                SubtractDecimalNullableProjection,
-                MultiplyDecimalNullableProjection,
-                DivideDecimalNullableProjection,
-                IntegerDivideIntegerNullableProjection,
-                ModuloIntegerNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalNullableProjection(ModuloIntegerNullableProjection value)
-        : this(
-            (OneOf<
-                AddDecimalNullableProjection,
-                SubtractDecimalNullableProjection,
-                MultiplyDecimalNullableProjection,
-                DivideDecimalNullableProjection,
-                IntegerDivideIntegerNullableProjection,
-                ModuloIntegerNullableProjection
+                DivideDecimalNullableProjection
             >)
                 value
         )
@@ -103,9 +63,7 @@ public sealed class ArithmeticDecimalNullableProjection
             AddDecimalNullableProjection,
             SubtractDecimalNullableProjection,
             MultiplyDecimalNullableProjection,
-            DivideDecimalNullableProjection,
-            IntegerDivideIntegerNullableProjection,
-            ModuloIntegerNullableProjection
+            DivideDecimalNullableProjection
         > input
     )
         : base(input) { }

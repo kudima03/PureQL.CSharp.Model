@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record SumIntegerGroup
+public sealed record SumIntegerGroup : IOperator
 {
     public SumIntegerGroup(
         IntegerNullableRow selector,
@@ -20,4 +21,6 @@ public sealed record SumIntegerGroup
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public IType Type => new TypeInteger();
 }

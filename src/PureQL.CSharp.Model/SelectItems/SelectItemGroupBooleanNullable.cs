@@ -5,7 +5,10 @@ namespace PureQL.CSharp.Model.SelectItems;
 
 public sealed record SelectItemGroupBooleanNullable : ISelectItem
 {
-    public SelectItemGroupBooleanNullable(string alias, BooleanNullableGroup expression)
+    public SelectItemGroupBooleanNullable(
+        string alias,
+        ExactBooleanNullableGroup expression
+    )
     {
         Alias = alias;
         Expression = expression;
@@ -13,7 +16,7 @@ public sealed record SelectItemGroupBooleanNullable : ISelectItem
 
     public string Alias { get; }
 
-    public BooleanNullableGroup Expression { get; }
+    public ExactBooleanNullableGroup Expression { get; }
 
     public IType Type => new TypeBooleanNullable();
 }

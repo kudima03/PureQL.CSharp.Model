@@ -6,9 +6,11 @@ public sealed class GreaterThanOrEqualRow
     : OneOfBase<
         GreaterThanOrEqualDecimalRow,
         GreaterThanOrEqualStringRow,
+        GreaterThanOrEqualBooleanRow,
         GreaterThanOrEqualDateRow,
         GreaterThanOrEqualTimeRow,
-        GreaterThanOrEqualDatetimeRow
+        GreaterThanOrEqualDatetimeRow,
+        GreaterThanOrEqualUuidRow
     >
 {
     public GreaterThanOrEqualRow(GreaterThanOrEqualDecimalRow value)
@@ -16,9 +18,11 @@ public sealed class GreaterThanOrEqualRow
             (OneOf<
                 GreaterThanOrEqualDecimalRow,
                 GreaterThanOrEqualStringRow,
+                GreaterThanOrEqualBooleanRow,
                 GreaterThanOrEqualDateRow,
                 GreaterThanOrEqualTimeRow,
-                GreaterThanOrEqualDatetimeRow
+                GreaterThanOrEqualDatetimeRow,
+                GreaterThanOrEqualUuidRow
             >)
                 value
         )
@@ -29,9 +33,26 @@ public sealed class GreaterThanOrEqualRow
             (OneOf<
                 GreaterThanOrEqualDecimalRow,
                 GreaterThanOrEqualStringRow,
+                GreaterThanOrEqualBooleanRow,
                 GreaterThanOrEqualDateRow,
                 GreaterThanOrEqualTimeRow,
-                GreaterThanOrEqualDatetimeRow
+                GreaterThanOrEqualDatetimeRow,
+                GreaterThanOrEqualUuidRow
+            >)
+                value
+        )
+    { }
+
+    public GreaterThanOrEqualRow(GreaterThanOrEqualBooleanRow value)
+        : this(
+            (OneOf<
+                GreaterThanOrEqualDecimalRow,
+                GreaterThanOrEqualStringRow,
+                GreaterThanOrEqualBooleanRow,
+                GreaterThanOrEqualDateRow,
+                GreaterThanOrEqualTimeRow,
+                GreaterThanOrEqualDatetimeRow,
+                GreaterThanOrEqualUuidRow
             >)
                 value
         )
@@ -42,9 +63,11 @@ public sealed class GreaterThanOrEqualRow
             (OneOf<
                 GreaterThanOrEqualDecimalRow,
                 GreaterThanOrEqualStringRow,
+                GreaterThanOrEqualBooleanRow,
                 GreaterThanOrEqualDateRow,
                 GreaterThanOrEqualTimeRow,
-                GreaterThanOrEqualDatetimeRow
+                GreaterThanOrEqualDatetimeRow,
+                GreaterThanOrEqualUuidRow
             >)
                 value
         )
@@ -55,9 +78,11 @@ public sealed class GreaterThanOrEqualRow
             (OneOf<
                 GreaterThanOrEqualDecimalRow,
                 GreaterThanOrEqualStringRow,
+                GreaterThanOrEqualBooleanRow,
                 GreaterThanOrEqualDateRow,
                 GreaterThanOrEqualTimeRow,
-                GreaterThanOrEqualDatetimeRow
+                GreaterThanOrEqualDatetimeRow,
+                GreaterThanOrEqualUuidRow
             >)
                 value
         )
@@ -68,9 +93,26 @@ public sealed class GreaterThanOrEqualRow
             (OneOf<
                 GreaterThanOrEqualDecimalRow,
                 GreaterThanOrEqualStringRow,
+                GreaterThanOrEqualBooleanRow,
                 GreaterThanOrEqualDateRow,
                 GreaterThanOrEqualTimeRow,
-                GreaterThanOrEqualDatetimeRow
+                GreaterThanOrEqualDatetimeRow,
+                GreaterThanOrEqualUuidRow
+            >)
+                value
+        )
+    { }
+
+    public GreaterThanOrEqualRow(GreaterThanOrEqualUuidRow value)
+        : this(
+            (OneOf<
+                GreaterThanOrEqualDecimalRow,
+                GreaterThanOrEqualStringRow,
+                GreaterThanOrEqualBooleanRow,
+                GreaterThanOrEqualDateRow,
+                GreaterThanOrEqualTimeRow,
+                GreaterThanOrEqualDatetimeRow,
+                GreaterThanOrEqualUuidRow
             >)
                 value
         )
@@ -80,9 +122,11 @@ public sealed class GreaterThanOrEqualRow
         OneOf<
             GreaterThanOrEqualDecimalRow,
             GreaterThanOrEqualStringRow,
+            GreaterThanOrEqualBooleanRow,
             GreaterThanOrEqualDateRow,
             GreaterThanOrEqualTimeRow,
-            GreaterThanOrEqualDatetimeRow
+            GreaterThanOrEqualDatetimeRow,
+            GreaterThanOrEqualUuidRow
         > input
     )
         : base(input) { }

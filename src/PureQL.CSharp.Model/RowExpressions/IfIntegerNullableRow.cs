@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record IfIntegerNullableRow
+public sealed record IfIntegerNullableRow : IOperator
 {
     public IfIntegerNullableRow(
         BooleanRow condition,
@@ -18,4 +20,6 @@ public sealed record IfIntegerNullableRow
     public IntegerNullableRow Then { get; }
 
     public IntegerNullableRow Else { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

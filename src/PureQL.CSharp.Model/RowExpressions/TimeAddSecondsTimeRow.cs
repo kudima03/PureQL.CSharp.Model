@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record TimeAddSecondsTimeRow
+public sealed record TimeAddSecondsTimeRow : IOperator
 {
     public TimeAddSecondsTimeRow(TimeRow left, DecimalRow right)
     {
@@ -11,4 +13,6 @@ public sealed record TimeAddSecondsTimeRow
     public TimeRow Left { get; }
 
     public DecimalRow Right { get; }
+
+    public IType Type => new TypeTime();
 }

@@ -6,9 +6,11 @@ public sealed class GreaterThanRow
     : OneOfBase<
         GreaterThanDecimalRow,
         GreaterThanStringRow,
+        GreaterThanBooleanRow,
         GreaterThanDateRow,
         GreaterThanTimeRow,
-        GreaterThanDatetimeRow
+        GreaterThanDatetimeRow,
+        GreaterThanUuidRow
     >
 {
     public GreaterThanRow(GreaterThanDecimalRow value)
@@ -16,9 +18,11 @@ public sealed class GreaterThanRow
             (OneOf<
                 GreaterThanDecimalRow,
                 GreaterThanStringRow,
+                GreaterThanBooleanRow,
                 GreaterThanDateRow,
                 GreaterThanTimeRow,
-                GreaterThanDatetimeRow
+                GreaterThanDatetimeRow,
+                GreaterThanUuidRow
             >)
                 value
         )
@@ -29,9 +33,26 @@ public sealed class GreaterThanRow
             (OneOf<
                 GreaterThanDecimalRow,
                 GreaterThanStringRow,
+                GreaterThanBooleanRow,
                 GreaterThanDateRow,
                 GreaterThanTimeRow,
-                GreaterThanDatetimeRow
+                GreaterThanDatetimeRow,
+                GreaterThanUuidRow
+            >)
+                value
+        )
+    { }
+
+    public GreaterThanRow(GreaterThanBooleanRow value)
+        : this(
+            (OneOf<
+                GreaterThanDecimalRow,
+                GreaterThanStringRow,
+                GreaterThanBooleanRow,
+                GreaterThanDateRow,
+                GreaterThanTimeRow,
+                GreaterThanDatetimeRow,
+                GreaterThanUuidRow
             >)
                 value
         )
@@ -42,9 +63,11 @@ public sealed class GreaterThanRow
             (OneOf<
                 GreaterThanDecimalRow,
                 GreaterThanStringRow,
+                GreaterThanBooleanRow,
                 GreaterThanDateRow,
                 GreaterThanTimeRow,
-                GreaterThanDatetimeRow
+                GreaterThanDatetimeRow,
+                GreaterThanUuidRow
             >)
                 value
         )
@@ -55,9 +78,11 @@ public sealed class GreaterThanRow
             (OneOf<
                 GreaterThanDecimalRow,
                 GreaterThanStringRow,
+                GreaterThanBooleanRow,
                 GreaterThanDateRow,
                 GreaterThanTimeRow,
-                GreaterThanDatetimeRow
+                GreaterThanDatetimeRow,
+                GreaterThanUuidRow
             >)
                 value
         )
@@ -68,9 +93,26 @@ public sealed class GreaterThanRow
             (OneOf<
                 GreaterThanDecimalRow,
                 GreaterThanStringRow,
+                GreaterThanBooleanRow,
                 GreaterThanDateRow,
                 GreaterThanTimeRow,
-                GreaterThanDatetimeRow
+                GreaterThanDatetimeRow,
+                GreaterThanUuidRow
+            >)
+                value
+        )
+    { }
+
+    public GreaterThanRow(GreaterThanUuidRow value)
+        : this(
+            (OneOf<
+                GreaterThanDecimalRow,
+                GreaterThanStringRow,
+                GreaterThanBooleanRow,
+                GreaterThanDateRow,
+                GreaterThanTimeRow,
+                GreaterThanDatetimeRow,
+                GreaterThanUuidRow
             >)
                 value
         )
@@ -80,9 +122,11 @@ public sealed class GreaterThanRow
         OneOf<
             GreaterThanDecimalRow,
             GreaterThanStringRow,
+            GreaterThanBooleanRow,
             GreaterThanDateRow,
             GreaterThanTimeRow,
-            GreaterThanDatetimeRow
+            GreaterThanDatetimeRow,
+            GreaterThanUuidRow
         > input
     )
         : base(input) { }

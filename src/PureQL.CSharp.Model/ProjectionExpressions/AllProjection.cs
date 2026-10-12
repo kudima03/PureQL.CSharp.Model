@@ -1,8 +1,9 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record AllProjection
+public sealed record AllProjection : IOperator
 {
     public AllProjection(BooleanRow predicate)
     {
@@ -10,4 +11,6 @@ public sealed record AllProjection
     }
 
     public BooleanRow Predicate { get; }
+
+    public IType Type => new TypeBoolean();
 }

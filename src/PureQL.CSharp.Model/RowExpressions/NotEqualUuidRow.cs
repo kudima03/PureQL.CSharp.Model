@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record NotEqualUuidRow
+public sealed record NotEqualUuidRow : IOperator
 {
     public NotEqualUuidRow(UuidNullableRow left, UuidNullableRow right)
     {
@@ -11,4 +13,6 @@ public sealed record NotEqualUuidRow
     public UuidNullableRow Left { get; }
 
     public UuidNullableRow Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -7,9 +7,7 @@ public sealed class ArithmeticDecimalNullableGroup
         AddDecimalNullableGroup,
         SubtractDecimalNullableGroup,
         MultiplyDecimalNullableGroup,
-        DivideDecimalNullableGroup,
-        IntegerDivideIntegerNullableGroup,
-        ModuloIntegerNullableGroup
+        DivideDecimalNullableGroup
     >
 {
     public ArithmeticDecimalNullableGroup(AddDecimalNullableGroup value)
@@ -18,9 +16,7 @@ public sealed class ArithmeticDecimalNullableGroup
                 AddDecimalNullableGroup,
                 SubtractDecimalNullableGroup,
                 MultiplyDecimalNullableGroup,
-                DivideDecimalNullableGroup,
-                IntegerDivideIntegerNullableGroup,
-                ModuloIntegerNullableGroup
+                DivideDecimalNullableGroup
             >)
                 value
         )
@@ -32,9 +28,7 @@ public sealed class ArithmeticDecimalNullableGroup
                 AddDecimalNullableGroup,
                 SubtractDecimalNullableGroup,
                 MultiplyDecimalNullableGroup,
-                DivideDecimalNullableGroup,
-                IntegerDivideIntegerNullableGroup,
-                ModuloIntegerNullableGroup
+                DivideDecimalNullableGroup
             >)
                 value
         )
@@ -46,9 +40,7 @@ public sealed class ArithmeticDecimalNullableGroup
                 AddDecimalNullableGroup,
                 SubtractDecimalNullableGroup,
                 MultiplyDecimalNullableGroup,
-                DivideDecimalNullableGroup,
-                IntegerDivideIntegerNullableGroup,
-                ModuloIntegerNullableGroup
+                DivideDecimalNullableGroup
             >)
                 value
         )
@@ -60,37 +52,7 @@ public sealed class ArithmeticDecimalNullableGroup
                 AddDecimalNullableGroup,
                 SubtractDecimalNullableGroup,
                 MultiplyDecimalNullableGroup,
-                DivideDecimalNullableGroup,
-                IntegerDivideIntegerNullableGroup,
-                ModuloIntegerNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalNullableGroup(IntegerDivideIntegerNullableGroup value)
-        : this(
-            (OneOf<
-                AddDecimalNullableGroup,
-                SubtractDecimalNullableGroup,
-                MultiplyDecimalNullableGroup,
-                DivideDecimalNullableGroup,
-                IntegerDivideIntegerNullableGroup,
-                ModuloIntegerNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalNullableGroup(ModuloIntegerNullableGroup value)
-        : this(
-            (OneOf<
-                AddDecimalNullableGroup,
-                SubtractDecimalNullableGroup,
-                MultiplyDecimalNullableGroup,
-                DivideDecimalNullableGroup,
-                IntegerDivideIntegerNullableGroup,
-                ModuloIntegerNullableGroup
+                DivideDecimalNullableGroup
             >)
                 value
         )
@@ -101,9 +63,7 @@ public sealed class ArithmeticDecimalNullableGroup
             AddDecimalNullableGroup,
             SubtractDecimalNullableGroup,
             MultiplyDecimalNullableGroup,
-            DivideDecimalNullableGroup,
-            IntegerDivideIntegerNullableGroup,
-            ModuloIntegerNullableGroup
+            DivideDecimalNullableGroup
         > input
     )
         : base(input) { }

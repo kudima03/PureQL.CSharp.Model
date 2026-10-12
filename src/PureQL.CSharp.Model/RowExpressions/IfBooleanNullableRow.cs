@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record IfBooleanNullableRow
+public sealed record IfBooleanNullableRow : IOperator
 {
     public IfBooleanNullableRow(
         BooleanRow condition,
@@ -18,4 +20,6 @@ public sealed record IfBooleanNullableRow
     public BooleanNullableRow Then { get; }
 
     public BooleanNullableRow Else { get; }
+
+    public IType Type => new TypeBooleanNullable();
 }

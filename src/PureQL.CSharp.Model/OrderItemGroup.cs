@@ -5,7 +5,7 @@ namespace PureQL.CSharp.Model;
 public sealed record OrderItemGroup
 {
     public OrderItemGroup(
-        ValueGroup expression,
+        ExprGroup expression,
         SortDirection direction = SortDirection.Asc
     )
     {
@@ -13,7 +13,7 @@ public sealed record OrderItemGroup
         Direction = direction;
     }
 
-    public ValueGroup Expression { get; }
+    public ExprGroup Expression { get; }
 
     public SortDirection Direction { get; }
 }

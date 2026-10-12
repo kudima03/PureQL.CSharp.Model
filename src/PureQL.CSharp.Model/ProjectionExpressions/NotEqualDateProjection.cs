@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record NotEqualDateProjection
+public sealed record NotEqualDateProjection : IOperator
 {
     public NotEqualDateProjection(
         DateNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record NotEqualDateProjection
     public DateNullableProjection Left { get; }
 
     public DateNullableProjection Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

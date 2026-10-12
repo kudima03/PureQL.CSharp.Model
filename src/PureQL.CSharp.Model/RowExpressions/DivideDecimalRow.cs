@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record DivideDecimalRow
+public sealed record DivideDecimalRow : IOperator
 {
     public DivideDecimalRow(IEnumerable<DecimalRow> values)
     {
@@ -8,4 +10,6 @@ public sealed record DivideDecimalRow
     }
 
     public IEnumerable<DecimalRow> Values { get; }
+
+    public IType Type => new TypeDecimal();
 }

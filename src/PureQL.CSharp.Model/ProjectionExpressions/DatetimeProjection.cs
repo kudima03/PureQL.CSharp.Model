@@ -11,7 +11,8 @@ public sealed class DatetimeProjection
         ParamDatetime,
         LiteralDatetime,
         DatetimeAddSecondsDatetimeProjection,
-        ConditionalDatetimeProjection
+        ConditionalDatetimeProjection,
+        AggregateDatetimeProjection
     >
 {
     public DatetimeProjection(FieldDatetime value)
@@ -21,7 +22,8 @@ public sealed class DatetimeProjection
                 ParamDatetime,
                 LiteralDatetime,
                 DatetimeAddSecondsDatetimeProjection,
-                ConditionalDatetimeProjection
+                ConditionalDatetimeProjection,
+                AggregateDatetimeProjection
             >)
                 value
         )
@@ -34,7 +36,8 @@ public sealed class DatetimeProjection
                 ParamDatetime,
                 LiteralDatetime,
                 DatetimeAddSecondsDatetimeProjection,
-                ConditionalDatetimeProjection
+                ConditionalDatetimeProjection,
+                AggregateDatetimeProjection
             >)
                 value
         )
@@ -47,7 +50,8 @@ public sealed class DatetimeProjection
                 ParamDatetime,
                 LiteralDatetime,
                 DatetimeAddSecondsDatetimeProjection,
-                ConditionalDatetimeProjection
+                ConditionalDatetimeProjection,
+                AggregateDatetimeProjection
             >)
                 value
         )
@@ -60,7 +64,8 @@ public sealed class DatetimeProjection
                 ParamDatetime,
                 LiteralDatetime,
                 DatetimeAddSecondsDatetimeProjection,
-                ConditionalDatetimeProjection
+                ConditionalDatetimeProjection,
+                AggregateDatetimeProjection
             >)
                 value
         )
@@ -73,7 +78,22 @@ public sealed class DatetimeProjection
                 ParamDatetime,
                 LiteralDatetime,
                 DatetimeAddSecondsDatetimeProjection,
-                ConditionalDatetimeProjection
+                ConditionalDatetimeProjection,
+                AggregateDatetimeProjection
+            >)
+                value
+        )
+    { }
+
+    public DatetimeProjection(AggregateDatetimeProjection value)
+        : this(
+            (OneOf<
+                FieldDatetime,
+                ParamDatetime,
+                LiteralDatetime,
+                DatetimeAddSecondsDatetimeProjection,
+                ConditionalDatetimeProjection,
+                AggregateDatetimeProjection
             >)
                 value
         )
@@ -85,7 +105,8 @@ public sealed class DatetimeProjection
             ParamDatetime,
             LiteralDatetime,
             DatetimeAddSecondsDatetimeProjection,
-            ConditionalDatetimeProjection
+            ConditionalDatetimeProjection,
+            AggregateDatetimeProjection
         > input
     )
         : base(input) { }

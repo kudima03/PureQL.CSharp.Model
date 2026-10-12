@@ -7,9 +7,7 @@ public sealed class ArithmeticDecimalNullableRow
         AddDecimalNullableRow,
         SubtractDecimalNullableRow,
         MultiplyDecimalNullableRow,
-        DivideDecimalNullableRow,
-        IntegerDivideIntegerNullableRow,
-        ModuloIntegerNullableRow
+        DivideDecimalNullableRow
     >
 {
     public ArithmeticDecimalNullableRow(AddDecimalNullableRow value)
@@ -18,9 +16,7 @@ public sealed class ArithmeticDecimalNullableRow
                 AddDecimalNullableRow,
                 SubtractDecimalNullableRow,
                 MultiplyDecimalNullableRow,
-                DivideDecimalNullableRow,
-                IntegerDivideIntegerNullableRow,
-                ModuloIntegerNullableRow
+                DivideDecimalNullableRow
             >)
                 value
         )
@@ -32,9 +28,7 @@ public sealed class ArithmeticDecimalNullableRow
                 AddDecimalNullableRow,
                 SubtractDecimalNullableRow,
                 MultiplyDecimalNullableRow,
-                DivideDecimalNullableRow,
-                IntegerDivideIntegerNullableRow,
-                ModuloIntegerNullableRow
+                DivideDecimalNullableRow
             >)
                 value
         )
@@ -46,9 +40,7 @@ public sealed class ArithmeticDecimalNullableRow
                 AddDecimalNullableRow,
                 SubtractDecimalNullableRow,
                 MultiplyDecimalNullableRow,
-                DivideDecimalNullableRow,
-                IntegerDivideIntegerNullableRow,
-                ModuloIntegerNullableRow
+                DivideDecimalNullableRow
             >)
                 value
         )
@@ -60,37 +52,7 @@ public sealed class ArithmeticDecimalNullableRow
                 AddDecimalNullableRow,
                 SubtractDecimalNullableRow,
                 MultiplyDecimalNullableRow,
-                DivideDecimalNullableRow,
-                IntegerDivideIntegerNullableRow,
-                ModuloIntegerNullableRow
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalNullableRow(IntegerDivideIntegerNullableRow value)
-        : this(
-            (OneOf<
-                AddDecimalNullableRow,
-                SubtractDecimalNullableRow,
-                MultiplyDecimalNullableRow,
-                DivideDecimalNullableRow,
-                IntegerDivideIntegerNullableRow,
-                ModuloIntegerNullableRow
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalNullableRow(ModuloIntegerNullableRow value)
-        : this(
-            (OneOf<
-                AddDecimalNullableRow,
-                SubtractDecimalNullableRow,
-                MultiplyDecimalNullableRow,
-                DivideDecimalNullableRow,
-                IntegerDivideIntegerNullableRow,
-                ModuloIntegerNullableRow
+                DivideDecimalNullableRow
             >)
                 value
         )
@@ -101,9 +63,7 @@ public sealed class ArithmeticDecimalNullableRow
             AddDecimalNullableRow,
             SubtractDecimalNullableRow,
             MultiplyDecimalNullableRow,
-            DivideDecimalNullableRow,
-            IntegerDivideIntegerNullableRow,
-            ModuloIntegerNullableRow
+            DivideDecimalNullableRow
         > input
     )
         : base(input) { }

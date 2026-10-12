@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record IfUuidRow
+public sealed record IfUuidRow : IOperator
 {
     public IfUuidRow(BooleanRow condition, UuidRow then, UuidRow @else)
     {
@@ -14,4 +16,6 @@ public sealed record IfUuidRow
     public UuidRow Then { get; }
 
     public UuidRow Else { get; }
+
+    public IType Type => new TypeUuid();
 }

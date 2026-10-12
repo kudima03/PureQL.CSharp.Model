@@ -6,9 +6,11 @@ public sealed class GreaterThanOrEqualGroup
     : OneOfBase<
         GreaterThanOrEqualDecimalGroup,
         GreaterThanOrEqualStringGroup,
+        GreaterThanOrEqualBooleanGroup,
         GreaterThanOrEqualDateGroup,
         GreaterThanOrEqualTimeGroup,
-        GreaterThanOrEqualDatetimeGroup
+        GreaterThanOrEqualDatetimeGroup,
+        GreaterThanOrEqualUuidGroup
     >
 {
     public GreaterThanOrEqualGroup(GreaterThanOrEqualDecimalGroup value)
@@ -16,9 +18,11 @@ public sealed class GreaterThanOrEqualGroup
             (OneOf<
                 GreaterThanOrEqualDecimalGroup,
                 GreaterThanOrEqualStringGroup,
+                GreaterThanOrEqualBooleanGroup,
                 GreaterThanOrEqualDateGroup,
                 GreaterThanOrEqualTimeGroup,
-                GreaterThanOrEqualDatetimeGroup
+                GreaterThanOrEqualDatetimeGroup,
+                GreaterThanOrEqualUuidGroup
             >)
                 value
         )
@@ -29,9 +33,26 @@ public sealed class GreaterThanOrEqualGroup
             (OneOf<
                 GreaterThanOrEqualDecimalGroup,
                 GreaterThanOrEqualStringGroup,
+                GreaterThanOrEqualBooleanGroup,
                 GreaterThanOrEqualDateGroup,
                 GreaterThanOrEqualTimeGroup,
-                GreaterThanOrEqualDatetimeGroup
+                GreaterThanOrEqualDatetimeGroup,
+                GreaterThanOrEqualUuidGroup
+            >)
+                value
+        )
+    { }
+
+    public GreaterThanOrEqualGroup(GreaterThanOrEqualBooleanGroup value)
+        : this(
+            (OneOf<
+                GreaterThanOrEqualDecimalGroup,
+                GreaterThanOrEqualStringGroup,
+                GreaterThanOrEqualBooleanGroup,
+                GreaterThanOrEqualDateGroup,
+                GreaterThanOrEqualTimeGroup,
+                GreaterThanOrEqualDatetimeGroup,
+                GreaterThanOrEqualUuidGroup
             >)
                 value
         )
@@ -42,9 +63,11 @@ public sealed class GreaterThanOrEqualGroup
             (OneOf<
                 GreaterThanOrEqualDecimalGroup,
                 GreaterThanOrEqualStringGroup,
+                GreaterThanOrEqualBooleanGroup,
                 GreaterThanOrEqualDateGroup,
                 GreaterThanOrEqualTimeGroup,
-                GreaterThanOrEqualDatetimeGroup
+                GreaterThanOrEqualDatetimeGroup,
+                GreaterThanOrEqualUuidGroup
             >)
                 value
         )
@@ -55,9 +78,11 @@ public sealed class GreaterThanOrEqualGroup
             (OneOf<
                 GreaterThanOrEqualDecimalGroup,
                 GreaterThanOrEqualStringGroup,
+                GreaterThanOrEqualBooleanGroup,
                 GreaterThanOrEqualDateGroup,
                 GreaterThanOrEqualTimeGroup,
-                GreaterThanOrEqualDatetimeGroup
+                GreaterThanOrEqualDatetimeGroup,
+                GreaterThanOrEqualUuidGroup
             >)
                 value
         )
@@ -68,9 +93,26 @@ public sealed class GreaterThanOrEqualGroup
             (OneOf<
                 GreaterThanOrEqualDecimalGroup,
                 GreaterThanOrEqualStringGroup,
+                GreaterThanOrEqualBooleanGroup,
                 GreaterThanOrEqualDateGroup,
                 GreaterThanOrEqualTimeGroup,
-                GreaterThanOrEqualDatetimeGroup
+                GreaterThanOrEqualDatetimeGroup,
+                GreaterThanOrEqualUuidGroup
+            >)
+                value
+        )
+    { }
+
+    public GreaterThanOrEqualGroup(GreaterThanOrEqualUuidGroup value)
+        : this(
+            (OneOf<
+                GreaterThanOrEqualDecimalGroup,
+                GreaterThanOrEqualStringGroup,
+                GreaterThanOrEqualBooleanGroup,
+                GreaterThanOrEqualDateGroup,
+                GreaterThanOrEqualTimeGroup,
+                GreaterThanOrEqualDatetimeGroup,
+                GreaterThanOrEqualUuidGroup
             >)
                 value
         )
@@ -80,9 +122,11 @@ public sealed class GreaterThanOrEqualGroup
         OneOf<
             GreaterThanOrEqualDecimalGroup,
             GreaterThanOrEqualStringGroup,
+            GreaterThanOrEqualBooleanGroup,
             GreaterThanOrEqualDateGroup,
             GreaterThanOrEqualTimeGroup,
-            GreaterThanOrEqualDatetimeGroup
+            GreaterThanOrEqualDatetimeGroup,
+            GreaterThanOrEqualUuidGroup
         > input
     )
         : base(input) { }

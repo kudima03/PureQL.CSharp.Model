@@ -3,51 +3,22 @@ using OneOf;
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
 public sealed class AggregateDateProjection
-    : OneOfBase<
-        AverageDateNullableProjection,
-        MinDateNullableProjection,
-        MaxDateNullableProjection
-    >
+    : OneOfBase<AverageDateProjection, MinDateProjection, MaxDateProjection>
 {
-    public AggregateDateProjection(AverageDateNullableProjection value)
-        : this(
-            (OneOf<
-                AverageDateNullableProjection,
-                MinDateNullableProjection,
-                MaxDateNullableProjection
-            >)
-                value
-        )
+    public AggregateDateProjection(AverageDateProjection value)
+        : this((OneOf<AverageDateProjection, MinDateProjection, MaxDateProjection>)value)
     { }
 
-    public AggregateDateProjection(MinDateNullableProjection value)
-        : this(
-            (OneOf<
-                AverageDateNullableProjection,
-                MinDateNullableProjection,
-                MaxDateNullableProjection
-            >)
-                value
-        )
+    public AggregateDateProjection(MinDateProjection value)
+        : this((OneOf<AverageDateProjection, MinDateProjection, MaxDateProjection>)value)
     { }
 
-    public AggregateDateProjection(MaxDateNullableProjection value)
-        : this(
-            (OneOf<
-                AverageDateNullableProjection,
-                MinDateNullableProjection,
-                MaxDateNullableProjection
-            >)
-                value
-        )
+    public AggregateDateProjection(MaxDateProjection value)
+        : this((OneOf<AverageDateProjection, MinDateProjection, MaxDateProjection>)value)
     { }
 
     private AggregateDateProjection(
-        OneOf<
-            AverageDateNullableProjection,
-            MinDateNullableProjection,
-            MaxDateNullableProjection
-        > input
+        OneOf<AverageDateProjection, MinDateProjection, MaxDateProjection> input
     )
         : base(input) { }
 }

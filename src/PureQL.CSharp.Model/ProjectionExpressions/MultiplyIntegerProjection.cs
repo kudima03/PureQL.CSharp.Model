@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record MultiplyIntegerProjection
+public sealed record MultiplyIntegerProjection : IOperator
 {
     public MultiplyIntegerProjection(IEnumerable<IntegerProjection> values)
     {
@@ -8,4 +10,6 @@ public sealed record MultiplyIntegerProjection
     }
 
     public IEnumerable<IntegerProjection> Values { get; }
+
+    public IType Type => new TypeInteger();
 }

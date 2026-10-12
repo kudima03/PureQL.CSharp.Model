@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record TimeAddSecondsTimeGroup
+public sealed record TimeAddSecondsTimeGroup : IOperator
 {
     public TimeAddSecondsTimeGroup(TimeGroup left, DecimalGroup right)
     {
@@ -11,4 +13,6 @@ public sealed record TimeAddSecondsTimeGroup
     public TimeGroup Left { get; }
 
     public DecimalGroup Right { get; }
+
+    public IType Type => new TypeTime();
 }

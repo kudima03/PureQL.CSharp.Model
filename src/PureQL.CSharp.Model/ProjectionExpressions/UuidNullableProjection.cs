@@ -1,73 +1,18 @@
 using OneOf;
-using PureQL.CSharp.Model.Fields;
-using PureQL.CSharp.Model.Literals;
-using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
 public sealed class UuidNullableProjection
-    : OneOfBase<
-        FieldAsUuidNullable,
-        ParamAsUuidNullable,
-        LiteralAsUuidNullable,
-        ConditionalUuidNullableProjection
-    >
+    : OneOfBase<UuidProjection, ExactUuidNullableProjection>
 {
-    public UuidNullableProjection(FieldAsUuidNullable value)
-        : this(
-            (OneOf<
-                FieldAsUuidNullable,
-                ParamAsUuidNullable,
-                LiteralAsUuidNullable,
-                ConditionalUuidNullableProjection
-            >)
-                value
-        )
-    { }
+    public UuidNullableProjection(UuidProjection value)
+        : this((OneOf<UuidProjection, ExactUuidNullableProjection>)value) { }
 
-    public UuidNullableProjection(ParamAsUuidNullable value)
-        : this(
-            (OneOf<
-                FieldAsUuidNullable,
-                ParamAsUuidNullable,
-                LiteralAsUuidNullable,
-                ConditionalUuidNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public UuidNullableProjection(LiteralAsUuidNullable value)
-        : this(
-            (OneOf<
-                FieldAsUuidNullable,
-                ParamAsUuidNullable,
-                LiteralAsUuidNullable,
-                ConditionalUuidNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public UuidNullableProjection(ConditionalUuidNullableProjection value)
-        : this(
-            (OneOf<
-                FieldAsUuidNullable,
-                ParamAsUuidNullable,
-                LiteralAsUuidNullable,
-                ConditionalUuidNullableProjection
-            >)
-                value
-        )
-    { }
+    public UuidNullableProjection(ExactUuidNullableProjection value)
+        : this((OneOf<UuidProjection, ExactUuidNullableProjection>)value) { }
 
     private UuidNullableProjection(
-        OneOf<
-            FieldAsUuidNullable,
-            ParamAsUuidNullable,
-            LiteralAsUuidNullable,
-            ConditionalUuidNullableProjection
-        > input
+        OneOf<UuidProjection, ExactUuidNullableProjection> input
     )
         : base(input) { }
 }

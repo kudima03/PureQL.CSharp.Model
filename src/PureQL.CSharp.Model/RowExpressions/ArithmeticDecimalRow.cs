@@ -3,14 +3,7 @@ using OneOf;
 namespace PureQL.CSharp.Model.RowExpressions;
 
 public sealed class ArithmeticDecimalRow
-    : OneOfBase<
-        AddDecimalRow,
-        SubtractDecimalRow,
-        MultiplyDecimalRow,
-        DivideDecimalRow,
-        IntegerDivideIntegerRow,
-        ModuloIntegerRow
-    >
+    : OneOfBase<AddDecimalRow, SubtractDecimalRow, MultiplyDecimalRow, DivideDecimalRow>
 {
     public ArithmeticDecimalRow(AddDecimalRow value)
         : this(
@@ -18,9 +11,7 @@ public sealed class ArithmeticDecimalRow
                 AddDecimalRow,
                 SubtractDecimalRow,
                 MultiplyDecimalRow,
-                DivideDecimalRow,
-                IntegerDivideIntegerRow,
-                ModuloIntegerRow
+                DivideDecimalRow
             >)
                 value
         )
@@ -32,9 +23,7 @@ public sealed class ArithmeticDecimalRow
                 AddDecimalRow,
                 SubtractDecimalRow,
                 MultiplyDecimalRow,
-                DivideDecimalRow,
-                IntegerDivideIntegerRow,
-                ModuloIntegerRow
+                DivideDecimalRow
             >)
                 value
         )
@@ -46,9 +35,7 @@ public sealed class ArithmeticDecimalRow
                 AddDecimalRow,
                 SubtractDecimalRow,
                 MultiplyDecimalRow,
-                DivideDecimalRow,
-                IntegerDivideIntegerRow,
-                ModuloIntegerRow
+                DivideDecimalRow
             >)
                 value
         )
@@ -60,37 +47,7 @@ public sealed class ArithmeticDecimalRow
                 AddDecimalRow,
                 SubtractDecimalRow,
                 MultiplyDecimalRow,
-                DivideDecimalRow,
-                IntegerDivideIntegerRow,
-                ModuloIntegerRow
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalRow(IntegerDivideIntegerRow value)
-        : this(
-            (OneOf<
-                AddDecimalRow,
-                SubtractDecimalRow,
-                MultiplyDecimalRow,
-                DivideDecimalRow,
-                IntegerDivideIntegerRow,
-                ModuloIntegerRow
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalRow(ModuloIntegerRow value)
-        : this(
-            (OneOf<
-                AddDecimalRow,
-                SubtractDecimalRow,
-                MultiplyDecimalRow,
-                DivideDecimalRow,
-                IntegerDivideIntegerRow,
-                ModuloIntegerRow
+                DivideDecimalRow
             >)
                 value
         )
@@ -101,9 +58,7 @@ public sealed class ArithmeticDecimalRow
             AddDecimalRow,
             SubtractDecimalRow,
             MultiplyDecimalRow,
-            DivideDecimalRow,
-            IntegerDivideIntegerRow,
-            ModuloIntegerRow
+            DivideDecimalRow
         > input
     )
         : base(input) { }

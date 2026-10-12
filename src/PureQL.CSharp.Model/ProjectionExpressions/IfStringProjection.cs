@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record IfStringProjection
+public sealed record IfStringProjection : IOperator
 {
     public IfStringProjection(
         BooleanProjection condition,
@@ -18,4 +20,6 @@ public sealed record IfStringProjection
     public StringProjection Then { get; }
 
     public StringProjection Else { get; }
+
+    public IType Type => new TypeString();
 }

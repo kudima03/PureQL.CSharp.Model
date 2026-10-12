@@ -1,16 +1,19 @@
 using PureQL.CSharp.Model.Lists;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record InTimeGroup
+public sealed record InTimeGroup : IOperator
 {
-    public InTimeGroup(TimeNullableGroup value, ListTime list)
+    public InTimeGroup(TimeNullableGroup operand, ListTime list)
     {
-        Value = value;
+        Operand = operand;
         List = list;
     }
 
-    public TimeNullableGroup Value { get; }
+    public TimeNullableGroup Operand { get; }
 
     public ListTime List { get; }
+
+    public IType Type => new TypeBoolean();
 }

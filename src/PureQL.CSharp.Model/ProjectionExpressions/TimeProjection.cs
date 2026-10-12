@@ -11,7 +11,8 @@ public sealed class TimeProjection
         ParamTime,
         LiteralTime,
         TimeAddSecondsTimeProjection,
-        ConditionalTimeProjection
+        ConditionalTimeProjection,
+        AggregateTimeProjection
     >
 {
     public TimeProjection(FieldTime value)
@@ -21,7 +22,8 @@ public sealed class TimeProjection
                 ParamTime,
                 LiteralTime,
                 TimeAddSecondsTimeProjection,
-                ConditionalTimeProjection
+                ConditionalTimeProjection,
+                AggregateTimeProjection
             >)
                 value
         )
@@ -34,7 +36,8 @@ public sealed class TimeProjection
                 ParamTime,
                 LiteralTime,
                 TimeAddSecondsTimeProjection,
-                ConditionalTimeProjection
+                ConditionalTimeProjection,
+                AggregateTimeProjection
             >)
                 value
         )
@@ -47,7 +50,8 @@ public sealed class TimeProjection
                 ParamTime,
                 LiteralTime,
                 TimeAddSecondsTimeProjection,
-                ConditionalTimeProjection
+                ConditionalTimeProjection,
+                AggregateTimeProjection
             >)
                 value
         )
@@ -60,7 +64,8 @@ public sealed class TimeProjection
                 ParamTime,
                 LiteralTime,
                 TimeAddSecondsTimeProjection,
-                ConditionalTimeProjection
+                ConditionalTimeProjection,
+                AggregateTimeProjection
             >)
                 value
         )
@@ -73,7 +78,22 @@ public sealed class TimeProjection
                 ParamTime,
                 LiteralTime,
                 TimeAddSecondsTimeProjection,
-                ConditionalTimeProjection
+                ConditionalTimeProjection,
+                AggregateTimeProjection
+            >)
+                value
+        )
+    { }
+
+    public TimeProjection(AggregateTimeProjection value)
+        : this(
+            (OneOf<
+                FieldTime,
+                ParamTime,
+                LiteralTime,
+                TimeAddSecondsTimeProjection,
+                ConditionalTimeProjection,
+                AggregateTimeProjection
             >)
                 value
         )
@@ -85,7 +105,8 @@ public sealed class TimeProjection
             ParamTime,
             LiteralTime,
             TimeAddSecondsTimeProjection,
-            ConditionalTimeProjection
+            ConditionalTimeProjection,
+            AggregateTimeProjection
         > input
     )
         : base(input) { }

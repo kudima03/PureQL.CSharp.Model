@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record IfTimeProjection
+public sealed record IfTimeProjection : IOperator
 {
     public IfTimeProjection(
         BooleanProjection condition,
@@ -18,4 +20,6 @@ public sealed record IfTimeProjection
     public TimeProjection Then { get; }
 
     public TimeProjection Else { get; }
+
+    public IType Type => new TypeTime();
 }

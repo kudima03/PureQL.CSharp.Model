@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record SubtractIntegerNullableGroup
+public sealed record SubtractIntegerNullableGroup : IOperator
 {
     public SubtractIntegerNullableGroup(IEnumerable<IntegerNullableGroup> values)
     {
@@ -8,4 +10,6 @@ public sealed record SubtractIntegerNullableGroup
     }
 
     public IEnumerable<IntegerNullableGroup> Values { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

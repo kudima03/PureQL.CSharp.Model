@@ -1,16 +1,19 @@
 using PureQL.CSharp.Model.Lists;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record InBooleanRow
+public sealed record InBooleanRow : IOperator
 {
-    public InBooleanRow(BooleanNullableRow value, ListBoolean list)
+    public InBooleanRow(BooleanNullableRow operand, ListBoolean list)
     {
-        Value = value;
+        Operand = operand;
         List = list;
     }
 
-    public BooleanNullableRow Value { get; }
+    public BooleanNullableRow Operand { get; }
 
     public ListBoolean List { get; }
+
+    public IType Type => new TypeBoolean();
 }

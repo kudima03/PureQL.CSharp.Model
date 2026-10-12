@@ -6,9 +6,11 @@ public sealed class LessThanOrEqualGroup
     : OneOfBase<
         LessThanOrEqualDecimalGroup,
         LessThanOrEqualStringGroup,
+        LessThanOrEqualBooleanGroup,
         LessThanOrEqualDateGroup,
         LessThanOrEqualTimeGroup,
-        LessThanOrEqualDatetimeGroup
+        LessThanOrEqualDatetimeGroup,
+        LessThanOrEqualUuidGroup
     >
 {
     public LessThanOrEqualGroup(LessThanOrEqualDecimalGroup value)
@@ -16,9 +18,11 @@ public sealed class LessThanOrEqualGroup
             (OneOf<
                 LessThanOrEqualDecimalGroup,
                 LessThanOrEqualStringGroup,
+                LessThanOrEqualBooleanGroup,
                 LessThanOrEqualDateGroup,
                 LessThanOrEqualTimeGroup,
-                LessThanOrEqualDatetimeGroup
+                LessThanOrEqualDatetimeGroup,
+                LessThanOrEqualUuidGroup
             >)
                 value
         )
@@ -29,9 +33,26 @@ public sealed class LessThanOrEqualGroup
             (OneOf<
                 LessThanOrEqualDecimalGroup,
                 LessThanOrEqualStringGroup,
+                LessThanOrEqualBooleanGroup,
                 LessThanOrEqualDateGroup,
                 LessThanOrEqualTimeGroup,
-                LessThanOrEqualDatetimeGroup
+                LessThanOrEqualDatetimeGroup,
+                LessThanOrEqualUuidGroup
+            >)
+                value
+        )
+    { }
+
+    public LessThanOrEqualGroup(LessThanOrEqualBooleanGroup value)
+        : this(
+            (OneOf<
+                LessThanOrEqualDecimalGroup,
+                LessThanOrEqualStringGroup,
+                LessThanOrEqualBooleanGroup,
+                LessThanOrEqualDateGroup,
+                LessThanOrEqualTimeGroup,
+                LessThanOrEqualDatetimeGroup,
+                LessThanOrEqualUuidGroup
             >)
                 value
         )
@@ -42,9 +63,11 @@ public sealed class LessThanOrEqualGroup
             (OneOf<
                 LessThanOrEqualDecimalGroup,
                 LessThanOrEqualStringGroup,
+                LessThanOrEqualBooleanGroup,
                 LessThanOrEqualDateGroup,
                 LessThanOrEqualTimeGroup,
-                LessThanOrEqualDatetimeGroup
+                LessThanOrEqualDatetimeGroup,
+                LessThanOrEqualUuidGroup
             >)
                 value
         )
@@ -55,9 +78,11 @@ public sealed class LessThanOrEqualGroup
             (OneOf<
                 LessThanOrEqualDecimalGroup,
                 LessThanOrEqualStringGroup,
+                LessThanOrEqualBooleanGroup,
                 LessThanOrEqualDateGroup,
                 LessThanOrEqualTimeGroup,
-                LessThanOrEqualDatetimeGroup
+                LessThanOrEqualDatetimeGroup,
+                LessThanOrEqualUuidGroup
             >)
                 value
         )
@@ -68,9 +93,26 @@ public sealed class LessThanOrEqualGroup
             (OneOf<
                 LessThanOrEqualDecimalGroup,
                 LessThanOrEqualStringGroup,
+                LessThanOrEqualBooleanGroup,
                 LessThanOrEqualDateGroup,
                 LessThanOrEqualTimeGroup,
-                LessThanOrEqualDatetimeGroup
+                LessThanOrEqualDatetimeGroup,
+                LessThanOrEqualUuidGroup
+            >)
+                value
+        )
+    { }
+
+    public LessThanOrEqualGroup(LessThanOrEqualUuidGroup value)
+        : this(
+            (OneOf<
+                LessThanOrEqualDecimalGroup,
+                LessThanOrEqualStringGroup,
+                LessThanOrEqualBooleanGroup,
+                LessThanOrEqualDateGroup,
+                LessThanOrEqualTimeGroup,
+                LessThanOrEqualDatetimeGroup,
+                LessThanOrEqualUuidGroup
             >)
                 value
         )
@@ -80,9 +122,11 @@ public sealed class LessThanOrEqualGroup
         OneOf<
             LessThanOrEqualDecimalGroup,
             LessThanOrEqualStringGroup,
+            LessThanOrEqualBooleanGroup,
             LessThanOrEqualDateGroup,
             LessThanOrEqualTimeGroup,
-            LessThanOrEqualDatetimeGroup
+            LessThanOrEqualDatetimeGroup,
+            LessThanOrEqualUuidGroup
         > input
     )
         : base(input) { }

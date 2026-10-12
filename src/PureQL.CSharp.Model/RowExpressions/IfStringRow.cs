@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record IfStringRow
+public sealed record IfStringRow : IOperator
 {
     public IfStringRow(BooleanRow condition, StringRow then, StringRow @else)
     {
@@ -14,4 +16,6 @@ public sealed record IfStringRow
     public StringRow Then { get; }
 
     public StringRow Else { get; }
+
+    public IType Type => new TypeString();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record NotGroup
+public sealed record NotGroup : IOperator
 {
     public NotGroup(BooleanGroup condition)
     {
@@ -8,4 +10,6 @@ public sealed record NotGroup
     }
 
     public BooleanGroup Condition { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record LessThanOrEqualDateProjection
+public sealed record LessThanOrEqualDateProjection : IOperator
 {
     public LessThanOrEqualDateProjection(
         DateNullableProjection left,
@@ -14,4 +16,6 @@ public sealed record LessThanOrEqualDateProjection
     public DateNullableProjection Left { get; }
 
     public DateNullableProjection Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record IfDatetimeProjection
+public sealed record IfDatetimeProjection : IOperator
 {
     public IfDatetimeProjection(
         BooleanProjection condition,
@@ -18,4 +20,6 @@ public sealed record IfDatetimeProjection
     public DatetimeProjection Then { get; }
 
     public DatetimeProjection Else { get; }
+
+    public IType Type => new TypeDatetime();
 }

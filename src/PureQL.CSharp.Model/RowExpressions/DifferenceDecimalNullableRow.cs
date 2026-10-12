@@ -3,27 +3,11 @@ using OneOf;
 namespace PureQL.CSharp.Model.RowExpressions;
 
 public sealed class DifferenceDecimalNullableRow
-    : OneOfBase<
-        DateDiffDaysIntegerNullableRow,
-        TimeDiffSecondsDecimalNullableRow,
-        DatetimeDiffSecondsDecimalNullableRow
-    >
+    : OneOfBase<TimeDiffSecondsDecimalNullableRow, DatetimeDiffSecondsDecimalNullableRow>
 {
-    public DifferenceDecimalNullableRow(DateDiffDaysIntegerNullableRow value)
-        : this(
-            (OneOf<
-                DateDiffDaysIntegerNullableRow,
-                TimeDiffSecondsDecimalNullableRow,
-                DatetimeDiffSecondsDecimalNullableRow
-            >)
-                value
-        )
-    { }
-
     public DifferenceDecimalNullableRow(TimeDiffSecondsDecimalNullableRow value)
         : this(
             (OneOf<
-                DateDiffDaysIntegerNullableRow,
                 TimeDiffSecondsDecimalNullableRow,
                 DatetimeDiffSecondsDecimalNullableRow
             >)
@@ -34,7 +18,6 @@ public sealed class DifferenceDecimalNullableRow
     public DifferenceDecimalNullableRow(DatetimeDiffSecondsDecimalNullableRow value)
         : this(
             (OneOf<
-                DateDiffDaysIntegerNullableRow,
                 TimeDiffSecondsDecimalNullableRow,
                 DatetimeDiffSecondsDecimalNullableRow
             >)
@@ -44,7 +27,6 @@ public sealed class DifferenceDecimalNullableRow
 
     private DifferenceDecimalNullableRow(
         OneOf<
-            DateDiffDaysIntegerNullableRow,
             TimeDiffSecondsDecimalNullableRow,
             DatetimeDiffSecondsDecimalNullableRow
         > input

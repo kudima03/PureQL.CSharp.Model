@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record CoalesceIntegerRow
+public sealed record CoalesceIntegerRow : IOperator
 {
     public CoalesceIntegerRow(IEnumerable<IntegerNullableRow> values)
     {
@@ -8,4 +10,6 @@ public sealed record CoalesceIntegerRow
     }
 
     public IEnumerable<IntegerNullableRow> Values { get; }
+
+    public IType Type => new TypeInteger();
 }

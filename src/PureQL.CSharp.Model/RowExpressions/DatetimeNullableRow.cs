@@ -1,92 +1,15 @@
 using OneOf;
-using PureQL.CSharp.Model.Fields;
-using PureQL.CSharp.Model.Literals;
-using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed class DatetimeNullableRow
-    : OneOfBase<
-        FieldAsDatetimeNullable,
-        ParamAsDatetimeNullable,
-        LiteralAsDatetimeNullable,
-        DatetimeAddSecondsDatetimeNullableRow,
-        ConditionalDatetimeNullableRow
-    >
+public sealed class DatetimeNullableRow : OneOfBase<DatetimeRow, ExactDatetimeNullableRow>
 {
-    public DatetimeNullableRow(FieldAsDatetimeNullable value)
-        : this(
-            (OneOf<
-                FieldAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableRow,
-                ConditionalDatetimeNullableRow
-            >)
-                value
-        )
-    { }
+    public DatetimeNullableRow(DatetimeRow value)
+        : this((OneOf<DatetimeRow, ExactDatetimeNullableRow>)value) { }
 
-    public DatetimeNullableRow(ParamAsDatetimeNullable value)
-        : this(
-            (OneOf<
-                FieldAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableRow,
-                ConditionalDatetimeNullableRow
-            >)
-                value
-        )
-    { }
+    public DatetimeNullableRow(ExactDatetimeNullableRow value)
+        : this((OneOf<DatetimeRow, ExactDatetimeNullableRow>)value) { }
 
-    public DatetimeNullableRow(LiteralAsDatetimeNullable value)
-        : this(
-            (OneOf<
-                FieldAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableRow,
-                ConditionalDatetimeNullableRow
-            >)
-                value
-        )
-    { }
-
-    public DatetimeNullableRow(DatetimeAddSecondsDatetimeNullableRow value)
-        : this(
-            (OneOf<
-                FieldAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableRow,
-                ConditionalDatetimeNullableRow
-            >)
-                value
-        )
-    { }
-
-    public DatetimeNullableRow(ConditionalDatetimeNullableRow value)
-        : this(
-            (OneOf<
-                FieldAsDatetimeNullable,
-                ParamAsDatetimeNullable,
-                LiteralAsDatetimeNullable,
-                DatetimeAddSecondsDatetimeNullableRow,
-                ConditionalDatetimeNullableRow
-            >)
-                value
-        )
-    { }
-
-    private DatetimeNullableRow(
-        OneOf<
-            FieldAsDatetimeNullable,
-            ParamAsDatetimeNullable,
-            LiteralAsDatetimeNullable,
-            DatetimeAddSecondsDatetimeNullableRow,
-            ConditionalDatetimeNullableRow
-        > input
-    )
+    private DatetimeNullableRow(OneOf<DatetimeRow, ExactDatetimeNullableRow> input)
         : base(input) { }
 }

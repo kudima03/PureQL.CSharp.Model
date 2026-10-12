@@ -6,9 +6,11 @@ public sealed class LessThanRow
     : OneOfBase<
         LessThanDecimalRow,
         LessThanStringRow,
+        LessThanBooleanRow,
         LessThanDateRow,
         LessThanTimeRow,
-        LessThanDatetimeRow
+        LessThanDatetimeRow,
+        LessThanUuidRow
     >
 {
     public LessThanRow(LessThanDecimalRow value)
@@ -16,9 +18,11 @@ public sealed class LessThanRow
             (OneOf<
                 LessThanDecimalRow,
                 LessThanStringRow,
+                LessThanBooleanRow,
                 LessThanDateRow,
                 LessThanTimeRow,
-                LessThanDatetimeRow
+                LessThanDatetimeRow,
+                LessThanUuidRow
             >)
                 value
         )
@@ -29,9 +33,26 @@ public sealed class LessThanRow
             (OneOf<
                 LessThanDecimalRow,
                 LessThanStringRow,
+                LessThanBooleanRow,
                 LessThanDateRow,
                 LessThanTimeRow,
-                LessThanDatetimeRow
+                LessThanDatetimeRow,
+                LessThanUuidRow
+            >)
+                value
+        )
+    { }
+
+    public LessThanRow(LessThanBooleanRow value)
+        : this(
+            (OneOf<
+                LessThanDecimalRow,
+                LessThanStringRow,
+                LessThanBooleanRow,
+                LessThanDateRow,
+                LessThanTimeRow,
+                LessThanDatetimeRow,
+                LessThanUuidRow
             >)
                 value
         )
@@ -42,9 +63,11 @@ public sealed class LessThanRow
             (OneOf<
                 LessThanDecimalRow,
                 LessThanStringRow,
+                LessThanBooleanRow,
                 LessThanDateRow,
                 LessThanTimeRow,
-                LessThanDatetimeRow
+                LessThanDatetimeRow,
+                LessThanUuidRow
             >)
                 value
         )
@@ -55,9 +78,11 @@ public sealed class LessThanRow
             (OneOf<
                 LessThanDecimalRow,
                 LessThanStringRow,
+                LessThanBooleanRow,
                 LessThanDateRow,
                 LessThanTimeRow,
-                LessThanDatetimeRow
+                LessThanDatetimeRow,
+                LessThanUuidRow
             >)
                 value
         )
@@ -68,9 +93,26 @@ public sealed class LessThanRow
             (OneOf<
                 LessThanDecimalRow,
                 LessThanStringRow,
+                LessThanBooleanRow,
                 LessThanDateRow,
                 LessThanTimeRow,
-                LessThanDatetimeRow
+                LessThanDatetimeRow,
+                LessThanUuidRow
+            >)
+                value
+        )
+    { }
+
+    public LessThanRow(LessThanUuidRow value)
+        : this(
+            (OneOf<
+                LessThanDecimalRow,
+                LessThanStringRow,
+                LessThanBooleanRow,
+                LessThanDateRow,
+                LessThanTimeRow,
+                LessThanDatetimeRow,
+                LessThanUuidRow
             >)
                 value
         )
@@ -80,9 +122,11 @@ public sealed class LessThanRow
         OneOf<
             LessThanDecimalRow,
             LessThanStringRow,
+            LessThanBooleanRow,
             LessThanDateRow,
             LessThanTimeRow,
-            LessThanDatetimeRow
+            LessThanDatetimeRow,
+            LessThanUuidRow
         > input
     )
         : base(input) { }

@@ -3,14 +3,68 @@ using OneOf;
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
 public sealed class AggregateDecimalProjection
-    : OneOfBase<CountProjection, SumDecimalProjection>
+    : OneOfBase<
+        SumDecimalProjection,
+        AverageDecimalProjection,
+        MinDecimalProjection,
+        MaxDecimalProjection
+    >
 {
-    public AggregateDecimalProjection(CountProjection value)
-        : this((OneOf<CountProjection, SumDecimalProjection>)value) { }
-
     public AggregateDecimalProjection(SumDecimalProjection value)
-        : this((OneOf<CountProjection, SumDecimalProjection>)value) { }
+        : this(
+            (OneOf<
+                SumDecimalProjection,
+                AverageDecimalProjection,
+                MinDecimalProjection,
+                MaxDecimalProjection
+            >)
+                value
+        )
+    { }
 
-    private AggregateDecimalProjection(OneOf<CountProjection, SumDecimalProjection> input)
+    public AggregateDecimalProjection(AverageDecimalProjection value)
+        : this(
+            (OneOf<
+                SumDecimalProjection,
+                AverageDecimalProjection,
+                MinDecimalProjection,
+                MaxDecimalProjection
+            >)
+                value
+        )
+    { }
+
+    public AggregateDecimalProjection(MinDecimalProjection value)
+        : this(
+            (OneOf<
+                SumDecimalProjection,
+                AverageDecimalProjection,
+                MinDecimalProjection,
+                MaxDecimalProjection
+            >)
+                value
+        )
+    { }
+
+    public AggregateDecimalProjection(MaxDecimalProjection value)
+        : this(
+            (OneOf<
+                SumDecimalProjection,
+                AverageDecimalProjection,
+                MinDecimalProjection,
+                MaxDecimalProjection
+            >)
+                value
+        )
+    { }
+
+    private AggregateDecimalProjection(
+        OneOf<
+            SumDecimalProjection,
+            AverageDecimalProjection,
+            MinDecimalProjection,
+            MaxDecimalProjection
+        > input
+    )
         : base(input) { }
 }

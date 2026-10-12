@@ -1,11 +1,15 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record RoundIntegerGroup
+public sealed record RoundIntegerGroup : IOperator
 {
-    public RoundIntegerGroup(DecimalGroup value)
+    public RoundIntegerGroup(DecimalGroup operand)
     {
-        Value = value;
+        Operand = operand;
     }
 
-    public DecimalGroup Value { get; }
+    public DecimalGroup Operand { get; }
+
+    public IType Type => new TypeInteger();
 }

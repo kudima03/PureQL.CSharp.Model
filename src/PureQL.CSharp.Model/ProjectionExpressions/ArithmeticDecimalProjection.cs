@@ -7,9 +7,7 @@ public sealed class ArithmeticDecimalProjection
         AddDecimalProjection,
         SubtractDecimalProjection,
         MultiplyDecimalProjection,
-        DivideDecimalProjection,
-        IntegerDivideIntegerProjection,
-        ModuloIntegerProjection
+        DivideDecimalProjection
     >
 {
     public ArithmeticDecimalProjection(AddDecimalProjection value)
@@ -18,9 +16,7 @@ public sealed class ArithmeticDecimalProjection
                 AddDecimalProjection,
                 SubtractDecimalProjection,
                 MultiplyDecimalProjection,
-                DivideDecimalProjection,
-                IntegerDivideIntegerProjection,
-                ModuloIntegerProjection
+                DivideDecimalProjection
             >)
                 value
         )
@@ -32,9 +28,7 @@ public sealed class ArithmeticDecimalProjection
                 AddDecimalProjection,
                 SubtractDecimalProjection,
                 MultiplyDecimalProjection,
-                DivideDecimalProjection,
-                IntegerDivideIntegerProjection,
-                ModuloIntegerProjection
+                DivideDecimalProjection
             >)
                 value
         )
@@ -46,9 +40,7 @@ public sealed class ArithmeticDecimalProjection
                 AddDecimalProjection,
                 SubtractDecimalProjection,
                 MultiplyDecimalProjection,
-                DivideDecimalProjection,
-                IntegerDivideIntegerProjection,
-                ModuloIntegerProjection
+                DivideDecimalProjection
             >)
                 value
         )
@@ -60,37 +52,7 @@ public sealed class ArithmeticDecimalProjection
                 AddDecimalProjection,
                 SubtractDecimalProjection,
                 MultiplyDecimalProjection,
-                DivideDecimalProjection,
-                IntegerDivideIntegerProjection,
-                ModuloIntegerProjection
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalProjection(IntegerDivideIntegerProjection value)
-        : this(
-            (OneOf<
-                AddDecimalProjection,
-                SubtractDecimalProjection,
-                MultiplyDecimalProjection,
-                DivideDecimalProjection,
-                IntegerDivideIntegerProjection,
-                ModuloIntegerProjection
-            >)
-                value
-        )
-    { }
-
-    public ArithmeticDecimalProjection(ModuloIntegerProjection value)
-        : this(
-            (OneOf<
-                AddDecimalProjection,
-                SubtractDecimalProjection,
-                MultiplyDecimalProjection,
-                DivideDecimalProjection,
-                IntegerDivideIntegerProjection,
-                ModuloIntegerProjection
+                DivideDecimalProjection
             >)
                 value
         )
@@ -101,9 +63,7 @@ public sealed class ArithmeticDecimalProjection
             AddDecimalProjection,
             SubtractDecimalProjection,
             MultiplyDecimalProjection,
-            DivideDecimalProjection,
-            IntegerDivideIntegerProjection,
-            ModuloIntegerProjection
+            DivideDecimalProjection
         > input
     )
         : base(input) { }

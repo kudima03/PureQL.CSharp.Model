@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record DatetimeAddSecondsDatetimeGroup
+public sealed record DatetimeAddSecondsDatetimeGroup : IOperator
 {
     public DatetimeAddSecondsDatetimeGroup(DatetimeGroup left, DecimalGroup right)
     {
@@ -11,4 +13,6 @@ public sealed record DatetimeAddSecondsDatetimeGroup
     public DatetimeGroup Left { get; }
 
     public DecimalGroup Right { get; }
+
+    public IType Type => new TypeDatetime();
 }

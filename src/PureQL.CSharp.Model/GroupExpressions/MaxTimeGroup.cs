@@ -1,13 +1,19 @@
 using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record MaxTimeGroup
+public sealed record MaxTimeGroup : IOperator
 {
-    public MaxTimeGroup(TimeRow selector)
+    public MaxTimeGroup(TimeRow selector, AggregateOver over = AggregateOver.Group)
     {
         Selector = selector;
+        Over = over;
     }
 
     public TimeRow Selector { get; }
+
+    public AggregateOver Over { get; }
+
+    public IType Type => new TypeTime();
 }

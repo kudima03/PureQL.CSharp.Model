@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record TimeDiffSecondsDecimalProjection
+public sealed record TimeDiffSecondsDecimalProjection : IOperator
 {
     public TimeDiffSecondsDecimalProjection(TimeProjection left, TimeProjection right)
     {
@@ -11,4 +13,6 @@ public sealed record TimeDiffSecondsDecimalProjection
     public TimeProjection Left { get; }
 
     public TimeProjection Right { get; }
+
+    public IType Type => new TypeDecimal();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record IfTimeGroup
+public sealed record IfTimeGroup : IOperator
 {
     public IfTimeGroup(BooleanGroup condition, TimeGroup then, TimeGroup @else)
     {
@@ -14,4 +16,6 @@ public sealed record IfTimeGroup
     public TimeGroup Then { get; }
 
     public TimeGroup Else { get; }
+
+    public IType Type => new TypeTime();
 }

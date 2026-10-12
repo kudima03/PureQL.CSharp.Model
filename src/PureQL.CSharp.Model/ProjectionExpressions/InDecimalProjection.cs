@@ -1,16 +1,19 @@
 using PureQL.CSharp.Model.Lists;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record InDecimalProjection
+public sealed record InDecimalProjection : IOperator
 {
-    public InDecimalProjection(DecimalNullableProjection value, ListDecimal list)
+    public InDecimalProjection(DecimalNullableProjection operand, ListDecimal list)
     {
-        Value = value;
+        Operand = operand;
         List = list;
     }
 
-    public DecimalNullableProjection Value { get; }
+    public DecimalNullableProjection Operand { get; }
 
     public ListDecimal List { get; }
+
+    public IType Type => new TypeBoolean();
 }

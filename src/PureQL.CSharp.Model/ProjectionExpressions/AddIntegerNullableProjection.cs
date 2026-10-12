@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record AddIntegerNullableProjection
+public sealed record AddIntegerNullableProjection : IOperator
 {
     public AddIntegerNullableProjection(IEnumerable<IntegerNullableProjection> values)
     {
@@ -8,4 +10,6 @@ public sealed record AddIntegerNullableProjection
     }
 
     public IEnumerable<IntegerNullableProjection> Values { get; }
+
+    public IType Type => new TypeIntegerNullable();
 }

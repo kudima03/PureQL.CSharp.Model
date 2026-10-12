@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.GroupKeys;
 
 public sealed record GroupKeyBoolean : IGroupKey
 {
-    public GroupKeyBoolean(BooleanRow expression, string? alias = null)
+    public GroupKeyBoolean(string alias, BooleanRow expression)
     {
-        Expression = expression;
         Alias = alias;
+        Expression = expression;
     }
 
-    public BooleanRow Expression { get; }
+    public string Alias { get; }
 
-    public string? Alias { get; }
+    public BooleanRow Expression { get; }
 
     public IType Type => new TypeBoolean();
 }

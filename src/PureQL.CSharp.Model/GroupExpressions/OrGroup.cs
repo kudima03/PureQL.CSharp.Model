@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record OrGroup
+public sealed record OrGroup : IOperator
 {
     public OrGroup(IEnumerable<BooleanGroup> conditions)
     {
@@ -8,4 +10,6 @@ public sealed record OrGroup
     }
 
     public IEnumerable<BooleanGroup> Conditions { get; }
+
+    public IType Type => new TypeBoolean();
 }

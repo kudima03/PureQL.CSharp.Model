@@ -5,19 +5,19 @@ namespace PureQL.CSharp.Model;
 public sealed record JoinSubquery
 {
     public JoinSubquery(
-        JoinType type,
+        JoinKind kind,
         string subquery,
         BooleanRow on,
         string? alias = null
     )
     {
-        Type = type;
+        Kind = kind;
         Subquery = subquery;
         On = on;
         Alias = alias;
     }
 
-    public JoinType Type { get; }
+    public JoinKind Kind { get; }
 
     public string Subquery { get; }
 

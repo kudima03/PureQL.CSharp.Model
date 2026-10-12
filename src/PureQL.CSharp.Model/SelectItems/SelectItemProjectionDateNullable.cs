@@ -7,7 +7,7 @@ public sealed record SelectItemProjectionDateNullable : ISelectItem
 {
     public SelectItemProjectionDateNullable(
         string alias,
-        DateNullableProjection expression
+        ExactDateNullableProjection expression
     )
     {
         Alias = alias;
@@ -16,7 +16,7 @@ public sealed record SelectItemProjectionDateNullable : ISelectItem
 
     public string Alias { get; }
 
-    public DateNullableProjection Expression { get; }
+    public ExactDateNullableProjection Expression { get; }
 
     public IType Type => new TypeDateNullable();
 }

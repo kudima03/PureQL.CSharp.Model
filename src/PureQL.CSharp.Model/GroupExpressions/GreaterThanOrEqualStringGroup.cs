@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed record GreaterThanOrEqualStringGroup
+public sealed record GreaterThanOrEqualStringGroup : IOperator
 {
     public GreaterThanOrEqualStringGroup(
         StringNullableGroup left,
@@ -14,4 +16,6 @@ public sealed record GreaterThanOrEqualStringGroup
     public StringNullableGroup Left { get; }
 
     public StringNullableGroup Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

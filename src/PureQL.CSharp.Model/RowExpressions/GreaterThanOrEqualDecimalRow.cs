@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record GreaterThanOrEqualDecimalRow
+public sealed record GreaterThanOrEqualDecimalRow : IOperator
 {
     public GreaterThanOrEqualDecimalRow(DecimalNullableRow left, DecimalNullableRow right)
     {
@@ -11,4 +13,6 @@ public sealed record GreaterThanOrEqualDecimalRow
     public DecimalNullableRow Left { get; }
 
     public DecimalNullableRow Right { get; }
+
+    public IType Type => new TypeBoolean();
 }

@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed record AndProjection
+public sealed record AndProjection : IOperator
 {
     public AndProjection(IEnumerable<BooleanProjection> conditions)
     {
@@ -8,4 +10,6 @@ public sealed record AndProjection
     }
 
     public IEnumerable<BooleanProjection> Conditions { get; }
+
+    public IType Type => new TypeBoolean();
 }

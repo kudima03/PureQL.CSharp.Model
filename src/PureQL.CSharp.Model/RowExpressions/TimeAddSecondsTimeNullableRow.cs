@@ -1,6 +1,8 @@
+using PureQL.CSharp.Model.Types;
+
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed record TimeAddSecondsTimeNullableRow
+public sealed record TimeAddSecondsTimeNullableRow : IOperator
 {
     public TimeAddSecondsTimeNullableRow(TimeNullableRow left, DecimalNullableRow right)
     {
@@ -11,4 +13,6 @@ public sealed record TimeAddSecondsTimeNullableRow
     public TimeNullableRow Left { get; }
 
     public DecimalNullableRow Right { get; }
+
+    public IType Type => new TypeTimeNullable();
 }

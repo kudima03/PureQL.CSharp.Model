@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.GroupKeys;
 
 public sealed record GroupKeyStringNullable : IGroupKey
 {
-    public GroupKeyStringNullable(StringNullableRow expression, string? alias = null)
+    public GroupKeyStringNullable(string alias, ExactStringNullableRow expression)
     {
-        Expression = expression;
         Alias = alias;
+        Expression = expression;
     }
 
-    public StringNullableRow Expression { get; }
+    public string Alias { get; }
 
-    public string? Alias { get; }
+    public ExactStringNullableRow Expression { get; }
 
     public IType Type => new TypeStringNullable();
 }

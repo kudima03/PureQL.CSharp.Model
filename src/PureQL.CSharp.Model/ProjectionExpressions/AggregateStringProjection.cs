@@ -3,16 +3,16 @@ using OneOf;
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
 public sealed class AggregateStringProjection
-    : OneOfBase<MinStringNullableProjection, MaxStringNullableProjection>
+    : OneOfBase<MinStringProjection, MaxStringProjection>
 {
-    public AggregateStringProjection(MinStringNullableProjection value)
-        : this((OneOf<MinStringNullableProjection, MaxStringNullableProjection>)value) { }
+    public AggregateStringProjection(MinStringProjection value)
+        : this((OneOf<MinStringProjection, MaxStringProjection>)value) { }
 
-    public AggregateStringProjection(MaxStringNullableProjection value)
-        : this((OneOf<MinStringNullableProjection, MaxStringNullableProjection>)value) { }
+    public AggregateStringProjection(MaxStringProjection value)
+        : this((OneOf<MinStringProjection, MaxStringProjection>)value) { }
 
     private AggregateStringProjection(
-        OneOf<MinStringNullableProjection, MaxStringNullableProjection> input
+        OneOf<MinStringProjection, MaxStringProjection> input
     )
         : base(input) { }
 }
