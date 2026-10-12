@@ -7,7 +7,7 @@ Versioning mirrors the PureQL specification with a `-csharp.N` suffix where need
 
 ---
 
-## [Unreleased] — spec 0.1.0-preview.2.0.0
+## [0.1.0-preview.13.0.0] - 2026-10-12 — spec 0.1.0-preview.2.0.0
 
 Adapts the model to PureQL specification `0.1.0-preview.2.0.0`, where every
 operator node declares its exact result type, and adds total queries and
