@@ -9,9 +9,11 @@ Typed C# AST for building PureQL queries — immutable, AOT-compatible records a
 
 ## Overview
 
-`PureQL.CSharp.Model` defines the abstract syntax tree (AST) used across the PureQL ecosystem to represent database queries in C#. It mirrors the [PureQL specification](https://github.com/kudima03/PureQL-Specification) `0.1.0-preview.2.0.0`: every operator signature of the JSON Schema has a C# record named after its `$defs` key in PascalCase (`add.integer.nullable@row` → `AddIntegerNullableRow`, `equal.string@group` → `EqualStringGroup`). Types are immutable records, and every choice is a discriminated union built on [OneOf](https://github.com/mcintyre321/OneOf). Query builders construct instances of these types; serializers and translators live in separate packages.
+`PureQL.CSharp.Model` defines the abstract syntax tree (AST) used across the PureQL ecosystem to represent database queries in C#. It mirrors the [PureQL specification](https://github.com/kudima03/PureQL-Specification) `0.1.0-preview.2.0.1`: every operator signature of the JSON Schema has a C# record named after its `$defs` key in PascalCase (`add.integer.nullable@row` → `AddIntegerNullableRow`, `equal.string@group` → `EqualStringGroup`). Types are immutable records, and every choice is a discriminated union built on [OneOf](https://github.com/mcintyre321/OneOf). Query builders construct instances of these types; serializers and translators live in separate packages.
 
 Because the specification enforces its type system in the schema, so does this model. Every node has an exact declared type, given by its record type, and positions accept only the declared types the schema allows. So a nullable value cannot be used as a condition, a field cannot appear in `having`, and an aggregate cannot appear in `where`: such queries do not compile.
+
+Value rules are left to serializers: the schema holds `time` and `datetime` to microseconds and `datetime` to UTC, while `TimeOnly` and `DateTimeOffset` can carry 100-nanosecond ticks and any offset. Dates start at `0001-01-01` in both.
 
 ## Query Model
 
