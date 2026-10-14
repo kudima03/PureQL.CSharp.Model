@@ -21,7 +21,8 @@ public sealed class Comparison
                 TimeComparison
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     public Comparison(DateTimeComparison comparison)
         : this(
@@ -33,7 +34,8 @@ public sealed class Comparison
                 TimeComparison
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     public Comparison(NumberComparison comparison)
         : this(
@@ -45,7 +47,8 @@ public sealed class Comparison
                 TimeComparison
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     public Comparison(StringComparison comparison)
         : this(
@@ -57,7 +60,8 @@ public sealed class Comparison
                 TimeComparison
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     public Comparison(TimeComparison comparison)
         : this(
@@ -69,7 +73,8 @@ public sealed class Comparison
                 TimeComparison
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     private Comparison(
         OneOf<

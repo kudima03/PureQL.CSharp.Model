@@ -25,7 +25,8 @@ public sealed class EachEquality
                 EachUuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public EachEquality(EachNumberEquality equality)
         : this(
@@ -39,7 +40,8 @@ public sealed class EachEquality
                 EachUuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public EachEquality(EachStringEquality equality)
         : this(
@@ -53,7 +55,8 @@ public sealed class EachEquality
                 EachUuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public EachEquality(EachDateEquality equality)
         : this(
@@ -67,7 +70,8 @@ public sealed class EachEquality
                 EachUuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public EachEquality(EachTimeEquality equality)
         : this(
@@ -81,7 +85,8 @@ public sealed class EachEquality
                 EachUuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public EachEquality(EachDateTimeEquality equality)
         : this(
@@ -95,7 +100,8 @@ public sealed class EachEquality
                 EachUuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public EachEquality(EachUuidEquality equality)
         : this(
@@ -109,7 +115,8 @@ public sealed class EachEquality
                 EachUuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     private EachEquality(
         OneOf<

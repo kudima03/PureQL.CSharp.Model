@@ -32,7 +32,8 @@ public sealed class NumberArrayReturning
                 EachTimeDiffSeconds
             >)
                 parameter
-        ) { }
+        )
+    { }
 
     public NumberArrayReturning(NumberField field)
         : this(
@@ -46,7 +47,8 @@ public sealed class NumberArrayReturning
                 EachTimeDiffSeconds
             >)
                 field
-        ) { }
+        )
+    { }
 
     public NumberArrayReturning(NumberArrayScalar scalar)
         : this(
@@ -60,7 +62,8 @@ public sealed class NumberArrayReturning
                 EachTimeDiffSeconds
             >)
                 scalar
-        ) { }
+        )
+    { }
 
     public NumberArrayReturning(EachArithmetic arithmetic)
         : this(
@@ -74,7 +77,8 @@ public sealed class NumberArrayReturning
                 EachTimeDiffSeconds
             >)
                 arithmetic
-        ) { }
+        )
+    { }
 
     public NumberArrayReturning(EachDateDiffDays diff)
         : this(
@@ -88,7 +92,8 @@ public sealed class NumberArrayReturning
                 EachTimeDiffSeconds
             >)
                 diff
-        ) { }
+        )
+    { }
 
     public NumberArrayReturning(EachDateTimeDiffSeconds diff)
         : this(
@@ -102,7 +107,8 @@ public sealed class NumberArrayReturning
                 EachTimeDiffSeconds
             >)
                 diff
-        ) { }
+        )
+    { }
 
     public NumberArrayReturning(EachTimeDiffSeconds diff)
         : this(
@@ -116,7 +122,8 @@ public sealed class NumberArrayReturning
                 EachTimeDiffSeconds
             >)
                 diff
-        ) { }
+        )
+    { }
 
     private NumberArrayReturning(
         OneOf<

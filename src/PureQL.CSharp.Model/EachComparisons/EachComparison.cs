@@ -21,7 +21,8 @@ public sealed class EachComparison
                 EachTimeComparison
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     public EachComparison(EachStringComparison comparison)
         : this(
@@ -33,7 +34,8 @@ public sealed class EachComparison
                 EachTimeComparison
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     public EachComparison(EachDateComparison comparison)
         : this(
@@ -45,7 +47,8 @@ public sealed class EachComparison
                 EachTimeComparison
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     public EachComparison(EachDateTimeComparison comparison)
         : this(
@@ -57,7 +60,8 @@ public sealed class EachComparison
                 EachTimeComparison
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     public EachComparison(EachTimeComparison comparison)
         : this(
@@ -69,7 +73,8 @@ public sealed class EachComparison
                 EachTimeComparison
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     private EachComparison(
         OneOf<

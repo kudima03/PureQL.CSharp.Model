@@ -13,7 +13,8 @@ public sealed record OrOperator
     public OrOperator(IEnumerable<BooleanReturning> conditions)
         : this(
             OneOf<IEnumerable<BooleanReturning>, BooleanArrayReturning>.FromT0(conditions)
-        ) { }
+        )
+    { }
 
     private OrOperator(
         OneOf<IEnumerable<BooleanReturning>, BooleanArrayReturning> conditions

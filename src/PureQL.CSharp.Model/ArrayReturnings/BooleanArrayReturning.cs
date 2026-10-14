@@ -33,7 +33,8 @@ public sealed class BooleanArrayReturning
                 EachNotOperator
             >)
                 scalar
-        ) { }
+        )
+    { }
 
     public BooleanArrayReturning(BooleanField field)
         : this(
@@ -48,7 +49,8 @@ public sealed class BooleanArrayReturning
                 EachNotOperator
             >)
                 field
-        ) { }
+        )
+    { }
 
     public BooleanArrayReturning(BooleanArrayParameter parameter)
         : this(
@@ -63,7 +65,8 @@ public sealed class BooleanArrayReturning
                 EachNotOperator
             >)
                 parameter
-        ) { }
+        )
+    { }
 
     public BooleanArrayReturning(EachComparison comparison)
         : this(
@@ -78,7 +81,8 @@ public sealed class BooleanArrayReturning
                 EachNotOperator
             >)
                 comparison
-        ) { }
+        )
+    { }
 
     public BooleanArrayReturning(EachEquality equality)
         : this(
@@ -93,7 +97,8 @@ public sealed class BooleanArrayReturning
                 EachNotOperator
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public BooleanArrayReturning(EachAndOperator @operator)
         : this(
@@ -108,7 +113,8 @@ public sealed class BooleanArrayReturning
                 EachNotOperator
             >)
                 @operator
-        ) { }
+        )
+    { }
 
     public BooleanArrayReturning(EachOrOperator @operator)
         : this(
@@ -123,7 +129,8 @@ public sealed class BooleanArrayReturning
                 EachNotOperator
             >)
                 @operator
-        ) { }
+        )
+    { }
 
     public BooleanArrayReturning(EachNotOperator @operator)
         : this(
@@ -138,7 +145,8 @@ public sealed class BooleanArrayReturning
                 EachNotOperator
             >)
                 @operator
-        ) { }
+        )
+    { }
 
     private BooleanArrayReturning(
         OneOf<

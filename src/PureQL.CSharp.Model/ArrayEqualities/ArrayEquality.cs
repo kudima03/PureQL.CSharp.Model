@@ -25,7 +25,8 @@ public sealed class ArrayEquality
                 UuidArrayEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public ArrayEquality(DateArrayEquality equality)
         : this(
@@ -39,7 +40,8 @@ public sealed class ArrayEquality
                 UuidArrayEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public ArrayEquality(DateTimeArrayEquality equality)
         : this(
@@ -53,7 +55,8 @@ public sealed class ArrayEquality
                 UuidArrayEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public ArrayEquality(NumberArrayEquality equality)
         : this(
@@ -67,7 +70,8 @@ public sealed class ArrayEquality
                 UuidArrayEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public ArrayEquality(StringArrayEquality equality)
         : this(
@@ -81,7 +85,8 @@ public sealed class ArrayEquality
                 UuidArrayEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public ArrayEquality(TimeArrayEquality equality)
         : this(
@@ -95,7 +100,8 @@ public sealed class ArrayEquality
                 UuidArrayEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public ArrayEquality(UuidArrayEquality equality)
         : this(
@@ -109,7 +115,8 @@ public sealed class ArrayEquality
                 UuidArrayEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     private ArrayEquality(
         OneOf<

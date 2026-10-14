@@ -25,7 +25,8 @@ public sealed class SingleValueEquality
                 UuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public SingleValueEquality(DateEquality equality)
         : this(
@@ -39,7 +40,8 @@ public sealed class SingleValueEquality
                 UuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public SingleValueEquality(DateTimeEquality equality)
         : this(
@@ -53,7 +55,8 @@ public sealed class SingleValueEquality
                 UuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public SingleValueEquality(NumberEquality equality)
         : this(
@@ -67,7 +70,8 @@ public sealed class SingleValueEquality
                 UuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public SingleValueEquality(StringEquality equality)
         : this(
@@ -81,7 +85,8 @@ public sealed class SingleValueEquality
                 UuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public SingleValueEquality(TimeEquality equality)
         : this(
@@ -95,7 +100,8 @@ public sealed class SingleValueEquality
                 UuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     public SingleValueEquality(UuidEquality equality)
         : this(
@@ -109,7 +115,8 @@ public sealed class SingleValueEquality
                 UuidEquality
             >)
                 equality
-        ) { }
+        )
+    { }
 
     private SingleValueEquality(
         OneOf<
