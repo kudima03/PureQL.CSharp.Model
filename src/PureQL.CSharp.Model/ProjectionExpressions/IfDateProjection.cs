@@ -2,24 +2,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>if.date@projection</c>.</summary>
 public sealed record IfDateProjection : IOperator
 {
     public IfDateProjection(
-        BooleanProjection condition,
         DateProjection then,
-        DateProjection @else
+        DateProjection @else,
+        BooleanProjection condition
     )
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanProjection Condition { get; }
 
     public DateProjection Then { get; }
 
     public DateProjection Else { get; }
+
+    public BooleanProjection Condition { get; }
 
     public IType Type => new TypeDate();
 }

@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>equal.boolean@row</c>.</summary>
 public sealed record EqualBooleanRow : IOperator
 {
     public EqualBooleanRow(BooleanNullableRow left, BooleanNullableRow right)

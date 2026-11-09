@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>datetimeDiffSeconds.decimal@row</c>.</summary>
 public sealed record DatetimeDiffSecondsDecimalRow : IOperator
 {
     public DatetimeDiffSecondsDecimalRow(DatetimeRow left, DatetimeRow right)

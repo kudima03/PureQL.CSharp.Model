@@ -5,12 +5,12 @@ namespace PureQL.CSharp.Model.Lists;
 
 public sealed record ListParamTime : IParameter
 {
-    public ListParamTime(string name)
+    public ListParamTime(string param)
     {
-        Name = name;
+        Param = param;
     }
 
-    public string Name { get; }
+    public string Param { get; }
 
     public IType Type => new TypeTimeList();
 }

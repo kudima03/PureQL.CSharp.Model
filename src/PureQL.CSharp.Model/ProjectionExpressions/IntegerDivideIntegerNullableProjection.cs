@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>integerDivide.integer.nullable@projection</c>.</summary>
 public sealed record IntegerDivideIntegerNullableProjection : IOperator
 {
     public IntegerDivideIntegerNullableProjection(

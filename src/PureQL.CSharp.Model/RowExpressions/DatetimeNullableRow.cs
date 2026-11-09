@@ -1,15 +1,21 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed class DatetimeNullableRow : OneOfBase<DatetimeRow, ExactDatetimeNullableRow>
-{
-    public DatetimeNullableRow(DatetimeRow value)
-        : this((OneOf<DatetimeRow, ExactDatetimeNullableRow>)value) { }
-
-    public DatetimeNullableRow(ExactDatetimeNullableRow value)
-        : this((OneOf<DatetimeRow, ExactDatetimeNullableRow>)value) { }
-
-    private DatetimeNullableRow(OneOf<DatetimeRow, ExactDatetimeNullableRow> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>datetime.nullable@row</c>.</summary>
+public readonly union DatetimeNullableRow(
+    DatetimeAddSecondsDatetimeRow,
+    IfDatetimeRow,
+    CoalesceDatetimeRow,
+    LiteralDatetime,
+    ParamDatetime,
+    FieldDatetime,
+    DatetimeAddSecondsDatetimeNullableRow,
+    IfDatetimeNullableRow,
+    CoalesceDatetimeNullableRow,
+    LiteralDatetimeNullable,
+    ParamDatetimeNullable,
+    FieldDatetimeNullable
+);

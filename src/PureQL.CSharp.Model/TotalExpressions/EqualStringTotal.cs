@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>equal.string@total</c>.</summary>
 public sealed record EqualStringTotal : IOperator
 {
     public EqualStringTotal(StringNullableTotal left, StringNullableTotal right)

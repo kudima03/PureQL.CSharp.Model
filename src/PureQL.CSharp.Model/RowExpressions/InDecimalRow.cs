@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>in.decimal@row</c>.</summary>
 public sealed record InDecimalRow : IOperator
 {
     public InDecimalRow(DecimalNullableRow operand, ListDecimal list)

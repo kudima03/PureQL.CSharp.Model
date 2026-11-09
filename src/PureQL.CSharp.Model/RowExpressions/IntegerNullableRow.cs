@@ -1,15 +1,37 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed class IntegerNullableRow : OneOfBase<IntegerRow, ExactIntegerNullableRow>
-{
-    public IntegerNullableRow(IntegerRow value)
-        : this((OneOf<IntegerRow, ExactIntegerNullableRow>)value) { }
-
-    public IntegerNullableRow(ExactIntegerNullableRow value)
-        : this((OneOf<IntegerRow, ExactIntegerNullableRow>)value) { }
-
-    private IntegerNullableRow(OneOf<IntegerRow, ExactIntegerNullableRow> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>integer.nullable@row</c>.</summary>
+public readonly union IntegerNullableRow(
+    AddIntegerRow,
+    SubtractIntegerRow,
+    MultiplyIntegerRow,
+    IntegerDivideIntegerRow,
+    ModuloIntegerRow,
+    FloorIntegerRow,
+    CeilingIntegerRow,
+    RoundIntegerRow,
+    DateDiffDaysIntegerRow,
+    IfIntegerRow,
+    CoalesceIntegerRow,
+    LiteralInteger,
+    ParamInteger,
+    FieldInteger,
+    AddIntegerNullableRow,
+    SubtractIntegerNullableRow,
+    MultiplyIntegerNullableRow,
+    IntegerDivideIntegerNullableRow,
+    ModuloIntegerNullableRow,
+    FloorIntegerNullableRow,
+    CeilingIntegerNullableRow,
+    RoundIntegerNullableRow,
+    DateDiffDaysIntegerNullableRow,
+    IfIntegerNullableRow,
+    CoalesceIntegerNullableRow,
+    LiteralIntegerNullable,
+    ParamIntegerNullable,
+    FieldIntegerNullable
+);

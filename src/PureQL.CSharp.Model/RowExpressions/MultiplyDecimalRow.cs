@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>multiply.decimal@row</c>.</summary>
 public sealed record MultiplyDecimalRow : IOperator
 {
     public MultiplyDecimalRow(IEnumerable<DecimalRow> values)

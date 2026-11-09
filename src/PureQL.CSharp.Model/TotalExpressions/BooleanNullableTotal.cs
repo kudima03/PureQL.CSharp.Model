@@ -1,16 +1,72 @@
-using OneOf;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
-public sealed class BooleanNullableTotal
-    : OneOfBase<BooleanTotal, ExactBooleanNullableTotal>
-{
-    public BooleanNullableTotal(BooleanTotal value)
-        : this((OneOf<BooleanTotal, ExactBooleanNullableTotal>)value) { }
-
-    public BooleanNullableTotal(ExactBooleanNullableTotal value)
-        : this((OneOf<BooleanTotal, ExactBooleanNullableTotal>)value) { }
-
-    private BooleanNullableTotal(OneOf<BooleanTotal, ExactBooleanNullableTotal> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>boolean.nullable@total</c>.</summary>
+public readonly union BooleanNullableTotal(
+    AndTotal,
+    OrTotal,
+    NotTotal,
+    EqualDecimalTotal,
+    EqualStringTotal,
+    EqualBooleanTotal,
+    EqualDateTotal,
+    EqualTimeTotal,
+    EqualDatetimeTotal,
+    EqualUuidTotal,
+    NotEqualDecimalTotal,
+    NotEqualStringTotal,
+    NotEqualBooleanTotal,
+    NotEqualDateTotal,
+    NotEqualTimeTotal,
+    NotEqualDatetimeTotal,
+    NotEqualUuidTotal,
+    GreaterThanDecimalTotal,
+    GreaterThanStringTotal,
+    GreaterThanBooleanTotal,
+    GreaterThanDateTotal,
+    GreaterThanTimeTotal,
+    GreaterThanDatetimeTotal,
+    GreaterThanUuidTotal,
+    LessThanDecimalTotal,
+    LessThanStringTotal,
+    LessThanBooleanTotal,
+    LessThanDateTotal,
+    LessThanTimeTotal,
+    LessThanDatetimeTotal,
+    LessThanUuidTotal,
+    GreaterThanOrEqualDecimalTotal,
+    GreaterThanOrEqualStringTotal,
+    GreaterThanOrEqualBooleanTotal,
+    GreaterThanOrEqualDateTotal,
+    GreaterThanOrEqualTimeTotal,
+    GreaterThanOrEqualDatetimeTotal,
+    GreaterThanOrEqualUuidTotal,
+    LessThanOrEqualDecimalTotal,
+    LessThanOrEqualStringTotal,
+    LessThanOrEqualBooleanTotal,
+    LessThanOrEqualDateTotal,
+    LessThanOrEqualTimeTotal,
+    LessThanOrEqualDatetimeTotal,
+    LessThanOrEqualUuidTotal,
+    InDecimalTotal,
+    InStringTotal,
+    InBooleanTotal,
+    InDateTotal,
+    InTimeTotal,
+    InDatetimeTotal,
+    InUuidTotal,
+    IfBooleanTotal,
+    CoalesceBooleanTotal,
+    AnyTotal,
+    AllTotal,
+    LiteralBoolean,
+    ParamBoolean,
+    IfBooleanNullableTotal,
+    CoalesceBooleanNullableTotal,
+    MinBooleanNullableTotal,
+    MaxBooleanNullableTotal,
+    LiteralBooleanNullable,
+    ParamBooleanNullable
+);

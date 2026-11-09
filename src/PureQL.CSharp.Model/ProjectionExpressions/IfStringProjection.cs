@@ -2,24 +2,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>if.string@projection</c>.</summary>
 public sealed record IfStringProjection : IOperator
 {
     public IfStringProjection(
-        BooleanProjection condition,
         StringProjection then,
-        StringProjection @else
+        StringProjection @else,
+        BooleanProjection condition
     )
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanProjection Condition { get; }
 
     public StringProjection Then { get; }
 
     public StringProjection Else { get; }
+
+    public BooleanProjection Condition { get; }
 
     public IType Type => new TypeString();
 }

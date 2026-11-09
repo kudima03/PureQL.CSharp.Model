@@ -1,18 +1,77 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed class BooleanNullableProjection
-    : OneOfBase<BooleanProjection, ExactBooleanNullableProjection>
-{
-    public BooleanNullableProjection(BooleanProjection value)
-        : this((OneOf<BooleanProjection, ExactBooleanNullableProjection>)value) { }
-
-    public BooleanNullableProjection(ExactBooleanNullableProjection value)
-        : this((OneOf<BooleanProjection, ExactBooleanNullableProjection>)value) { }
-
-    private BooleanNullableProjection(
-        OneOf<BooleanProjection, ExactBooleanNullableProjection> input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>boolean.nullable@projection</c>.</summary>
+public readonly union BooleanNullableProjection(
+    AndProjection,
+    OrProjection,
+    NotProjection,
+    EqualDecimalProjection,
+    EqualStringProjection,
+    EqualBooleanProjection,
+    EqualDateProjection,
+    EqualTimeProjection,
+    EqualDatetimeProjection,
+    EqualUuidProjection,
+    NotEqualDecimalProjection,
+    NotEqualStringProjection,
+    NotEqualBooleanProjection,
+    NotEqualDateProjection,
+    NotEqualTimeProjection,
+    NotEqualDatetimeProjection,
+    NotEqualUuidProjection,
+    GreaterThanDecimalProjection,
+    GreaterThanStringProjection,
+    GreaterThanBooleanProjection,
+    GreaterThanDateProjection,
+    GreaterThanTimeProjection,
+    GreaterThanDatetimeProjection,
+    GreaterThanUuidProjection,
+    LessThanDecimalProjection,
+    LessThanStringProjection,
+    LessThanBooleanProjection,
+    LessThanDateProjection,
+    LessThanTimeProjection,
+    LessThanDatetimeProjection,
+    LessThanUuidProjection,
+    GreaterThanOrEqualDecimalProjection,
+    GreaterThanOrEqualStringProjection,
+    GreaterThanOrEqualBooleanProjection,
+    GreaterThanOrEqualDateProjection,
+    GreaterThanOrEqualTimeProjection,
+    GreaterThanOrEqualDatetimeProjection,
+    GreaterThanOrEqualUuidProjection,
+    LessThanOrEqualDecimalProjection,
+    LessThanOrEqualStringProjection,
+    LessThanOrEqualBooleanProjection,
+    LessThanOrEqualDateProjection,
+    LessThanOrEqualTimeProjection,
+    LessThanOrEqualDatetimeProjection,
+    LessThanOrEqualUuidProjection,
+    InDecimalProjection,
+    InStringProjection,
+    InBooleanProjection,
+    InDateProjection,
+    InTimeProjection,
+    InDatetimeProjection,
+    InUuidProjection,
+    IfBooleanProjection,
+    CoalesceBooleanProjection,
+    MinBooleanProjection,
+    MaxBooleanProjection,
+    AnyProjection,
+    AllProjection,
+    LiteralBoolean,
+    ParamBoolean,
+    FieldBoolean,
+    IfBooleanNullableProjection,
+    CoalesceBooleanNullableProjection,
+    MinBooleanNullableProjection,
+    MaxBooleanNullableProjection,
+    LiteralBooleanNullable,
+    ParamBooleanNullable,
+    FieldBooleanNullable
+);

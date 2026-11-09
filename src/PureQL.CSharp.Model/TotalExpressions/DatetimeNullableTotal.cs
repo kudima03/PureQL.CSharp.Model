@@ -1,16 +1,21 @@
-using OneOf;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
-public sealed class DatetimeNullableTotal
-    : OneOfBase<DatetimeTotal, ExactDatetimeNullableTotal>
-{
-    public DatetimeNullableTotal(DatetimeTotal value)
-        : this((OneOf<DatetimeTotal, ExactDatetimeNullableTotal>)value) { }
-
-    public DatetimeNullableTotal(ExactDatetimeNullableTotal value)
-        : this((OneOf<DatetimeTotal, ExactDatetimeNullableTotal>)value) { }
-
-    private DatetimeNullableTotal(OneOf<DatetimeTotal, ExactDatetimeNullableTotal> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>datetime.nullable@total</c>.</summary>
+public readonly union DatetimeNullableTotal(
+    DatetimeAddSecondsDatetimeTotal,
+    IfDatetimeTotal,
+    CoalesceDatetimeTotal,
+    LiteralDatetime,
+    ParamDatetime,
+    DatetimeAddSecondsDatetimeNullableTotal,
+    IfDatetimeNullableTotal,
+    CoalesceDatetimeNullableTotal,
+    AverageDatetimeNullableTotal,
+    MinDatetimeNullableTotal,
+    MaxDatetimeNullableTotal,
+    LiteralDatetimeNullable,
+    ParamDatetimeNullable
+);

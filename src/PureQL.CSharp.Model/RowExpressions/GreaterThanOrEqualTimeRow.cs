@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>greaterThanOrEqual.time@row</c>.</summary>
 public sealed record GreaterThanOrEqualTimeRow : IOperator
 {
     public GreaterThanOrEqualTimeRow(TimeNullableRow left, TimeNullableRow right)

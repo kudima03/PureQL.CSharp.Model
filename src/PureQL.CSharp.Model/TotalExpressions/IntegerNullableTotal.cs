@@ -1,16 +1,38 @@
-using OneOf;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
-public sealed class IntegerNullableTotal
-    : OneOfBase<IntegerTotal, ExactIntegerNullableTotal>
-{
-    public IntegerNullableTotal(IntegerTotal value)
-        : this((OneOf<IntegerTotal, ExactIntegerNullableTotal>)value) { }
-
-    public IntegerNullableTotal(ExactIntegerNullableTotal value)
-        : this((OneOf<IntegerTotal, ExactIntegerNullableTotal>)value) { }
-
-    private IntegerNullableTotal(OneOf<IntegerTotal, ExactIntegerNullableTotal> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>integer.nullable@total</c>.</summary>
+public readonly union IntegerNullableTotal(
+    AddIntegerTotal,
+    SubtractIntegerTotal,
+    MultiplyIntegerTotal,
+    IntegerDivideIntegerTotal,
+    ModuloIntegerTotal,
+    FloorIntegerTotal,
+    CeilingIntegerTotal,
+    RoundIntegerTotal,
+    DateDiffDaysIntegerTotal,
+    IfIntegerTotal,
+    CoalesceIntegerTotal,
+    CountTotal,
+    SumIntegerTotal,
+    LiteralInteger,
+    ParamInteger,
+    AddIntegerNullableTotal,
+    SubtractIntegerNullableTotal,
+    MultiplyIntegerNullableTotal,
+    IntegerDivideIntegerNullableTotal,
+    ModuloIntegerNullableTotal,
+    FloorIntegerNullableTotal,
+    CeilingIntegerNullableTotal,
+    RoundIntegerNullableTotal,
+    DateDiffDaysIntegerNullableTotal,
+    IfIntegerNullableTotal,
+    CoalesceIntegerNullableTotal,
+    MinIntegerNullableTotal,
+    MaxIntegerNullableTotal,
+    LiteralIntegerNullable,
+    ParamIntegerNullable
+);

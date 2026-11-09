@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>modulo.integer@total</c>.</summary>
 public sealed record ModuloIntegerTotal : IOperator
 {
     public ModuloIntegerTotal(IntegerTotal left, IntegerTotal right)

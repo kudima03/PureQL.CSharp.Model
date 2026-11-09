@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>in.date@total</c>.</summary>
 public sealed record InDateTotal : IOperator
 {
     public InDateTotal(DateNullableTotal operand, ListDate list)

@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>max.boolean.nullable@group</c>.</summary>
 public sealed record MaxBooleanNullableGroup : IOperator
 {
     public MaxBooleanNullableGroup(
@@ -11,16 +12,16 @@ public sealed record MaxBooleanNullableGroup : IOperator
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Predicate = predicate;
         Over = over;
+        Selector = selector;
     }
-
-    public BooleanNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public BooleanNullableRow Selector { get; }
 
     public IType Type => new TypeBooleanNullable();
 }

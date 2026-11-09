@@ -21,11 +21,16 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v6
       with:
-        dotnet-version: 10.x.x
+        global-json-file: global.json
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore -warnaserror
+    - name: Check the model is generated from the pinned specification
+      run: |
+        dotnet run --no-build --project PureQL.CSharp.Model.Generator
+        git add --intent-to-add PureQL.CSharp.Model
+        git diff --exit-code -- PureQL.CSharp.Model
     - name: Code style check by dotnet format
       run: dotnet format --verify-no-changes
     - name: Test

@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>in.date@projection</c>.</summary>
 public sealed record InDateProjection : IOperator
 {
     public InDateProjection(DateNullableProjection operand, ListDate list)

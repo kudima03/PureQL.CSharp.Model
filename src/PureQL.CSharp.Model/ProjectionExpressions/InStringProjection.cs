@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>in.string@projection</c>.</summary>
 public sealed record InStringProjection : IOperator
 {
     public InStringProjection(StringNullableProjection operand, ListString list)

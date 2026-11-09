@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>modulo.integer.nullable@total</c>.</summary>
 public sealed record ModuloIntegerNullableTotal : IOperator
 {
     public ModuloIntegerNullableTotal(

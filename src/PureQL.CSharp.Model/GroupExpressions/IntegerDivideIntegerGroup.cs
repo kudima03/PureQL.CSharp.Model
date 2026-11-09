@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>integerDivide.integer@group</c>.</summary>
 public sealed record IntegerDivideIntegerGroup : IOperator
 {
     public IntegerDivideIntegerGroup(IntegerGroup left, IntegerGroup right)

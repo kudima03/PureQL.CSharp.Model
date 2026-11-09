@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>greaterThanOrEqual.time@total</c>.</summary>
 public sealed record GreaterThanOrEqualTimeTotal : IOperator
 {
     public GreaterThanOrEqualTimeTotal(TimeNullableTotal left, TimeNullableTotal right)

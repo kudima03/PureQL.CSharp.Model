@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>dateDiffDays.integer@group</c>.</summary>
 public sealed record DateDiffDaysIntegerGroup : IOperator
 {
     public DateDiffDaysIntegerGroup(DateGroup left, DateGroup right)

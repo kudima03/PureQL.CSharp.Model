@@ -1,136 +1,70 @@
-using OneOf;
 using PureQL.CSharp.Model.Fields;
 using PureQL.CSharp.Model.Literals;
 using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed class BooleanProjection
-    : OneOfBase<
-        FieldBoolean,
-        ParamBoolean,
-        LiteralBoolean,
-        LogicalProjection,
-        ComparisonProjection,
-        ConditionalBooleanProjection,
-        AggregateBooleanProjection
-    >
-{
-    public BooleanProjection(FieldBoolean value)
-        : this(
-            (OneOf<
-                FieldBoolean,
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalProjection,
-                ComparisonProjection,
-                ConditionalBooleanProjection,
-                AggregateBooleanProjection
-            >)
-                value
-        )
-    { }
-
-    public BooleanProjection(ParamBoolean value)
-        : this(
-            (OneOf<
-                FieldBoolean,
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalProjection,
-                ComparisonProjection,
-                ConditionalBooleanProjection,
-                AggregateBooleanProjection
-            >)
-                value
-        )
-    { }
-
-    public BooleanProjection(LiteralBoolean value)
-        : this(
-            (OneOf<
-                FieldBoolean,
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalProjection,
-                ComparisonProjection,
-                ConditionalBooleanProjection,
-                AggregateBooleanProjection
-            >)
-                value
-        )
-    { }
-
-    public BooleanProjection(LogicalProjection value)
-        : this(
-            (OneOf<
-                FieldBoolean,
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalProjection,
-                ComparisonProjection,
-                ConditionalBooleanProjection,
-                AggregateBooleanProjection
-            >)
-                value
-        )
-    { }
-
-    public BooleanProjection(ComparisonProjection value)
-        : this(
-            (OneOf<
-                FieldBoolean,
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalProjection,
-                ComparisonProjection,
-                ConditionalBooleanProjection,
-                AggregateBooleanProjection
-            >)
-                value
-        )
-    { }
-
-    public BooleanProjection(ConditionalBooleanProjection value)
-        : this(
-            (OneOf<
-                FieldBoolean,
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalProjection,
-                ComparisonProjection,
-                ConditionalBooleanProjection,
-                AggregateBooleanProjection
-            >)
-                value
-        )
-    { }
-
-    public BooleanProjection(AggregateBooleanProjection value)
-        : this(
-            (OneOf<
-                FieldBoolean,
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalProjection,
-                ComparisonProjection,
-                ConditionalBooleanProjection,
-                AggregateBooleanProjection
-            >)
-                value
-        )
-    { }
-
-    private BooleanProjection(
-        OneOf<
-            FieldBoolean,
-            ParamBoolean,
-            LiteralBoolean,
-            LogicalProjection,
-            ComparisonProjection,
-            ConditionalBooleanProjection,
-            AggregateBooleanProjection
-        > input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>boolean@projection</c>.</summary>
+public readonly union BooleanProjection(
+    AndProjection,
+    OrProjection,
+    NotProjection,
+    EqualDecimalProjection,
+    EqualStringProjection,
+    EqualBooleanProjection,
+    EqualDateProjection,
+    EqualTimeProjection,
+    EqualDatetimeProjection,
+    EqualUuidProjection,
+    NotEqualDecimalProjection,
+    NotEqualStringProjection,
+    NotEqualBooleanProjection,
+    NotEqualDateProjection,
+    NotEqualTimeProjection,
+    NotEqualDatetimeProjection,
+    NotEqualUuidProjection,
+    GreaterThanDecimalProjection,
+    GreaterThanStringProjection,
+    GreaterThanBooleanProjection,
+    GreaterThanDateProjection,
+    GreaterThanTimeProjection,
+    GreaterThanDatetimeProjection,
+    GreaterThanUuidProjection,
+    LessThanDecimalProjection,
+    LessThanStringProjection,
+    LessThanBooleanProjection,
+    LessThanDateProjection,
+    LessThanTimeProjection,
+    LessThanDatetimeProjection,
+    LessThanUuidProjection,
+    GreaterThanOrEqualDecimalProjection,
+    GreaterThanOrEqualStringProjection,
+    GreaterThanOrEqualBooleanProjection,
+    GreaterThanOrEqualDateProjection,
+    GreaterThanOrEqualTimeProjection,
+    GreaterThanOrEqualDatetimeProjection,
+    GreaterThanOrEqualUuidProjection,
+    LessThanOrEqualDecimalProjection,
+    LessThanOrEqualStringProjection,
+    LessThanOrEqualBooleanProjection,
+    LessThanOrEqualDateProjection,
+    LessThanOrEqualTimeProjection,
+    LessThanOrEqualDatetimeProjection,
+    LessThanOrEqualUuidProjection,
+    InDecimalProjection,
+    InStringProjection,
+    InBooleanProjection,
+    InDateProjection,
+    InTimeProjection,
+    InDatetimeProjection,
+    InUuidProjection,
+    IfBooleanProjection,
+    CoalesceBooleanProjection,
+    MinBooleanProjection,
+    MaxBooleanProjection,
+    AnyProjection,
+    AllProjection,
+    LiteralBoolean,
+    ParamBoolean,
+    FieldBoolean
+);

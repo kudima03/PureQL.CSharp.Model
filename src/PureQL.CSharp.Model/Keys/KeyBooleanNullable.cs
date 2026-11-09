@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Keys;
 
+/// <summary>PureQL <c>key.boolean.nullable</c>.</summary>
 public sealed record KeyBooleanNullable : IKey
 {
     public KeyBooleanNullable(string key)

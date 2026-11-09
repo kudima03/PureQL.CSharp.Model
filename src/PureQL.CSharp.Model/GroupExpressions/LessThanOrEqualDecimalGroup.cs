@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>lessThanOrEqual.decimal@group</c>.</summary>
 public sealed record LessThanOrEqualDecimalGroup : IOperator
 {
     public LessThanOrEqualDecimalGroup(

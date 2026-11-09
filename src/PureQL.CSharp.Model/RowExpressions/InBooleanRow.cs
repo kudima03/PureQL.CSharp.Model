@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>in.boolean@row</c>.</summary>
 public sealed record InBooleanRow : IOperator
 {
     public InBooleanRow(BooleanNullableRow operand, ListBoolean list)

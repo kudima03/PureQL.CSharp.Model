@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>greaterThanOrEqual.decimal@total</c>.</summary>
 public sealed record GreaterThanOrEqualDecimalTotal : IOperator
 {
     public GreaterThanOrEqualDecimalTotal(

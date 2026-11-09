@@ -1,70 +1,64 @@
-using OneOf;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
-public sealed class DecimalNullableTotal
-    : OneOfBase<
-        ExactDecimalTotal,
-        ExactDecimalNullableTotal,
-        IntegerTotal,
-        ExactIntegerNullableTotal
-    >
-{
-    public DecimalNullableTotal(ExactDecimalTotal value)
-        : this(
-            (OneOf<
-                ExactDecimalTotal,
-                ExactDecimalNullableTotal,
-                IntegerTotal,
-                ExactIntegerNullableTotal
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableTotal(ExactDecimalNullableTotal value)
-        : this(
-            (OneOf<
-                ExactDecimalTotal,
-                ExactDecimalNullableTotal,
-                IntegerTotal,
-                ExactIntegerNullableTotal
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableTotal(IntegerTotal value)
-        : this(
-            (OneOf<
-                ExactDecimalTotal,
-                ExactDecimalNullableTotal,
-                IntegerTotal,
-                ExactIntegerNullableTotal
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableTotal(ExactIntegerNullableTotal value)
-        : this(
-            (OneOf<
-                ExactDecimalTotal,
-                ExactDecimalNullableTotal,
-                IntegerTotal,
-                ExactIntegerNullableTotal
-            >)
-                value
-        )
-    { }
-
-    private DecimalNullableTotal(
-        OneOf<
-            ExactDecimalTotal,
-            ExactDecimalNullableTotal,
-            IntegerTotal,
-            ExactIntegerNullableTotal
-        > input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>decimal.nullable@total</c>.</summary>
+public readonly union DecimalNullableTotal(
+    AddIntegerTotal,
+    SubtractIntegerTotal,
+    MultiplyIntegerTotal,
+    IntegerDivideIntegerTotal,
+    ModuloIntegerTotal,
+    FloorIntegerTotal,
+    CeilingIntegerTotal,
+    RoundIntegerTotal,
+    DateDiffDaysIntegerTotal,
+    IfIntegerTotal,
+    CoalesceIntegerTotal,
+    CountTotal,
+    SumIntegerTotal,
+    LiteralInteger,
+    ParamInteger,
+    AddIntegerNullableTotal,
+    SubtractIntegerNullableTotal,
+    MultiplyIntegerNullableTotal,
+    IntegerDivideIntegerNullableTotal,
+    ModuloIntegerNullableTotal,
+    FloorIntegerNullableTotal,
+    CeilingIntegerNullableTotal,
+    RoundIntegerNullableTotal,
+    DateDiffDaysIntegerNullableTotal,
+    IfIntegerNullableTotal,
+    CoalesceIntegerNullableTotal,
+    MinIntegerNullableTotal,
+    MaxIntegerNullableTotal,
+    LiteralIntegerNullable,
+    ParamIntegerNullable,
+    AddDecimalTotal,
+    SubtractDecimalTotal,
+    MultiplyDecimalTotal,
+    DivideDecimalTotal,
+    RoundDecimalTotal,
+    TimeDiffSecondsDecimalTotal,
+    DatetimeDiffSecondsDecimalTotal,
+    IfDecimalTotal,
+    CoalesceDecimalTotal,
+    SumDecimalTotal,
+    LiteralDecimal,
+    ParamDecimal,
+    AddDecimalNullableTotal,
+    SubtractDecimalNullableTotal,
+    MultiplyDecimalNullableTotal,
+    DivideDecimalNullableTotal,
+    RoundDecimalNullableTotal,
+    TimeDiffSecondsDecimalNullableTotal,
+    DatetimeDiffSecondsDecimalNullableTotal,
+    IfDecimalNullableTotal,
+    CoalesceDecimalNullableTotal,
+    AverageDecimalNullableTotal,
+    MinDecimalNullableTotal,
+    MaxDecimalNullableTotal,
+    LiteralDecimalNullable,
+    ParamDecimalNullable
+);

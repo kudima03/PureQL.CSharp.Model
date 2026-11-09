@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>min.uuid.nullable@group</c>.</summary>
 public sealed record MinUuidNullableGroup : IOperator
 {
     public MinUuidNullableGroup(
@@ -11,16 +12,16 @@ public sealed record MinUuidNullableGroup : IOperator
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Predicate = predicate;
         Over = over;
+        Selector = selector;
     }
-
-    public UuidNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public UuidNullableRow Selector { get; }
 
     public IType Type => new TypeUuidNullable();
 }

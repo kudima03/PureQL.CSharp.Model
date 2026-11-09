@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>average.decimal@group</c>.</summary>
 public sealed record AverageDecimalGroup : IOperator
 {
     public AverageDecimalGroup(
@@ -10,13 +11,13 @@ public sealed record AverageDecimalGroup : IOperator
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Over = over;
+        Selector = selector;
     }
 
-    public DecimalRow Selector { get; }
-
     public AggregateOver Over { get; }
+
+    public DecimalRow Selector { get; }
 
     public IType Type => new TypeDecimal();
 }

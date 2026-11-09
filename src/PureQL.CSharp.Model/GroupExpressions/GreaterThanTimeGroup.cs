@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>greaterThan.time@group</c>.</summary>
 public sealed record GreaterThanTimeGroup : IOperator
 {
     public GreaterThanTimeGroup(TimeNullableGroup left, TimeNullableGroup right)

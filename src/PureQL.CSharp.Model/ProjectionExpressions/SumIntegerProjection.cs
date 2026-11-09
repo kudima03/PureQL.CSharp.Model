@@ -3,17 +3,18 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>sum.integer@projection</c>.</summary>
 public sealed record SumIntegerProjection : IOperator
 {
     public SumIntegerProjection(IntegerNullableRow selector, BooleanRow? predicate = null)
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public IntegerNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public IntegerNullableRow Selector { get; }
 
     public IType Type => new TypeInteger();
 }

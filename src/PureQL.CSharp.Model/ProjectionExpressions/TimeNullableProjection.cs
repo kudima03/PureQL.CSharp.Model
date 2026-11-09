@@ -1,18 +1,27 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed class TimeNullableProjection
-    : OneOfBase<TimeProjection, ExactTimeNullableProjection>
-{
-    public TimeNullableProjection(TimeProjection value)
-        : this((OneOf<TimeProjection, ExactTimeNullableProjection>)value) { }
-
-    public TimeNullableProjection(ExactTimeNullableProjection value)
-        : this((OneOf<TimeProjection, ExactTimeNullableProjection>)value) { }
-
-    private TimeNullableProjection(
-        OneOf<TimeProjection, ExactTimeNullableProjection> input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>time.nullable@projection</c>.</summary>
+public readonly union TimeNullableProjection(
+    TimeAddSecondsTimeProjection,
+    IfTimeProjection,
+    CoalesceTimeProjection,
+    AverageTimeProjection,
+    MinTimeProjection,
+    MaxTimeProjection,
+    LiteralTime,
+    ParamTime,
+    FieldTime,
+    TimeAddSecondsTimeNullableProjection,
+    IfTimeNullableProjection,
+    CoalesceTimeNullableProjection,
+    AverageTimeNullableProjection,
+    MinTimeNullableProjection,
+    MaxTimeNullableProjection,
+    LiteralTimeNullable,
+    ParamTimeNullable,
+    FieldTimeNullable
+);

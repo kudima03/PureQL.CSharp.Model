@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>lessThan.datetime@group</c>.</summary>
 public sealed record LessThanDatetimeGroup : IOperator
 {
     public LessThanDatetimeGroup(DatetimeNullableGroup left, DatetimeNullableGroup right)

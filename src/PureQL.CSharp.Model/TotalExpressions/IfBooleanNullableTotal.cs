@@ -2,24 +2,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>if.boolean.nullable@total</c>.</summary>
 public sealed record IfBooleanNullableTotal : IOperator
 {
     public IfBooleanNullableTotal(
-        BooleanTotal condition,
         BooleanNullableTotal then,
-        BooleanNullableTotal @else
+        BooleanNullableTotal @else,
+        BooleanTotal condition
     )
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanTotal Condition { get; }
 
     public BooleanNullableTotal Then { get; }
 
     public BooleanNullableTotal Else { get; }
+
+    public BooleanTotal Condition { get; }
 
     public IType Type => new TypeBooleanNullable();
 }

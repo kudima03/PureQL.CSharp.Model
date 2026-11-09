@@ -8,15 +8,15 @@ public sealed record JoinEntity
     {
         Kind = kind;
         Entity = entity;
-        On = on;
         Alias = alias;
+        On = on;
     }
 
     public JoinKind Kind { get; }
 
     public string Entity { get; }
 
-    public BooleanRow On { get; }
-
     public string? Alias { get; }
+
+    public BooleanRow On { get; }
 }

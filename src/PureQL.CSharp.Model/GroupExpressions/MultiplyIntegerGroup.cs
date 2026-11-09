@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>multiply.integer@group</c>.</summary>
 public sealed record MultiplyIntegerGroup : IOperator
 {
     public MultiplyIntegerGroup(IEnumerable<IntegerGroup> values)

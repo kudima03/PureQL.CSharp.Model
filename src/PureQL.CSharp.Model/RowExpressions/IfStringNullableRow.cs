@@ -2,24 +2,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>if.string.nullable@row</c>.</summary>
 public sealed record IfStringNullableRow : IOperator
 {
     public IfStringNullableRow(
-        BooleanRow condition,
         StringNullableRow then,
-        StringNullableRow @else
+        StringNullableRow @else,
+        BooleanRow condition
     )
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanRow Condition { get; }
 
     public StringNullableRow Then { get; }
 
     public StringNullableRow Else { get; }
+
+    public BooleanRow Condition { get; }
 
     public IType Type => new TypeStringNullable();
 }

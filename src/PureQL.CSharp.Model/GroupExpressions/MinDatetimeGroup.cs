@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>min.datetime@group</c>.</summary>
 public sealed record MinDatetimeGroup : IOperator
 {
     public MinDatetimeGroup(
@@ -10,13 +11,13 @@ public sealed record MinDatetimeGroup : IOperator
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Over = over;
+        Selector = selector;
     }
 
-    public DatetimeRow Selector { get; }
-
     public AggregateOver Over { get; }
+
+    public DatetimeRow Selector { get; }
 
     public IType Type => new TypeDatetime();
 }

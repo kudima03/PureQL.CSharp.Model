@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>average.decimal.nullable@group</c>.</summary>
 public sealed record AverageDecimalNullableGroup : IOperator
 {
     public AverageDecimalNullableGroup(
@@ -11,16 +12,16 @@ public sealed record AverageDecimalNullableGroup : IOperator
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Predicate = predicate;
         Over = over;
+        Selector = selector;
     }
-
-    public DecimalNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public DecimalNullableRow Selector { get; }
 
     public IType Type => new TypeDecimalNullable();
 }

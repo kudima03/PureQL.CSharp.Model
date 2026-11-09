@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>notEqual.uuid@projection</c>.</summary>
 public sealed record NotEqualUuidProjection : IOperator
 {
     public NotEqualUuidProjection(

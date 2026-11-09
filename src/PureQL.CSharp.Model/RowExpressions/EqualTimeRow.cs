@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>equal.time@row</c>.</summary>
 public sealed record EqualTimeRow : IOperator
 {
     public EqualTimeRow(TimeNullableRow left, TimeNullableRow right)

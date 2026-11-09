@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>count@group</c>.</summary>
 public sealed record CountGroup : IOperator
 {
     public CountGroup(

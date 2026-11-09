@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>min.date.nullable@group</c>.</summary>
 public sealed record MinDateNullableGroup : IOperator
 {
     public MinDateNullableGroup(
@@ -11,16 +12,16 @@ public sealed record MinDateNullableGroup : IOperator
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Predicate = predicate;
         Over = over;
+        Selector = selector;
     }
-
-    public DateNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public DateNullableRow Selector { get; }
 
     public IType Type => new TypeDateNullable();
 }

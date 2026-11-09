@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>lessThanOrEqual.date@row</c>.</summary>
 public sealed record LessThanOrEqualDateRow : IOperator
 {
     public LessThanOrEqualDateRow(DateNullableRow left, DateNullableRow right)

@@ -5,12 +5,12 @@ namespace PureQL.CSharp.Model.Lists;
 
 public sealed record ListParamBoolean : IParameter
 {
-    public ListParamBoolean(string name)
+    public ListParamBoolean(string param)
     {
-        Name = name;
+        Param = param;
     }
 
-    public string Name { get; }
+    public string Param { get; }
 
     public IType Type => new TypeBooleanList();
 }

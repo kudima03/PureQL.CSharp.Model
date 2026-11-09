@@ -1,18 +1,43 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed class IntegerNullableProjection
-    : OneOfBase<IntegerProjection, ExactIntegerNullableProjection>
-{
-    public IntegerNullableProjection(IntegerProjection value)
-        : this((OneOf<IntegerProjection, ExactIntegerNullableProjection>)value) { }
-
-    public IntegerNullableProjection(ExactIntegerNullableProjection value)
-        : this((OneOf<IntegerProjection, ExactIntegerNullableProjection>)value) { }
-
-    private IntegerNullableProjection(
-        OneOf<IntegerProjection, ExactIntegerNullableProjection> input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>integer.nullable@projection</c>.</summary>
+public readonly union IntegerNullableProjection(
+    AddIntegerProjection,
+    SubtractIntegerProjection,
+    MultiplyIntegerProjection,
+    IntegerDivideIntegerProjection,
+    ModuloIntegerProjection,
+    FloorIntegerProjection,
+    CeilingIntegerProjection,
+    RoundIntegerProjection,
+    DateDiffDaysIntegerProjection,
+    IfIntegerProjection,
+    CoalesceIntegerProjection,
+    CountProjection,
+    SumIntegerProjection,
+    MinIntegerProjection,
+    MaxIntegerProjection,
+    LiteralInteger,
+    ParamInteger,
+    FieldInteger,
+    AddIntegerNullableProjection,
+    SubtractIntegerNullableProjection,
+    MultiplyIntegerNullableProjection,
+    IntegerDivideIntegerNullableProjection,
+    ModuloIntegerNullableProjection,
+    FloorIntegerNullableProjection,
+    CeilingIntegerNullableProjection,
+    RoundIntegerNullableProjection,
+    DateDiffDaysIntegerNullableProjection,
+    IfIntegerNullableProjection,
+    CoalesceIntegerNullableProjection,
+    MinIntegerNullableProjection,
+    MaxIntegerNullableProjection,
+    LiteralIntegerNullable,
+    ParamIntegerNullable,
+    FieldIntegerNullable
+);

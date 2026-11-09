@@ -2,14 +2,15 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Parameters;
 
+/// <summary>PureQL <c>param.boolean.nullable</c>.</summary>
 public sealed record ParamBooleanNullable : IParameter
 {
-    public ParamBooleanNullable(string name)
+    public ParamBooleanNullable(string param)
     {
-        Name = name;
+        Param = param;
     }
 
-    public string Name { get; }
+    public string Param { get; }
 
     public IType Type => new TypeBooleanNullable();
 }

@@ -1,18 +1,25 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed class StringNullableProjection
-    : OneOfBase<StringProjection, ExactStringNullableProjection>
-{
-    public StringNullableProjection(StringProjection value)
-        : this((OneOf<StringProjection, ExactStringNullableProjection>)value) { }
-
-    public StringNullableProjection(ExactStringNullableProjection value)
-        : this((OneOf<StringProjection, ExactStringNullableProjection>)value) { }
-
-    private StringNullableProjection(
-        OneOf<StringProjection, ExactStringNullableProjection> input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>string.nullable@projection</c>.</summary>
+public readonly union StringNullableProjection(
+    ConcatStringProjection,
+    IfStringProjection,
+    CoalesceStringProjection,
+    MinStringProjection,
+    MaxStringProjection,
+    LiteralString,
+    ParamString,
+    FieldString,
+    ConcatStringNullableProjection,
+    IfStringNullableProjection,
+    CoalesceStringNullableProjection,
+    MinStringNullableProjection,
+    MaxStringNullableProjection,
+    LiteralStringNullable,
+    ParamStringNullable,
+    FieldStringNullable
+);

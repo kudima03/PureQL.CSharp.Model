@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>lessThan.boolean@group</c>.</summary>
 public sealed record LessThanBooleanGroup : IOperator
 {
     public LessThanBooleanGroup(BooleanNullableGroup left, BooleanNullableGroup right)

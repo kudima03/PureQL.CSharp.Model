@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>divide.decimal@group</c>.</summary>
 public sealed record DivideDecimalGroup : IOperator
 {
     public DivideDecimalGroup(IEnumerable<DecimalGroup> values)

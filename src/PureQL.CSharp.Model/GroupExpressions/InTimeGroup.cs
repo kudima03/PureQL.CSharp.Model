@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>in.time@group</c>.</summary>
 public sealed record InTimeGroup : IOperator
 {
     public InTimeGroup(TimeNullableGroup operand, ListTime list)

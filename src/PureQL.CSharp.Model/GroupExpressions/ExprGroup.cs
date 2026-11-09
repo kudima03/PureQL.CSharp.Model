@@ -1,133 +1,226 @@
-using OneOf;
+using PureQL.CSharp.Model.Keys;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed class ExprGroup
-    : OneOfBase<
-        DecimalNullableGroup,
-        StringNullableGroup,
-        BooleanNullableGroup,
-        DateNullableGroup,
-        TimeNullableGroup,
-        DatetimeNullableGroup,
-        UuidNullableGroup
-    >
-{
-    public ExprGroup(DecimalNullableGroup value)
-        : this(
-            (OneOf<
-                DecimalNullableGroup,
-                StringNullableGroup,
-                BooleanNullableGroup,
-                DateNullableGroup,
-                TimeNullableGroup,
-                DatetimeNullableGroup,
-                UuidNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public ExprGroup(StringNullableGroup value)
-        : this(
-            (OneOf<
-                DecimalNullableGroup,
-                StringNullableGroup,
-                BooleanNullableGroup,
-                DateNullableGroup,
-                TimeNullableGroup,
-                DatetimeNullableGroup,
-                UuidNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public ExprGroup(BooleanNullableGroup value)
-        : this(
-            (OneOf<
-                DecimalNullableGroup,
-                StringNullableGroup,
-                BooleanNullableGroup,
-                DateNullableGroup,
-                TimeNullableGroup,
-                DatetimeNullableGroup,
-                UuidNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public ExprGroup(DateNullableGroup value)
-        : this(
-            (OneOf<
-                DecimalNullableGroup,
-                StringNullableGroup,
-                BooleanNullableGroup,
-                DateNullableGroup,
-                TimeNullableGroup,
-                DatetimeNullableGroup,
-                UuidNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public ExprGroup(TimeNullableGroup value)
-        : this(
-            (OneOf<
-                DecimalNullableGroup,
-                StringNullableGroup,
-                BooleanNullableGroup,
-                DateNullableGroup,
-                TimeNullableGroup,
-                DatetimeNullableGroup,
-                UuidNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public ExprGroup(DatetimeNullableGroup value)
-        : this(
-            (OneOf<
-                DecimalNullableGroup,
-                StringNullableGroup,
-                BooleanNullableGroup,
-                DateNullableGroup,
-                TimeNullableGroup,
-                DatetimeNullableGroup,
-                UuidNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public ExprGroup(UuidNullableGroup value)
-        : this(
-            (OneOf<
-                DecimalNullableGroup,
-                StringNullableGroup,
-                BooleanNullableGroup,
-                DateNullableGroup,
-                TimeNullableGroup,
-                DatetimeNullableGroup,
-                UuidNullableGroup
-            >)
-                value
-        )
-    { }
-
-    private ExprGroup(
-        OneOf<
-            DecimalNullableGroup,
-            StringNullableGroup,
-            BooleanNullableGroup,
-            DateNullableGroup,
-            TimeNullableGroup,
-            DatetimeNullableGroup,
-            UuidNullableGroup
-        > input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>expr@group</c>.</summary>
+public readonly union ExprGroup(
+    AddIntegerGroup,
+    SubtractIntegerGroup,
+    MultiplyIntegerGroup,
+    IntegerDivideIntegerGroup,
+    ModuloIntegerGroup,
+    FloorIntegerGroup,
+    CeilingIntegerGroup,
+    RoundIntegerGroup,
+    DateDiffDaysIntegerGroup,
+    IfIntegerGroup,
+    CoalesceIntegerGroup,
+    CountGroup,
+    SumIntegerGroup,
+    MinIntegerGroup,
+    MaxIntegerGroup,
+    LiteralInteger,
+    ParamInteger,
+    KeyInteger,
+    AddIntegerNullableGroup,
+    SubtractIntegerNullableGroup,
+    MultiplyIntegerNullableGroup,
+    IntegerDivideIntegerNullableGroup,
+    ModuloIntegerNullableGroup,
+    FloorIntegerNullableGroup,
+    CeilingIntegerNullableGroup,
+    RoundIntegerNullableGroup,
+    DateDiffDaysIntegerNullableGroup,
+    IfIntegerNullableGroup,
+    CoalesceIntegerNullableGroup,
+    MinIntegerNullableGroup,
+    MaxIntegerNullableGroup,
+    LiteralIntegerNullable,
+    ParamIntegerNullable,
+    KeyIntegerNullable,
+    AddDecimalGroup,
+    SubtractDecimalGroup,
+    MultiplyDecimalGroup,
+    DivideDecimalGroup,
+    RoundDecimalGroup,
+    TimeDiffSecondsDecimalGroup,
+    DatetimeDiffSecondsDecimalGroup,
+    IfDecimalGroup,
+    CoalesceDecimalGroup,
+    SumDecimalGroup,
+    AverageDecimalGroup,
+    MinDecimalGroup,
+    MaxDecimalGroup,
+    LiteralDecimal,
+    ParamDecimal,
+    KeyDecimal,
+    AddDecimalNullableGroup,
+    SubtractDecimalNullableGroup,
+    MultiplyDecimalNullableGroup,
+    DivideDecimalNullableGroup,
+    RoundDecimalNullableGroup,
+    TimeDiffSecondsDecimalNullableGroup,
+    DatetimeDiffSecondsDecimalNullableGroup,
+    IfDecimalNullableGroup,
+    CoalesceDecimalNullableGroup,
+    AverageDecimalNullableGroup,
+    MinDecimalNullableGroup,
+    MaxDecimalNullableGroup,
+    LiteralDecimalNullable,
+    ParamDecimalNullable,
+    KeyDecimalNullable,
+    ConcatStringGroup,
+    IfStringGroup,
+    CoalesceStringGroup,
+    MinStringGroup,
+    MaxStringGroup,
+    LiteralString,
+    ParamString,
+    KeyString,
+    ConcatStringNullableGroup,
+    IfStringNullableGroup,
+    CoalesceStringNullableGroup,
+    MinStringNullableGroup,
+    MaxStringNullableGroup,
+    LiteralStringNullable,
+    ParamStringNullable,
+    KeyStringNullable,
+    DateAddDaysDateGroup,
+    IfDateGroup,
+    CoalesceDateGroup,
+    AverageDateGroup,
+    MinDateGroup,
+    MaxDateGroup,
+    LiteralDate,
+    ParamDate,
+    KeyDate,
+    DateAddDaysDateNullableGroup,
+    IfDateNullableGroup,
+    CoalesceDateNullableGroup,
+    AverageDateNullableGroup,
+    MinDateNullableGroup,
+    MaxDateNullableGroup,
+    LiteralDateNullable,
+    ParamDateNullable,
+    KeyDateNullable,
+    TimeAddSecondsTimeGroup,
+    IfTimeGroup,
+    CoalesceTimeGroup,
+    AverageTimeGroup,
+    MinTimeGroup,
+    MaxTimeGroup,
+    LiteralTime,
+    ParamTime,
+    KeyTime,
+    TimeAddSecondsTimeNullableGroup,
+    IfTimeNullableGroup,
+    CoalesceTimeNullableGroup,
+    AverageTimeNullableGroup,
+    MinTimeNullableGroup,
+    MaxTimeNullableGroup,
+    LiteralTimeNullable,
+    ParamTimeNullable,
+    KeyTimeNullable,
+    DatetimeAddSecondsDatetimeGroup,
+    IfDatetimeGroup,
+    CoalesceDatetimeGroup,
+    AverageDatetimeGroup,
+    MinDatetimeGroup,
+    MaxDatetimeGroup,
+    LiteralDatetime,
+    ParamDatetime,
+    KeyDatetime,
+    DatetimeAddSecondsDatetimeNullableGroup,
+    IfDatetimeNullableGroup,
+    CoalesceDatetimeNullableGroup,
+    AverageDatetimeNullableGroup,
+    MinDatetimeNullableGroup,
+    MaxDatetimeNullableGroup,
+    LiteralDatetimeNullable,
+    ParamDatetimeNullable,
+    KeyDatetimeNullable,
+    AndGroup,
+    OrGroup,
+    NotGroup,
+    EqualDecimalGroup,
+    EqualStringGroup,
+    EqualBooleanGroup,
+    EqualDateGroup,
+    EqualTimeGroup,
+    EqualDatetimeGroup,
+    EqualUuidGroup,
+    NotEqualDecimalGroup,
+    NotEqualStringGroup,
+    NotEqualBooleanGroup,
+    NotEqualDateGroup,
+    NotEqualTimeGroup,
+    NotEqualDatetimeGroup,
+    NotEqualUuidGroup,
+    GreaterThanDecimalGroup,
+    GreaterThanStringGroup,
+    GreaterThanBooleanGroup,
+    GreaterThanDateGroup,
+    GreaterThanTimeGroup,
+    GreaterThanDatetimeGroup,
+    GreaterThanUuidGroup,
+    LessThanDecimalGroup,
+    LessThanStringGroup,
+    LessThanBooleanGroup,
+    LessThanDateGroup,
+    LessThanTimeGroup,
+    LessThanDatetimeGroup,
+    LessThanUuidGroup,
+    GreaterThanOrEqualDecimalGroup,
+    GreaterThanOrEqualStringGroup,
+    GreaterThanOrEqualBooleanGroup,
+    GreaterThanOrEqualDateGroup,
+    GreaterThanOrEqualTimeGroup,
+    GreaterThanOrEqualDatetimeGroup,
+    GreaterThanOrEqualUuidGroup,
+    LessThanOrEqualDecimalGroup,
+    LessThanOrEqualStringGroup,
+    LessThanOrEqualBooleanGroup,
+    LessThanOrEqualDateGroup,
+    LessThanOrEqualTimeGroup,
+    LessThanOrEqualDatetimeGroup,
+    LessThanOrEqualUuidGroup,
+    InDecimalGroup,
+    InStringGroup,
+    InBooleanGroup,
+    InDateGroup,
+    InTimeGroup,
+    InDatetimeGroup,
+    InUuidGroup,
+    IfBooleanGroup,
+    CoalesceBooleanGroup,
+    MinBooleanGroup,
+    MaxBooleanGroup,
+    AnyGroup,
+    AllGroup,
+    LiteralBoolean,
+    ParamBoolean,
+    KeyBoolean,
+    IfBooleanNullableGroup,
+    CoalesceBooleanNullableGroup,
+    MinBooleanNullableGroup,
+    MaxBooleanNullableGroup,
+    LiteralBooleanNullable,
+    ParamBooleanNullable,
+    KeyBooleanNullable,
+    IfUuidGroup,
+    CoalesceUuidGroup,
+    MinUuidGroup,
+    MaxUuidGroup,
+    LiteralUuid,
+    ParamUuid,
+    KeyUuid,
+    IfUuidNullableGroup,
+    CoalesceUuidNullableGroup,
+    MinUuidNullableGroup,
+    MaxUuidNullableGroup,
+    LiteralUuidNullable,
+    ParamUuidNullable,
+    KeyUuidNullable
+);

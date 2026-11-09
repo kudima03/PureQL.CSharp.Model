@@ -1,15 +1,21 @@
-using OneOf;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
-public sealed class DateNullableTotal : OneOfBase<DateTotal, ExactDateNullableTotal>
-{
-    public DateNullableTotal(DateTotal value)
-        : this((OneOf<DateTotal, ExactDateNullableTotal>)value) { }
-
-    public DateNullableTotal(ExactDateNullableTotal value)
-        : this((OneOf<DateTotal, ExactDateNullableTotal>)value) { }
-
-    private DateNullableTotal(OneOf<DateTotal, ExactDateNullableTotal> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>date.nullable@total</c>.</summary>
+public readonly union DateNullableTotal(
+    DateAddDaysDateTotal,
+    IfDateTotal,
+    CoalesceDateTotal,
+    LiteralDate,
+    ParamDate,
+    DateAddDaysDateNullableTotal,
+    IfDateNullableTotal,
+    CoalesceDateNullableTotal,
+    AverageDateNullableTotal,
+    MinDateNullableTotal,
+    MaxDateNullableTotal,
+    LiteralDateNullable,
+    ParamDateNullable
+);

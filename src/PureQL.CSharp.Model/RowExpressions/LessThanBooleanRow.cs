@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>lessThan.boolean@row</c>.</summary>
 public sealed record LessThanBooleanRow : IOperator
 {
     public LessThanBooleanRow(BooleanNullableRow left, BooleanNullableRow right)

@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>and@row</c>.</summary>
 public sealed record AndRow : IOperator
 {
     public AndRow(IEnumerable<BooleanRow> conditions)

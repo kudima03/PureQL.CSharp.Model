@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>divide.decimal.nullable@row</c>.</summary>
 public sealed record DivideDecimalNullableRow : IOperator
 {
     public DivideDecimalNullableRow(IEnumerable<DecimalNullableRow> values)

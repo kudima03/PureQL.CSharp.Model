@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>greaterThanOrEqual.boolean@total</c>.</summary>
 public sealed record GreaterThanOrEqualBooleanTotal : IOperator
 {
     public GreaterThanOrEqualBooleanTotal(

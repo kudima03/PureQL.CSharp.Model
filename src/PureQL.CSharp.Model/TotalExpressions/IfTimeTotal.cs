@@ -2,20 +2,21 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>if.time@total</c>.</summary>
 public sealed record IfTimeTotal : IOperator
 {
-    public IfTimeTotal(BooleanTotal condition, TimeTotal then, TimeTotal @else)
+    public IfTimeTotal(TimeTotal then, TimeTotal @else, BooleanTotal condition)
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanTotal Condition { get; }
 
     public TimeTotal Then { get; }
 
     public TimeTotal Else { get; }
+
+    public BooleanTotal Condition { get; }
 
     public IType Type => new TypeTime();
 }

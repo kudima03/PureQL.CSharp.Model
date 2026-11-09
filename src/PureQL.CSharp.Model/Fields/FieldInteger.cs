@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Fields;
 
+/// <summary>PureQL <c>field.integer</c>.</summary>
 public sealed record FieldInteger : IField
 {
     public FieldInteger(string source, string field)

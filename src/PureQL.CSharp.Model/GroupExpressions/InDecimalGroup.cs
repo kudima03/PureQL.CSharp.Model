@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>in.decimal@group</c>.</summary>
 public sealed record InDecimalGroup : IOperator
 {
     public InDecimalGroup(DecimalNullableGroup operand, ListDecimal list)

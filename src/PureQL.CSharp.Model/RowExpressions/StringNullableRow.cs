@@ -1,15 +1,21 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed class StringNullableRow : OneOfBase<StringRow, ExactStringNullableRow>
-{
-    public StringNullableRow(StringRow value)
-        : this((OneOf<StringRow, ExactStringNullableRow>)value) { }
-
-    public StringNullableRow(ExactStringNullableRow value)
-        : this((OneOf<StringRow, ExactStringNullableRow>)value) { }
-
-    private StringNullableRow(OneOf<StringRow, ExactStringNullableRow> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>string.nullable@row</c>.</summary>
+public readonly union StringNullableRow(
+    ConcatStringRow,
+    IfStringRow,
+    CoalesceStringRow,
+    LiteralString,
+    ParamString,
+    FieldString,
+    ConcatStringNullableRow,
+    IfStringNullableRow,
+    CoalesceStringNullableRow,
+    LiteralStringNullable,
+    ParamStringNullable,
+    FieldStringNullable
+);

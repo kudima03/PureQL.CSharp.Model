@@ -2,24 +2,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>if.integer.nullable@group</c>.</summary>
 public sealed record IfIntegerNullableGroup : IOperator
 {
     public IfIntegerNullableGroup(
-        BooleanGroup condition,
         IntegerNullableGroup then,
-        IntegerNullableGroup @else
+        IntegerNullableGroup @else,
+        BooleanGroup condition
     )
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanGroup Condition { get; }
 
     public IntegerNullableGroup Then { get; }
 
     public IntegerNullableGroup Else { get; }
+
+    public BooleanGroup Condition { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

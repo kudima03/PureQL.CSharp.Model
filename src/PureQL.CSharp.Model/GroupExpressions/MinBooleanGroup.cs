@@ -3,17 +3,18 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>min.boolean@group</c>.</summary>
 public sealed record MinBooleanGroup : IOperator
 {
     public MinBooleanGroup(BooleanRow selector, AggregateOver over = AggregateOver.Group)
     {
-        Selector = selector;
         Over = over;
+        Selector = selector;
     }
 
-    public BooleanRow Selector { get; }
-
     public AggregateOver Over { get; }
+
+    public BooleanRow Selector { get; }
 
     public IType Type => new TypeBoolean();
 }

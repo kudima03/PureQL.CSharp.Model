@@ -1,15 +1,25 @@
-using OneOf;
+using PureQL.CSharp.Model.Keys;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed class StringNullableGroup : OneOfBase<StringGroup, ExactStringNullableGroup>
-{
-    public StringNullableGroup(StringGroup value)
-        : this((OneOf<StringGroup, ExactStringNullableGroup>)value) { }
-
-    public StringNullableGroup(ExactStringNullableGroup value)
-        : this((OneOf<StringGroup, ExactStringNullableGroup>)value) { }
-
-    private StringNullableGroup(OneOf<StringGroup, ExactStringNullableGroup> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>string.nullable@group</c>.</summary>
+public readonly union StringNullableGroup(
+    ConcatStringGroup,
+    IfStringGroup,
+    CoalesceStringGroup,
+    MinStringGroup,
+    MaxStringGroup,
+    LiteralString,
+    ParamString,
+    KeyString,
+    ConcatStringNullableGroup,
+    IfStringNullableGroup,
+    CoalesceStringNullableGroup,
+    MinStringNullableGroup,
+    MaxStringNullableGroup,
+    LiteralStringNullable,
+    ParamStringNullable,
+    KeyStringNullable
+);

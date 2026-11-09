@@ -2,14 +2,15 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>coalesce.time.nullable@group</c>.</summary>
 public sealed record CoalesceTimeNullableGroup : IOperator
 {
-    public CoalesceTimeNullableGroup(IEnumerable<TimeNullableGroup> values)
+    public CoalesceTimeNullableGroup(IEnumerable<DeclaresTimeNullableGroup> values)
     {
         Values = values;
     }
 
-    public IEnumerable<TimeNullableGroup> Values { get; }
+    public IEnumerable<DeclaresTimeNullableGroup> Values { get; }
 
     public IType Type => new TypeTimeNullable();
 }

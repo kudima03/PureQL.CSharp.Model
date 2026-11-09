@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.GroupExpressions;
 
 namespace PureQL.CSharp.Model;
 
+/// <summary>PureQL <c>orderItem@group</c>.</summary>
 public sealed record OrderItemGroup
 {
     public OrderItemGroup(

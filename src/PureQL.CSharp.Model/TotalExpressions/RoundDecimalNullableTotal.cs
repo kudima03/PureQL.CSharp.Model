@@ -2,15 +2,19 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>round.decimal.nullable@total</c>.</summary>
 public sealed record RoundDecimalNullableTotal : IOperator
 {
-    public RoundDecimalNullableTotal(DecimalNullableTotal operand, IntegerTotal digits)
+    public RoundDecimalNullableTotal(
+        IntegerNullableOrDecimalNullableTotal operand,
+        IntegerTotal digits
+    )
     {
         Operand = operand;
         Digits = digits;
     }
 
-    public DecimalNullableTotal Operand { get; }
+    public IntegerNullableOrDecimalNullableTotal Operand { get; }
 
     public IntegerTotal Digits { get; }
 

@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>in.time@total</c>.</summary>
 public sealed record InTimeTotal : IOperator
 {
     public InTimeTotal(TimeNullableTotal operand, ListTime list)

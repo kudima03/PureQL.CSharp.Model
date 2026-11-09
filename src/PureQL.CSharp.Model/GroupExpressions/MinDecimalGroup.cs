@@ -3,17 +3,21 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>min.decimal@group</c>.</summary>
 public sealed record MinDecimalGroup : IOperator
 {
-    public MinDecimalGroup(DecimalRow selector, AggregateOver over = AggregateOver.Group)
+    public MinDecimalGroup(
+        DeclaresDecimalRow selector,
+        AggregateOver over = AggregateOver.Group
+    )
     {
-        Selector = selector;
         Over = over;
+        Selector = selector;
     }
 
-    public DecimalRow Selector { get; }
-
     public AggregateOver Over { get; }
+
+    public DeclaresDecimalRow Selector { get; }
 
     public IType Type => new TypeDecimal();
 }

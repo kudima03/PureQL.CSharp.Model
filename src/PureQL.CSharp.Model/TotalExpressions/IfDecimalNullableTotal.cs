@@ -2,24 +2,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>if.decimal.nullable@total</c>.</summary>
 public sealed record IfDecimalNullableTotal : IOperator
 {
     public IfDecimalNullableTotal(
-        BooleanTotal condition,
         DecimalNullableTotal then,
-        DecimalNullableTotal @else
+        DecimalNullableTotal @else,
+        BooleanTotal condition
     )
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanTotal Condition { get; }
 
     public DecimalNullableTotal Then { get; }
 
     public DecimalNullableTotal Else { get; }
+
+    public BooleanTotal Condition { get; }
 
     public IType Type => new TypeDecimalNullable();
 }

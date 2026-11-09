@@ -1,70 +1,61 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed class DecimalNullableRow
-    : OneOfBase<
-        ExactDecimalRow,
-        ExactDecimalNullableRow,
-        IntegerRow,
-        ExactIntegerNullableRow
-    >
-{
-    public DecimalNullableRow(ExactDecimalRow value)
-        : this(
-            (OneOf<
-                ExactDecimalRow,
-                ExactDecimalNullableRow,
-                IntegerRow,
-                ExactIntegerNullableRow
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableRow(ExactDecimalNullableRow value)
-        : this(
-            (OneOf<
-                ExactDecimalRow,
-                ExactDecimalNullableRow,
-                IntegerRow,
-                ExactIntegerNullableRow
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableRow(IntegerRow value)
-        : this(
-            (OneOf<
-                ExactDecimalRow,
-                ExactDecimalNullableRow,
-                IntegerRow,
-                ExactIntegerNullableRow
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableRow(ExactIntegerNullableRow value)
-        : this(
-            (OneOf<
-                ExactDecimalRow,
-                ExactDecimalNullableRow,
-                IntegerRow,
-                ExactIntegerNullableRow
-            >)
-                value
-        )
-    { }
-
-    private DecimalNullableRow(
-        OneOf<
-            ExactDecimalRow,
-            ExactDecimalNullableRow,
-            IntegerRow,
-            ExactIntegerNullableRow
-        > input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>decimal.nullable@row</c>.</summary>
+public readonly union DecimalNullableRow(
+    AddIntegerRow,
+    SubtractIntegerRow,
+    MultiplyIntegerRow,
+    IntegerDivideIntegerRow,
+    ModuloIntegerRow,
+    FloorIntegerRow,
+    CeilingIntegerRow,
+    RoundIntegerRow,
+    DateDiffDaysIntegerRow,
+    IfIntegerRow,
+    CoalesceIntegerRow,
+    LiteralInteger,
+    ParamInteger,
+    FieldInteger,
+    AddIntegerNullableRow,
+    SubtractIntegerNullableRow,
+    MultiplyIntegerNullableRow,
+    IntegerDivideIntegerNullableRow,
+    ModuloIntegerNullableRow,
+    FloorIntegerNullableRow,
+    CeilingIntegerNullableRow,
+    RoundIntegerNullableRow,
+    DateDiffDaysIntegerNullableRow,
+    IfIntegerNullableRow,
+    CoalesceIntegerNullableRow,
+    LiteralIntegerNullable,
+    ParamIntegerNullable,
+    FieldIntegerNullable,
+    AddDecimalRow,
+    SubtractDecimalRow,
+    MultiplyDecimalRow,
+    DivideDecimalRow,
+    RoundDecimalRow,
+    TimeDiffSecondsDecimalRow,
+    DatetimeDiffSecondsDecimalRow,
+    IfDecimalRow,
+    CoalesceDecimalRow,
+    LiteralDecimal,
+    ParamDecimal,
+    FieldDecimal,
+    AddDecimalNullableRow,
+    SubtractDecimalNullableRow,
+    MultiplyDecimalNullableRow,
+    DivideDecimalNullableRow,
+    RoundDecimalNullableRow,
+    TimeDiffSecondsDecimalNullableRow,
+    DatetimeDiffSecondsDecimalNullableRow,
+    IfDecimalNullableRow,
+    CoalesceDecimalNullableRow,
+    LiteralDecimalNullable,
+    ParamDecimalNullable,
+    FieldDecimalNullable
+);

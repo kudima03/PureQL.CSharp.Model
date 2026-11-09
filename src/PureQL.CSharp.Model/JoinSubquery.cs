@@ -13,15 +13,15 @@ public sealed record JoinSubquery
     {
         Kind = kind;
         Subquery = subquery;
-        On = on;
         Alias = alias;
+        On = on;
     }
 
     public JoinKind Kind { get; }
 
     public string Subquery { get; }
 
-    public BooleanRow On { get; }
-
     public string? Alias { get; }
+
+    public BooleanRow On { get; }
 }

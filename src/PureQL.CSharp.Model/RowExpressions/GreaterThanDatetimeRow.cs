@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>greaterThan.datetime@row</c>.</summary>
 public sealed record GreaterThanDatetimeRow : IOperator
 {
     public GreaterThanDatetimeRow(DatetimeNullableRow left, DatetimeNullableRow right)

@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>datetimeDiffSeconds.decimal@projection</c>.</summary>
 public sealed record DatetimeDiffSecondsDecimalProjection : IOperator
 {
     public DatetimeDiffSecondsDecimalProjection(

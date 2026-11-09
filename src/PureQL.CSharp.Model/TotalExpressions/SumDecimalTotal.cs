@@ -3,17 +3,21 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>sum.decimal@total</c>.</summary>
 public sealed record SumDecimalTotal : IOperator
 {
-    public SumDecimalTotal(DecimalNullableRow selector, BooleanRow? predicate = null)
+    public SumDecimalTotal(
+        DecimalOrDecimalNullableRow selector,
+        BooleanRow? predicate = null
+    )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public DecimalNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public DecimalOrDecimalNullableRow Selector { get; }
 
     public IType Type => new TypeDecimal();
 }

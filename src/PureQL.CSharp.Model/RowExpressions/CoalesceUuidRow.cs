@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>coalesce.uuid@row</c>.</summary>
 public sealed record CoalesceUuidRow : IOperator
 {
     public CoalesceUuidRow(IEnumerable<UuidNullableRow> values)

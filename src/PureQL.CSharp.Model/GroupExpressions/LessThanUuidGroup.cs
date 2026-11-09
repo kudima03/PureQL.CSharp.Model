@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>lessThan.uuid@group</c>.</summary>
 public sealed record LessThanUuidGroup : IOperator
 {
     public LessThanUuidGroup(UuidNullableGroup left, UuidNullableGroup right)

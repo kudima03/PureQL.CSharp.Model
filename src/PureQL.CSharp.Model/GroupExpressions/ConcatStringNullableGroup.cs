@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>concat.string.nullable@group</c>.</summary>
 public sealed record ConcatStringNullableGroup : IOperator
 {
     public ConcatStringNullableGroup(IEnumerable<StringNullableGroup> values)

@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>timeAddSeconds.time.nullable@group</c>.</summary>
 public sealed record TimeAddSecondsTimeNullableGroup : IOperator
 {
     public TimeAddSecondsTimeNullableGroup(

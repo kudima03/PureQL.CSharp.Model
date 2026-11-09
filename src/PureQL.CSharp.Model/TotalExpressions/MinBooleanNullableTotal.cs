@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>min.boolean.nullable@total</c>.</summary>
 public sealed record MinBooleanNullableTotal : IOperator
 {
     public MinBooleanNullableTotal(
@@ -10,13 +11,13 @@ public sealed record MinBooleanNullableTotal : IOperator
         BooleanRow? predicate = null
     )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public BooleanNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public BooleanNullableRow Selector { get; }
 
     public IType Type => new TypeBooleanNullable();
 }

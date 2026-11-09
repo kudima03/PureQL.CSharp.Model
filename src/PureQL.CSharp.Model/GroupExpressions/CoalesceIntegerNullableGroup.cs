@@ -2,14 +2,15 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>coalesce.integer.nullable@group</c>.</summary>
 public sealed record CoalesceIntegerNullableGroup : IOperator
 {
-    public CoalesceIntegerNullableGroup(IEnumerable<IntegerNullableGroup> values)
+    public CoalesceIntegerNullableGroup(IEnumerable<DeclaresIntegerNullableGroup> values)
     {
         Values = values;
     }
 
-    public IEnumerable<IntegerNullableGroup> Values { get; }
+    public IEnumerable<DeclaresIntegerNullableGroup> Values { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

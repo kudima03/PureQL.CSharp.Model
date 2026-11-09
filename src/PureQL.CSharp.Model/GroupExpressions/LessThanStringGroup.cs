@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>lessThan.string@group</c>.</summary>
 public sealed record LessThanStringGroup : IOperator
 {
     public LessThanStringGroup(StringNullableGroup left, StringNullableGroup right)

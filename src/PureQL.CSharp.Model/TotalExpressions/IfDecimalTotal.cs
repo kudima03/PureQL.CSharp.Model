@@ -2,20 +2,21 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>if.decimal@total</c>.</summary>
 public sealed record IfDecimalTotal : IOperator
 {
-    public IfDecimalTotal(BooleanTotal condition, DecimalTotal then, DecimalTotal @else)
+    public IfDecimalTotal(DecimalTotal then, DecimalTotal @else, BooleanTotal condition)
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanTotal Condition { get; }
 
     public DecimalTotal Then { get; }
 
     public DecimalTotal Else { get; }
+
+    public BooleanTotal Condition { get; }
 
     public IType Type => new TypeDecimal();
 }

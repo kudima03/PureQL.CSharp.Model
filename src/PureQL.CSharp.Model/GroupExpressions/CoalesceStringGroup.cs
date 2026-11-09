@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>coalesce.string@group</c>.</summary>
 public sealed record CoalesceStringGroup : IOperator
 {
     public CoalesceStringGroup(IEnumerable<StringNullableGroup> values)

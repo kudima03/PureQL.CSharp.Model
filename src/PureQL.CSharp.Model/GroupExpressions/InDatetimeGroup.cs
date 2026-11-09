@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>in.datetime@group</c>.</summary>
 public sealed record InDatetimeGroup : IOperator
 {
     public InDatetimeGroup(DatetimeNullableGroup operand, ListDatetime list)

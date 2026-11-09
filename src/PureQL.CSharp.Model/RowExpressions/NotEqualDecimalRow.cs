@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>notEqual.decimal@row</c>.</summary>
 public sealed record NotEqualDecimalRow : IOperator
 {
     public NotEqualDecimalRow(DecimalNullableRow left, DecimalNullableRow right)

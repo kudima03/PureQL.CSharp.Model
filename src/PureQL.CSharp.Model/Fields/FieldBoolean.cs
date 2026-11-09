@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Fields;
 
+/// <summary>PureQL <c>field.boolean</c>.</summary>
 public sealed record FieldBoolean : IField
 {
     public FieldBoolean(string source, string field)

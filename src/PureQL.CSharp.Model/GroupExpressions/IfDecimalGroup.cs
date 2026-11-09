@@ -2,20 +2,21 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>if.decimal@group</c>.</summary>
 public sealed record IfDecimalGroup : IOperator
 {
-    public IfDecimalGroup(BooleanGroup condition, DecimalGroup then, DecimalGroup @else)
+    public IfDecimalGroup(DecimalGroup then, DecimalGroup @else, BooleanGroup condition)
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanGroup Condition { get; }
 
     public DecimalGroup Then { get; }
 
     public DecimalGroup Else { get; }
+
+    public BooleanGroup Condition { get; }
 
     public IType Type => new TypeDecimal();
 }

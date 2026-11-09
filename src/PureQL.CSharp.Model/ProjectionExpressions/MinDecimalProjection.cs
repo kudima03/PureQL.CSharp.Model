@@ -3,14 +3,15 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>min.decimal@projection</c>.</summary>
 public sealed record MinDecimalProjection : IOperator
 {
-    public MinDecimalProjection(DecimalRow selector)
+    public MinDecimalProjection(DeclaresDecimalRow selector)
     {
         Selector = selector;
     }
 
-    public DecimalRow Selector { get; }
+    public DeclaresDecimalRow Selector { get; }
 
     public IType Type => new TypeDecimal();
 }

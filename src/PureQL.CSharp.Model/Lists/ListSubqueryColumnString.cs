@@ -2,20 +2,17 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Lists;
 
-public sealed record ListSubqueryColumnString
+public sealed record ListSubqueryColumnString : ISubqueryColumn
 {
-    public ListSubqueryColumnString(string subquery, string field, bool nullable = false)
+    public ListSubqueryColumnString(string subquery, string field)
     {
         Subquery = subquery;
         Field = field;
-        Nullable = nullable;
     }
 
     public string Subquery { get; }
 
     public string Field { get; }
 
-    public bool Nullable { get; }
-
-    public IType Type => Nullable ? new TypeStringNullable() : new TypeString();
+    public IType Type => new TypeString();
 }

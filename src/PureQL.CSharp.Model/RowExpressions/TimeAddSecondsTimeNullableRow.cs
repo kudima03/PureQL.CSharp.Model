@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>timeAddSeconds.time.nullable@row</c>.</summary>
 public sealed record TimeAddSecondsTimeNullableRow : IOperator
 {
     public TimeAddSecondsTimeNullableRow(TimeNullableRow left, DecimalNullableRow right)

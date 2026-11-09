@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Fields;
 
+/// <summary>PureQL <c>field.uuid</c>.</summary>
 public sealed record FieldUuid : IField
 {
     public FieldUuid(string source, string field)

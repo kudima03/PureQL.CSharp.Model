@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>min.datetime.nullable@total</c>.</summary>
 public sealed record MinDatetimeNullableTotal : IOperator
 {
     public MinDatetimeNullableTotal(
@@ -10,13 +11,13 @@ public sealed record MinDatetimeNullableTotal : IOperator
         BooleanRow? predicate = null
     )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public DatetimeNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public DatetimeNullableRow Selector { get; }
 
     public IType Type => new TypeDatetimeNullable();
 }

@@ -3,17 +3,18 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>min.string@group</c>.</summary>
 public sealed record MinStringGroup : IOperator
 {
     public MinStringGroup(StringRow selector, AggregateOver over = AggregateOver.Group)
     {
-        Selector = selector;
         Over = over;
+        Selector = selector;
     }
 
-    public StringRow Selector { get; }
-
     public AggregateOver Over { get; }
+
+    public StringRow Selector { get; }
 
     public IType Type => new TypeString();
 }

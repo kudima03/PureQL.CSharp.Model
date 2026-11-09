@@ -2,24 +2,17 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Lists;
 
-public sealed record ListSubqueryColumnDatetime
+public sealed record ListSubqueryColumnDatetime : ISubqueryColumn
 {
-    public ListSubqueryColumnDatetime(
-        string subquery,
-        string field,
-        bool nullable = false
-    )
+    public ListSubqueryColumnDatetime(string subquery, string field)
     {
         Subquery = subquery;
         Field = field;
-        Nullable = nullable;
     }
 
     public string Subquery { get; }
 
     public string Field { get; }
 
-    public bool Nullable { get; }
-
-    public IType Type => Nullable ? new TypeDatetimeNullable() : new TypeDatetime();
+    public IType Type => new TypeDatetime();
 }

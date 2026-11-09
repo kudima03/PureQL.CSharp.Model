@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>min.boolean.nullable@group</c>.</summary>
 public sealed record MinBooleanNullableGroup : IOperator
 {
     public MinBooleanNullableGroup(
@@ -11,16 +12,16 @@ public sealed record MinBooleanNullableGroup : IOperator
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Predicate = predicate;
         Over = over;
+        Selector = selector;
     }
-
-    public BooleanNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public BooleanNullableRow Selector { get; }
 
     public IType Type => new TypeBooleanNullable();
 }
