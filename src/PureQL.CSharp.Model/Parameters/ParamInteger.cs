@@ -2,14 +2,15 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Parameters;
 
+/// <summary>PureQL <c>param.integer</c>.</summary>
 public sealed record ParamInteger : IParameter
 {
-    public ParamInteger(string name)
+    public ParamInteger(string param)
     {
-        Name = name;
+        Param = param;
     }
 
-    public string Name { get; }
+    public string Param { get; }
 
     public IType Type => new TypeInteger();
 }

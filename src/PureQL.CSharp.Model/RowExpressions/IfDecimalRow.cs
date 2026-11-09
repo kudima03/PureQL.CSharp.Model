@@ -2,20 +2,21 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>if.decimal@row</c>.</summary>
 public sealed record IfDecimalRow : IOperator
 {
-    public IfDecimalRow(BooleanRow condition, DecimalRow then, DecimalRow @else)
+    public IfDecimalRow(DecimalRow then, DecimalRow @else, BooleanRow condition)
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanRow Condition { get; }
 
     public DecimalRow Then { get; }
 
     public DecimalRow Else { get; }
+
+    public BooleanRow Condition { get; }
 
     public IType Type => new TypeDecimal();
 }

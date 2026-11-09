@@ -2,24 +2,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>if.uuid.nullable@row</c>.</summary>
 public sealed record IfUuidNullableRow : IOperator
 {
     public IfUuidNullableRow(
-        BooleanRow condition,
         UuidNullableRow then,
-        UuidNullableRow @else
+        UuidNullableRow @else,
+        BooleanRow condition
     )
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanRow Condition { get; }
 
     public UuidNullableRow Then { get; }
 
     public UuidNullableRow Else { get; }
+
+    public BooleanRow Condition { get; }
 
     public IType Type => new TypeUuidNullable();
 }

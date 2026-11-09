@@ -1,15 +1,27 @@
-using OneOf;
+using PureQL.CSharp.Model.Keys;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed class DateNullableGroup : OneOfBase<DateGroup, ExactDateNullableGroup>
-{
-    public DateNullableGroup(DateGroup value)
-        : this((OneOf<DateGroup, ExactDateNullableGroup>)value) { }
-
-    public DateNullableGroup(ExactDateNullableGroup value)
-        : this((OneOf<DateGroup, ExactDateNullableGroup>)value) { }
-
-    private DateNullableGroup(OneOf<DateGroup, ExactDateNullableGroup> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>date.nullable@group</c>.</summary>
+public readonly union DateNullableGroup(
+    DateAddDaysDateGroup,
+    IfDateGroup,
+    CoalesceDateGroup,
+    AverageDateGroup,
+    MinDateGroup,
+    MaxDateGroup,
+    LiteralDate,
+    ParamDate,
+    KeyDate,
+    DateAddDaysDateNullableGroup,
+    IfDateNullableGroup,
+    CoalesceDateNullableGroup,
+    AverageDateNullableGroup,
+    MinDateNullableGroup,
+    MaxDateNullableGroup,
+    LiteralDateNullable,
+    ParamDateNullable,
+    KeyDateNullable
+);

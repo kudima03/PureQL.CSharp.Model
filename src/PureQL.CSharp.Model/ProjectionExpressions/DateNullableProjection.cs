@@ -1,18 +1,27 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed class DateNullableProjection
-    : OneOfBase<DateProjection, ExactDateNullableProjection>
-{
-    public DateNullableProjection(DateProjection value)
-        : this((OneOf<DateProjection, ExactDateNullableProjection>)value) { }
-
-    public DateNullableProjection(ExactDateNullableProjection value)
-        : this((OneOf<DateProjection, ExactDateNullableProjection>)value) { }
-
-    private DateNullableProjection(
-        OneOf<DateProjection, ExactDateNullableProjection> input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>date.nullable@projection</c>.</summary>
+public readonly union DateNullableProjection(
+    DateAddDaysDateProjection,
+    IfDateProjection,
+    CoalesceDateProjection,
+    AverageDateProjection,
+    MinDateProjection,
+    MaxDateProjection,
+    LiteralDate,
+    ParamDate,
+    FieldDate,
+    DateAddDaysDateNullableProjection,
+    IfDateNullableProjection,
+    CoalesceDateNullableProjection,
+    AverageDateNullableProjection,
+    MinDateNullableProjection,
+    MaxDateNullableProjection,
+    LiteralDateNullable,
+    ParamDateNullable,
+    FieldDateNullable
+);

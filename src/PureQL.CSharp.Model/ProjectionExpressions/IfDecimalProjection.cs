@@ -2,24 +2,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>if.decimal@projection</c>.</summary>
 public sealed record IfDecimalProjection : IOperator
 {
     public IfDecimalProjection(
-        BooleanProjection condition,
         DecimalProjection then,
-        DecimalProjection @else
+        DecimalProjection @else,
+        BooleanProjection condition
     )
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanProjection Condition { get; }
 
     public DecimalProjection Then { get; }
 
     public DecimalProjection Else { get; }
+
+    public BooleanProjection Condition { get; }
 
     public IType Type => new TypeDecimal();
 }

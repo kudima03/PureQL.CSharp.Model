@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>equal.decimal@total</c>.</summary>
 public sealed record EqualDecimalTotal : IOperator
 {
     public EqualDecimalTotal(DecimalNullableTotal left, DecimalNullableTotal right)

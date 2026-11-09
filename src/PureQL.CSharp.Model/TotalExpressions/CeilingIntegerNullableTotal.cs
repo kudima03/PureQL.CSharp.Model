@@ -2,14 +2,15 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>ceiling.integer.nullable@total</c>.</summary>
 public sealed record CeilingIntegerNullableTotal : IOperator
 {
-    public CeilingIntegerNullableTotal(DecimalNullableTotal operand)
+    public CeilingIntegerNullableTotal(IntegerNullableOrDecimalNullableTotal operand)
     {
         Operand = operand;
     }
 
-    public DecimalNullableTotal Operand { get; }
+    public IntegerNullableOrDecimalNullableTotal Operand { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

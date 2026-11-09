@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>max.string.nullable@group</c>.</summary>
 public sealed record MaxStringNullableGroup : IOperator
 {
     public MaxStringNullableGroup(
@@ -11,16 +12,16 @@ public sealed record MaxStringNullableGroup : IOperator
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Predicate = predicate;
         Over = over;
+        Selector = selector;
     }
-
-    public StringNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public StringNullableRow Selector { get; }
 
     public IType Type => new TypeStringNullable();
 }

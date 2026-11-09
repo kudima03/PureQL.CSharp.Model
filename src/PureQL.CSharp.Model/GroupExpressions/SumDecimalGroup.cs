@@ -3,24 +3,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>sum.decimal@group</c>.</summary>
 public sealed record SumDecimalGroup : IOperator
 {
     public SumDecimalGroup(
-        DecimalNullableRow selector,
+        DecimalOrDecimalNullableRow selector,
         BooleanRow? predicate = null,
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Predicate = predicate;
         Over = over;
+        Selector = selector;
     }
-
-    public DecimalNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public DecimalOrDecimalNullableRow Selector { get; }
 
     public IType Type => new TypeDecimal();
 }

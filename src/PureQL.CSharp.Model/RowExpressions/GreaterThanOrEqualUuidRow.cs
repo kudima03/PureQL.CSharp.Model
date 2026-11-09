@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>greaterThanOrEqual.uuid@row</c>.</summary>
 public sealed record GreaterThanOrEqualUuidRow : IOperator
 {
     public GreaterThanOrEqualUuidRow(UuidNullableRow left, UuidNullableRow right)

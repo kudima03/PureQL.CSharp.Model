@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>all@group</c>.</summary>
 public sealed record AllGroup : IOperator
 {
     public AllGroup(BooleanRow predicate, AggregateOver over = AggregateOver.Group)

@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>coalesce.string@total</c>.</summary>
 public sealed record CoalesceStringTotal : IOperator
 {
     public CoalesceStringTotal(IEnumerable<StringNullableTotal> values)

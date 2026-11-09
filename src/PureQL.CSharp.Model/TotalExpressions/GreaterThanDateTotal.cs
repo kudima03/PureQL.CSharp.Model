@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>greaterThan.date@total</c>.</summary>
 public sealed record GreaterThanDateTotal : IOperator
 {
     public GreaterThanDateTotal(DateNullableTotal left, DateNullableTotal right)

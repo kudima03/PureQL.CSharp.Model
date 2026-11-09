@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>datetimeAddSeconds.datetime@group</c>.</summary>
 public sealed record DatetimeAddSecondsDatetimeGroup : IOperator
 {
     public DatetimeAddSecondsDatetimeGroup(DatetimeGroup left, DecimalGroup right)

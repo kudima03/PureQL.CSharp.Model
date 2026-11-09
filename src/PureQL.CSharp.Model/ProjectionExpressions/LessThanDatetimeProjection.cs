@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>lessThan.datetime@projection</c>.</summary>
 public sealed record LessThanDatetimeProjection : IOperator
 {
     public LessThanDatetimeProjection(

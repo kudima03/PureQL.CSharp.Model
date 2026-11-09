@@ -2,14 +2,15 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Parameters;
 
+/// <summary>PureQL <c>param.time.nullable</c>.</summary>
 public sealed record ParamTimeNullable : IParameter
 {
-    public ParamTimeNullable(string name)
+    public ParamTimeNullable(string param)
     {
-        Name = name;
+        Param = param;
     }
 
-    public string Name { get; }
+    public string Param { get; }
 
     public IType Type => new TypeTimeNullable();
 }

@@ -7,6 +7,48 @@ Versioning mirrors the PureQL specification with a `-csharp.N` suffix where need
 
 ---
 
+## [Unreleased] — spec 0.1.0-preview.2.0.1
+
+Rewrites the model with C# 15 unions on .NET 11. The model is now generated
+from the specification and mirrors its nodes strictly, with the names of the
+TypeScript model. Every existing query must be rebuilt, mostly by deleting
+wrappers: a node converts to every union it may stand in.
+
+### Changed
+
+- **C# unions instead of OneOf** — every union is a `readonly union` holding
+  its records directly (`DecimalNullableRow` holds `AddIntegerRow`, …), so
+  `DecimalNullableRow x = new FieldInteger("o", "qty");` compiles and a
+  `switch` is exhaustive. The OneOf dependency is gone.
+- **No operator families** — `Logical*`, `Comparison*`, `Arithmetic*`,
+  `Rounding*`, `Difference*`, `Conditional*`, `Aggregate*`, `EqualRow`, …
+  and the `Exact*` unions are removed; operators are direct cases of the
+  positions and of `Expr{Ctx}`.
+- **Query variants** — `MainPlainQuery`, `MainGroupedQuery`, `PlainQuery`
+  and `GroupedQuery` split into `…WithPagination` / `…WithoutPagination`
+  (and, for subqueries, `…WithOrderBy` / `…WithoutOrderBy`): pagination
+  without `orderBy` no longer compiles.
+- **Select items and group keys** — one record each: `GroupKey(alias,
+  ExprRow)`, `SelectItemProjection(alias, ExprProjection)`, … replace the
+  per-type `GroupKey{T}` / `SelectItem*{T}` records and their unions.
+- **Narrower operands** — `DeclaresDecimalRow`, `DeclaresStringNullableRow`,
+  `DecimalOrDecimalNullableRow`, `IntegerNullableOrDecimalNullableRow`, …
+  where the schema asks for exactly those types (`MaxDecimalGroup`,
+  `CoalesceStringNullableRow`, `SumDecimalTotal`, `RoundIntegerNullableRow`).
+- **Schema names and order** — `IParameter.Param` (was `Name`); record
+  properties follow the schema's order; `ListSubqueryColumn{T}Nullable`
+  replaces the `nullable` flag; `Pagination` takes `PaginationSkip` /
+  `PaginationTake` (`long` | `ParamInteger`).
+- **Targets .NET 11 only.**
+
+### Added
+
+- `PureQL.CSharp.Model.Generator`, which generates the model from the
+  pinned specification; CI checks the committed model is up to date.
+- `ISubqueryColumn` for the subquery columns of `in` lists.
+
+---
+
 ## [0.1.0-preview.13.0.0] - 2026-10-12 — spec 0.1.0-preview.2.0.0
 
 Adapts the model to PureQL specification `0.1.0-preview.2.0.0`, where every

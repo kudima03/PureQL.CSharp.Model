@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>greaterThan.decimal@row</c>.</summary>
 public sealed record GreaterThanDecimalRow : IOperator
 {
     public GreaterThanDecimalRow(DecimalNullableRow left, DecimalNullableRow right)

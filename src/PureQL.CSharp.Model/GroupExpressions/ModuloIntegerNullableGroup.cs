@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>modulo.integer.nullable@group</c>.</summary>
 public sealed record ModuloIntegerNullableGroup : IOperator
 {
     public ModuloIntegerNullableGroup(

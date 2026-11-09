@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>timeAddSeconds.time.nullable@projection</c>.</summary>
 public sealed record TimeAddSecondsTimeNullableProjection : IOperator
 {
     public TimeAddSecondsTimeNullableProjection(

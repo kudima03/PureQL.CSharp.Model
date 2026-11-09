@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>coalesce.string@projection</c>.</summary>
 public sealed record CoalesceStringProjection : IOperator
 {
     public CoalesceStringProjection(IEnumerable<StringNullableProjection> values)

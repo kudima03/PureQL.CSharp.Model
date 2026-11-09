@@ -1,112 +1,66 @@
-using OneOf;
 using PureQL.CSharp.Model.Literals;
 using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
-public sealed class BooleanTotal
-    : OneOfBase<
-        ParamBoolean,
-        LiteralBoolean,
-        LogicalTotal,
-        ComparisonTotal,
-        ConditionalBooleanTotal,
-        AggregateBooleanTotal
-    >
-{
-    public BooleanTotal(ParamBoolean value)
-        : this(
-            (OneOf<
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalTotal,
-                ComparisonTotal,
-                ConditionalBooleanTotal,
-                AggregateBooleanTotal
-            >)
-                value
-        )
-    { }
-
-    public BooleanTotal(LiteralBoolean value)
-        : this(
-            (OneOf<
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalTotal,
-                ComparisonTotal,
-                ConditionalBooleanTotal,
-                AggregateBooleanTotal
-            >)
-                value
-        )
-    { }
-
-    public BooleanTotal(LogicalTotal value)
-        : this(
-            (OneOf<
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalTotal,
-                ComparisonTotal,
-                ConditionalBooleanTotal,
-                AggregateBooleanTotal
-            >)
-                value
-        )
-    { }
-
-    public BooleanTotal(ComparisonTotal value)
-        : this(
-            (OneOf<
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalTotal,
-                ComparisonTotal,
-                ConditionalBooleanTotal,
-                AggregateBooleanTotal
-            >)
-                value
-        )
-    { }
-
-    public BooleanTotal(ConditionalBooleanTotal value)
-        : this(
-            (OneOf<
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalTotal,
-                ComparisonTotal,
-                ConditionalBooleanTotal,
-                AggregateBooleanTotal
-            >)
-                value
-        )
-    { }
-
-    public BooleanTotal(AggregateBooleanTotal value)
-        : this(
-            (OneOf<
-                ParamBoolean,
-                LiteralBoolean,
-                LogicalTotal,
-                ComparisonTotal,
-                ConditionalBooleanTotal,
-                AggregateBooleanTotal
-            >)
-                value
-        )
-    { }
-
-    private BooleanTotal(
-        OneOf<
-            ParamBoolean,
-            LiteralBoolean,
-            LogicalTotal,
-            ComparisonTotal,
-            ConditionalBooleanTotal,
-            AggregateBooleanTotal
-        > input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>boolean@total</c>.</summary>
+public readonly union BooleanTotal(
+    AndTotal,
+    OrTotal,
+    NotTotal,
+    EqualDecimalTotal,
+    EqualStringTotal,
+    EqualBooleanTotal,
+    EqualDateTotal,
+    EqualTimeTotal,
+    EqualDatetimeTotal,
+    EqualUuidTotal,
+    NotEqualDecimalTotal,
+    NotEqualStringTotal,
+    NotEqualBooleanTotal,
+    NotEqualDateTotal,
+    NotEqualTimeTotal,
+    NotEqualDatetimeTotal,
+    NotEqualUuidTotal,
+    GreaterThanDecimalTotal,
+    GreaterThanStringTotal,
+    GreaterThanBooleanTotal,
+    GreaterThanDateTotal,
+    GreaterThanTimeTotal,
+    GreaterThanDatetimeTotal,
+    GreaterThanUuidTotal,
+    LessThanDecimalTotal,
+    LessThanStringTotal,
+    LessThanBooleanTotal,
+    LessThanDateTotal,
+    LessThanTimeTotal,
+    LessThanDatetimeTotal,
+    LessThanUuidTotal,
+    GreaterThanOrEqualDecimalTotal,
+    GreaterThanOrEqualStringTotal,
+    GreaterThanOrEqualBooleanTotal,
+    GreaterThanOrEqualDateTotal,
+    GreaterThanOrEqualTimeTotal,
+    GreaterThanOrEqualDatetimeTotal,
+    GreaterThanOrEqualUuidTotal,
+    LessThanOrEqualDecimalTotal,
+    LessThanOrEqualStringTotal,
+    LessThanOrEqualBooleanTotal,
+    LessThanOrEqualDateTotal,
+    LessThanOrEqualTimeTotal,
+    LessThanOrEqualDatetimeTotal,
+    LessThanOrEqualUuidTotal,
+    InDecimalTotal,
+    InStringTotal,
+    InBooleanTotal,
+    InDateTotal,
+    InTimeTotal,
+    InDatetimeTotal,
+    InUuidTotal,
+    IfBooleanTotal,
+    CoalesceBooleanTotal,
+    AnyTotal,
+    AllTotal,
+    LiteralBoolean,
+    ParamBoolean
+);

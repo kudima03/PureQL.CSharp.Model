@@ -1,15 +1,18 @@
-using OneOf;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
-public sealed class UuidNullableTotal : OneOfBase<UuidTotal, ExactUuidNullableTotal>
-{
-    public UuidNullableTotal(UuidTotal value)
-        : this((OneOf<UuidTotal, ExactUuidNullableTotal>)value) { }
-
-    public UuidNullableTotal(ExactUuidNullableTotal value)
-        : this((OneOf<UuidTotal, ExactUuidNullableTotal>)value) { }
-
-    private UuidNullableTotal(OneOf<UuidTotal, ExactUuidNullableTotal> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>uuid.nullable@total</c>.</summary>
+public readonly union UuidNullableTotal(
+    IfUuidTotal,
+    CoalesceUuidTotal,
+    LiteralUuid,
+    ParamUuid,
+    IfUuidNullableTotal,
+    CoalesceUuidNullableTotal,
+    MinUuidNullableTotal,
+    MaxUuidNullableTotal,
+    LiteralUuidNullable,
+    ParamUuidNullable
+);

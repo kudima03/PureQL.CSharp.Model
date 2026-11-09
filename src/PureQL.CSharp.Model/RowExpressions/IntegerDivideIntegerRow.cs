@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>integerDivide.integer@row</c>.</summary>
 public sealed record IntegerDivideIntegerRow : IOperator
 {
     public IntegerDivideIntegerRow(IntegerRow left, IntegerRow right)

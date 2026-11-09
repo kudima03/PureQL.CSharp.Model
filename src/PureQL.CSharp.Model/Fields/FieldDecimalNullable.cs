@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Fields;
 
+/// <summary>PureQL <c>field.decimal.nullable</c>.</summary>
 public sealed record FieldDecimalNullable : IField
 {
     public FieldDecimalNullable(string source, string field)

@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>round.decimal@row</c>.</summary>
 public sealed record RoundDecimalRow : IOperator
 {
     public RoundDecimalRow(DecimalRow operand, IntegerRow digits)

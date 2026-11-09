@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Fields;
 
+/// <summary>PureQL <c>field.datetime.nullable</c>.</summary>
 public sealed record FieldDatetimeNullable : IField
 {
     public FieldDatetimeNullable(string source, string field)

@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>in.time@projection</c>.</summary>
 public sealed record InTimeProjection : IOperator
 {
     public InTimeProjection(TimeNullableProjection operand, ListTime list)

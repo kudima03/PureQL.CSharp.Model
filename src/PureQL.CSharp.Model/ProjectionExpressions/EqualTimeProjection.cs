@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>equal.time@projection</c>.</summary>
 public sealed record EqualTimeProjection : IOperator
 {
     public EqualTimeProjection(TimeNullableProjection left, TimeNullableProjection right)

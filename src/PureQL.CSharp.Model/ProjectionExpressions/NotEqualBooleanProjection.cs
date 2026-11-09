@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>notEqual.boolean@projection</c>.</summary>
 public sealed record NotEqualBooleanProjection : IOperator
 {
     public NotEqualBooleanProjection(

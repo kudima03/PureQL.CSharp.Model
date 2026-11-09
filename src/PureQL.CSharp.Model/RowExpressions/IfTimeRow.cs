@@ -2,20 +2,21 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>if.time@row</c>.</summary>
 public sealed record IfTimeRow : IOperator
 {
-    public IfTimeRow(BooleanRow condition, TimeRow then, TimeRow @else)
+    public IfTimeRow(TimeRow then, TimeRow @else, BooleanRow condition)
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanRow Condition { get; }
 
     public TimeRow Then { get; }
 
     public TimeRow Else { get; }
+
+    public BooleanRow Condition { get; }
 
     public IType Type => new TypeTime();
 }

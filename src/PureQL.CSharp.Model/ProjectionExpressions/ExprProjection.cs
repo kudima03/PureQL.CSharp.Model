@@ -1,133 +1,226 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed class ExprProjection
-    : OneOfBase<
-        DecimalNullableProjection,
-        StringNullableProjection,
-        BooleanNullableProjection,
-        DateNullableProjection,
-        TimeNullableProjection,
-        DatetimeNullableProjection,
-        UuidNullableProjection
-    >
-{
-    public ExprProjection(DecimalNullableProjection value)
-        : this(
-            (OneOf<
-                DecimalNullableProjection,
-                StringNullableProjection,
-                BooleanNullableProjection,
-                DateNullableProjection,
-                TimeNullableProjection,
-                DatetimeNullableProjection,
-                UuidNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public ExprProjection(StringNullableProjection value)
-        : this(
-            (OneOf<
-                DecimalNullableProjection,
-                StringNullableProjection,
-                BooleanNullableProjection,
-                DateNullableProjection,
-                TimeNullableProjection,
-                DatetimeNullableProjection,
-                UuidNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public ExprProjection(BooleanNullableProjection value)
-        : this(
-            (OneOf<
-                DecimalNullableProjection,
-                StringNullableProjection,
-                BooleanNullableProjection,
-                DateNullableProjection,
-                TimeNullableProjection,
-                DatetimeNullableProjection,
-                UuidNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public ExprProjection(DateNullableProjection value)
-        : this(
-            (OneOf<
-                DecimalNullableProjection,
-                StringNullableProjection,
-                BooleanNullableProjection,
-                DateNullableProjection,
-                TimeNullableProjection,
-                DatetimeNullableProjection,
-                UuidNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public ExprProjection(TimeNullableProjection value)
-        : this(
-            (OneOf<
-                DecimalNullableProjection,
-                StringNullableProjection,
-                BooleanNullableProjection,
-                DateNullableProjection,
-                TimeNullableProjection,
-                DatetimeNullableProjection,
-                UuidNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public ExprProjection(DatetimeNullableProjection value)
-        : this(
-            (OneOf<
-                DecimalNullableProjection,
-                StringNullableProjection,
-                BooleanNullableProjection,
-                DateNullableProjection,
-                TimeNullableProjection,
-                DatetimeNullableProjection,
-                UuidNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public ExprProjection(UuidNullableProjection value)
-        : this(
-            (OneOf<
-                DecimalNullableProjection,
-                StringNullableProjection,
-                BooleanNullableProjection,
-                DateNullableProjection,
-                TimeNullableProjection,
-                DatetimeNullableProjection,
-                UuidNullableProjection
-            >)
-                value
-        )
-    { }
-
-    private ExprProjection(
-        OneOf<
-            DecimalNullableProjection,
-            StringNullableProjection,
-            BooleanNullableProjection,
-            DateNullableProjection,
-            TimeNullableProjection,
-            DatetimeNullableProjection,
-            UuidNullableProjection
-        > input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>expr@projection</c>.</summary>
+public readonly union ExprProjection(
+    AddIntegerProjection,
+    SubtractIntegerProjection,
+    MultiplyIntegerProjection,
+    IntegerDivideIntegerProjection,
+    ModuloIntegerProjection,
+    FloorIntegerProjection,
+    CeilingIntegerProjection,
+    RoundIntegerProjection,
+    DateDiffDaysIntegerProjection,
+    IfIntegerProjection,
+    CoalesceIntegerProjection,
+    CountProjection,
+    SumIntegerProjection,
+    MinIntegerProjection,
+    MaxIntegerProjection,
+    LiteralInteger,
+    ParamInteger,
+    FieldInteger,
+    AddIntegerNullableProjection,
+    SubtractIntegerNullableProjection,
+    MultiplyIntegerNullableProjection,
+    IntegerDivideIntegerNullableProjection,
+    ModuloIntegerNullableProjection,
+    FloorIntegerNullableProjection,
+    CeilingIntegerNullableProjection,
+    RoundIntegerNullableProjection,
+    DateDiffDaysIntegerNullableProjection,
+    IfIntegerNullableProjection,
+    CoalesceIntegerNullableProjection,
+    MinIntegerNullableProjection,
+    MaxIntegerNullableProjection,
+    LiteralIntegerNullable,
+    ParamIntegerNullable,
+    FieldIntegerNullable,
+    AddDecimalProjection,
+    SubtractDecimalProjection,
+    MultiplyDecimalProjection,
+    DivideDecimalProjection,
+    RoundDecimalProjection,
+    TimeDiffSecondsDecimalProjection,
+    DatetimeDiffSecondsDecimalProjection,
+    IfDecimalProjection,
+    CoalesceDecimalProjection,
+    SumDecimalProjection,
+    AverageDecimalProjection,
+    MinDecimalProjection,
+    MaxDecimalProjection,
+    LiteralDecimal,
+    ParamDecimal,
+    FieldDecimal,
+    AddDecimalNullableProjection,
+    SubtractDecimalNullableProjection,
+    MultiplyDecimalNullableProjection,
+    DivideDecimalNullableProjection,
+    RoundDecimalNullableProjection,
+    TimeDiffSecondsDecimalNullableProjection,
+    DatetimeDiffSecondsDecimalNullableProjection,
+    IfDecimalNullableProjection,
+    CoalesceDecimalNullableProjection,
+    AverageDecimalNullableProjection,
+    MinDecimalNullableProjection,
+    MaxDecimalNullableProjection,
+    LiteralDecimalNullable,
+    ParamDecimalNullable,
+    FieldDecimalNullable,
+    ConcatStringProjection,
+    IfStringProjection,
+    CoalesceStringProjection,
+    MinStringProjection,
+    MaxStringProjection,
+    LiteralString,
+    ParamString,
+    FieldString,
+    ConcatStringNullableProjection,
+    IfStringNullableProjection,
+    CoalesceStringNullableProjection,
+    MinStringNullableProjection,
+    MaxStringNullableProjection,
+    LiteralStringNullable,
+    ParamStringNullable,
+    FieldStringNullable,
+    DateAddDaysDateProjection,
+    IfDateProjection,
+    CoalesceDateProjection,
+    AverageDateProjection,
+    MinDateProjection,
+    MaxDateProjection,
+    LiteralDate,
+    ParamDate,
+    FieldDate,
+    DateAddDaysDateNullableProjection,
+    IfDateNullableProjection,
+    CoalesceDateNullableProjection,
+    AverageDateNullableProjection,
+    MinDateNullableProjection,
+    MaxDateNullableProjection,
+    LiteralDateNullable,
+    ParamDateNullable,
+    FieldDateNullable,
+    TimeAddSecondsTimeProjection,
+    IfTimeProjection,
+    CoalesceTimeProjection,
+    AverageTimeProjection,
+    MinTimeProjection,
+    MaxTimeProjection,
+    LiteralTime,
+    ParamTime,
+    FieldTime,
+    TimeAddSecondsTimeNullableProjection,
+    IfTimeNullableProjection,
+    CoalesceTimeNullableProjection,
+    AverageTimeNullableProjection,
+    MinTimeNullableProjection,
+    MaxTimeNullableProjection,
+    LiteralTimeNullable,
+    ParamTimeNullable,
+    FieldTimeNullable,
+    DatetimeAddSecondsDatetimeProjection,
+    IfDatetimeProjection,
+    CoalesceDatetimeProjection,
+    AverageDatetimeProjection,
+    MinDatetimeProjection,
+    MaxDatetimeProjection,
+    LiteralDatetime,
+    ParamDatetime,
+    FieldDatetime,
+    DatetimeAddSecondsDatetimeNullableProjection,
+    IfDatetimeNullableProjection,
+    CoalesceDatetimeNullableProjection,
+    AverageDatetimeNullableProjection,
+    MinDatetimeNullableProjection,
+    MaxDatetimeNullableProjection,
+    LiteralDatetimeNullable,
+    ParamDatetimeNullable,
+    FieldDatetimeNullable,
+    AndProjection,
+    OrProjection,
+    NotProjection,
+    EqualDecimalProjection,
+    EqualStringProjection,
+    EqualBooleanProjection,
+    EqualDateProjection,
+    EqualTimeProjection,
+    EqualDatetimeProjection,
+    EqualUuidProjection,
+    NotEqualDecimalProjection,
+    NotEqualStringProjection,
+    NotEqualBooleanProjection,
+    NotEqualDateProjection,
+    NotEqualTimeProjection,
+    NotEqualDatetimeProjection,
+    NotEqualUuidProjection,
+    GreaterThanDecimalProjection,
+    GreaterThanStringProjection,
+    GreaterThanBooleanProjection,
+    GreaterThanDateProjection,
+    GreaterThanTimeProjection,
+    GreaterThanDatetimeProjection,
+    GreaterThanUuidProjection,
+    LessThanDecimalProjection,
+    LessThanStringProjection,
+    LessThanBooleanProjection,
+    LessThanDateProjection,
+    LessThanTimeProjection,
+    LessThanDatetimeProjection,
+    LessThanUuidProjection,
+    GreaterThanOrEqualDecimalProjection,
+    GreaterThanOrEqualStringProjection,
+    GreaterThanOrEqualBooleanProjection,
+    GreaterThanOrEqualDateProjection,
+    GreaterThanOrEqualTimeProjection,
+    GreaterThanOrEqualDatetimeProjection,
+    GreaterThanOrEqualUuidProjection,
+    LessThanOrEqualDecimalProjection,
+    LessThanOrEqualStringProjection,
+    LessThanOrEqualBooleanProjection,
+    LessThanOrEqualDateProjection,
+    LessThanOrEqualTimeProjection,
+    LessThanOrEqualDatetimeProjection,
+    LessThanOrEqualUuidProjection,
+    InDecimalProjection,
+    InStringProjection,
+    InBooleanProjection,
+    InDateProjection,
+    InTimeProjection,
+    InDatetimeProjection,
+    InUuidProjection,
+    IfBooleanProjection,
+    CoalesceBooleanProjection,
+    MinBooleanProjection,
+    MaxBooleanProjection,
+    AnyProjection,
+    AllProjection,
+    LiteralBoolean,
+    ParamBoolean,
+    FieldBoolean,
+    IfBooleanNullableProjection,
+    CoalesceBooleanNullableProjection,
+    MinBooleanNullableProjection,
+    MaxBooleanNullableProjection,
+    LiteralBooleanNullable,
+    ParamBooleanNullable,
+    FieldBooleanNullable,
+    IfUuidProjection,
+    CoalesceUuidProjection,
+    MinUuidProjection,
+    MaxUuidProjection,
+    LiteralUuid,
+    ParamUuid,
+    FieldUuid,
+    IfUuidNullableProjection,
+    CoalesceUuidNullableProjection,
+    MinUuidNullableProjection,
+    MaxUuidNullableProjection,
+    LiteralUuidNullable,
+    ParamUuidNullable,
+    FieldUuidNullable
+);

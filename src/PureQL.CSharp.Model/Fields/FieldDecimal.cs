@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Fields;
 
+/// <summary>PureQL <c>field.decimal</c>.</summary>
 public sealed record FieldDecimal : IField
 {
     public FieldDecimal(string source, string field)

@@ -3,17 +3,18 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>max.time.nullable@total</c>.</summary>
 public sealed record MaxTimeNullableTotal : IOperator
 {
     public MaxTimeNullableTotal(TimeNullableRow selector, BooleanRow? predicate = null)
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public TimeNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public TimeNullableRow Selector { get; }
 
     public IType Type => new TypeTimeNullable();
 }

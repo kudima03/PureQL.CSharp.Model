@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>greaterThan.boolean@projection</c>.</summary>
 public sealed record GreaterThanBooleanProjection : IOperator
 {
     public GreaterThanBooleanProjection(

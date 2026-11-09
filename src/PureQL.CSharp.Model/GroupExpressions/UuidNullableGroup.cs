@@ -1,15 +1,23 @@
-using OneOf;
+using PureQL.CSharp.Model.Keys;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed class UuidNullableGroup : OneOfBase<UuidGroup, ExactUuidNullableGroup>
-{
-    public UuidNullableGroup(UuidGroup value)
-        : this((OneOf<UuidGroup, ExactUuidNullableGroup>)value) { }
-
-    public UuidNullableGroup(ExactUuidNullableGroup value)
-        : this((OneOf<UuidGroup, ExactUuidNullableGroup>)value) { }
-
-    private UuidNullableGroup(OneOf<UuidGroup, ExactUuidNullableGroup> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>uuid.nullable@group</c>.</summary>
+public readonly union UuidNullableGroup(
+    IfUuidGroup,
+    CoalesceUuidGroup,
+    MinUuidGroup,
+    MaxUuidGroup,
+    LiteralUuid,
+    ParamUuid,
+    KeyUuid,
+    IfUuidNullableGroup,
+    CoalesceUuidNullableGroup,
+    MinUuidNullableGroup,
+    MaxUuidNullableGroup,
+    LiteralUuidNullable,
+    ParamUuidNullable,
+    KeyUuidNullable
+);

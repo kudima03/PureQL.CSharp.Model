@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>average.datetime.nullable@group</c>.</summary>
 public sealed record AverageDatetimeNullableGroup : IOperator
 {
     public AverageDatetimeNullableGroup(
@@ -11,16 +12,16 @@ public sealed record AverageDatetimeNullableGroup : IOperator
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Predicate = predicate;
         Over = over;
+        Selector = selector;
     }
-
-    public DatetimeNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public DatetimeNullableRow Selector { get; }
 
     public IType Type => new TypeDatetimeNullable();
 }

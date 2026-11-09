@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>in.datetime@row</c>.</summary>
 public sealed record InDatetimeRow : IOperator
 {
     public InDatetimeRow(DatetimeNullableRow operand, ListDatetime list)

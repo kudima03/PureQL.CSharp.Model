@@ -5,12 +5,12 @@ namespace PureQL.CSharp.Model.Lists;
 
 public sealed record ListParamDecimal : IParameter
 {
-    public ListParamDecimal(string name)
+    public ListParamDecimal(string param)
     {
-        Name = name;
+        Param = param;
     }
 
-    public string Name { get; }
+    public string Param { get; }
 
     public IType Type => new TypeDecimalList();
 }

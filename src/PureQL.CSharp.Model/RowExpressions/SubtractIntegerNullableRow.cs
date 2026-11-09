@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>subtract.integer.nullable@row</c>.</summary>
 public sealed record SubtractIntegerNullableRow : IOperator
 {
     public SubtractIntegerNullableRow(IEnumerable<IntegerNullableRow> values)

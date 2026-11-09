@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>in.boolean@group</c>.</summary>
 public sealed record InBooleanGroup : IOperator
 {
     public InBooleanGroup(BooleanNullableGroup operand, ListBoolean list)

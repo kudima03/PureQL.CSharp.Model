@@ -2,24 +2,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>if.datetime.nullable@group</c>.</summary>
 public sealed record IfDatetimeNullableGroup : IOperator
 {
     public IfDatetimeNullableGroup(
-        BooleanGroup condition,
         DatetimeNullableGroup then,
-        DatetimeNullableGroup @else
+        DatetimeNullableGroup @else,
+        BooleanGroup condition
     )
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanGroup Condition { get; }
 
     public DatetimeNullableGroup Then { get; }
 
     public DatetimeNullableGroup Else { get; }
+
+    public BooleanGroup Condition { get; }
 
     public IType Type => new TypeDatetimeNullable();
 }

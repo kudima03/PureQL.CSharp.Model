@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Fields;
 
+/// <summary>PureQL <c>field.time</c>.</summary>
 public sealed record FieldTime : IField
 {
     public FieldTime(string source, string field)

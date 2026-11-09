@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>in.uuid@group</c>.</summary>
 public sealed record InUuidGroup : IOperator
 {
     public InUuidGroup(UuidNullableGroup operand, ListUuid list)

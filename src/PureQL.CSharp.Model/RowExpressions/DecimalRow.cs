@@ -1,15 +1,35 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed class DecimalRow : OneOfBase<ExactDecimalRow, IntegerRow>
-{
-    public DecimalRow(ExactDecimalRow value)
-        : this((OneOf<ExactDecimalRow, IntegerRow>)value) { }
-
-    public DecimalRow(IntegerRow value)
-        : this((OneOf<ExactDecimalRow, IntegerRow>)value) { }
-
-    private DecimalRow(OneOf<ExactDecimalRow, IntegerRow> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>decimal@row</c>.</summary>
+public readonly union DecimalRow(
+    AddIntegerRow,
+    SubtractIntegerRow,
+    MultiplyIntegerRow,
+    IntegerDivideIntegerRow,
+    ModuloIntegerRow,
+    FloorIntegerRow,
+    CeilingIntegerRow,
+    RoundIntegerRow,
+    DateDiffDaysIntegerRow,
+    IfIntegerRow,
+    CoalesceIntegerRow,
+    LiteralInteger,
+    ParamInteger,
+    FieldInteger,
+    AddDecimalRow,
+    SubtractDecimalRow,
+    MultiplyDecimalRow,
+    DivideDecimalRow,
+    RoundDecimalRow,
+    TimeDiffSecondsDecimalRow,
+    DatetimeDiffSecondsDecimalRow,
+    IfDecimalRow,
+    CoalesceDecimalRow,
+    LiteralDecimal,
+    ParamDecimal,
+    FieldDecimal
+);

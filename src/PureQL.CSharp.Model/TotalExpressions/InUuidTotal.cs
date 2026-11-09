@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>in.uuid@total</c>.</summary>
 public sealed record InUuidTotal : IOperator
 {
     public InUuidTotal(UuidNullableTotal operand, ListUuid list)

@@ -2,20 +2,21 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>if.string@row</c>.</summary>
 public sealed record IfStringRow : IOperator
 {
-    public IfStringRow(BooleanRow condition, StringRow then, StringRow @else)
+    public IfStringRow(StringRow then, StringRow @else, BooleanRow condition)
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanRow Condition { get; }
 
     public StringRow Then { get; }
 
     public StringRow Else { get; }
+
+    public BooleanRow Condition { get; }
 
     public IType Type => new TypeString();
 }

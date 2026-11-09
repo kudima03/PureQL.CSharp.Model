@@ -4,11 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-All `dotnet` commands must be run from the `./src` directory.
+All `dotnet` commands must be run from the `./src` directory. The SDK is pinned by `global.json` (.NET 11; C# 15 unions).
 
 ```bash
 dotnet restore
 dotnet build --no-restore -warnaserror
+dotnet run --project PureQL.CSharp.Model.Generator   # regenerate the model (fetches the pinned schema)
 dotnet format --verify-no-changes             # check code style (CI enforces this)
 dotnet format                                  # auto-fix code style
 dotnet test --no-build --verbosity normal      # run tests
@@ -21,43 +22,40 @@ CI additionally passes `-p:AssemblyVersion` (pinned to the major) and `-p:FileVe
 
 This is a **model-only NuGet library** — no I/O, no implementations, no database access. It defines the abstract syntax tree (AST) that other PureQL packages use to represent queries.
 
-**Spec parity:** the model mirrors PureQL specification `0.1.0-preview.2.0.1` (`PureQL-Specification.json` in `kudima03/PureQL-Specification`). Every operator signature `$defs` entry maps to a record named by PascalCasing its key (`add.integer.nullable@row` → `AddIntegerNullableRow`, `equal.string@group` → `EqualStringGroup`), and every position `<type>[.nullable]@<ctx>` to a union of the same name (`decimal.nullable@row` → `DecimalNullableRow`), the names the TypeScript model (`PureQL.TypeScript.Model`) uses. Operators with a single signature (`and`, `or`, `not`, `count`, `any`, `all`) map from `<operator>@<ctx>` (`AndRow`, `CountGroup`); `equal`, `notEqual`, `in` and comparisons have a record per operand family under the `<operator>@<ctx>` union (`EqualRow` = `EqualDecimalRow` | … | `EqualUuidRow`). `declares.*`, `accepts.*`, `value.*`, `leaf@*`, `operator@*` and the other multi-signature `<operator>@<ctx>` dispatchers are validation helpers and have no C# type.
+**Generated:** every `.cs` file of `PureQL.CSharp.Model` is written by `PureQL.CSharp.Model.Generator` from PureQL specification `0.1.0-preview.2.0.1` (`Program.SchemaTag`; `PureQL-Specification.json` in `kudima03/PureQL-Specification`). Never edit the model by hand: change the generator and regenerate (`--schema <file>` generates from a local copy). The generator deletes and rewrites every `.cs` file of the project; CI regenerates and fails on any difference. Its output already satisfies `dotnet format`.
 
-**Root types:** `PureQLQuery` = `MainGroupedQuery | MainPlainQuery | MainTotalQuery` (dispatch on `groupBy`, then `aggregate`); subqueries use `Query` = `GroupedQuery | PlainQuery | TotalQuery`. `From` / `Join` are unions of an entity and a subquery form; a join's kind is `JoinKind Kind`. Plain and grouped queries have `IEnumerable<string>? DistinctBy`; a total query has `Aggregate` columns and no `OrderBy`, `DistinctBy`, `Pagination` or `Having`.
+**Generator:** `SchemaNormalizer` is a function-for-function port of `scripts/normalize-schema.ts` of the TypeScript model (`PureQL.TypeScript.Model`): it resolves the schema's type-directed conditionals into one object per exact declared type and unions of them, and must stay equivalent to it (its JSON output is identical to the TypeScript one). Keep the two in sync when either changes; unknown schema patterns throw. `ModelEmitter` turns the normalized schema into C#:
+- every closed object → a sealed record named by its title, the `$defs` key in PascalCase (`add.integer.nullable@row` → `AddIntegerNullableRow`); the names are the TypeScript model's. Query variants come from the schema's dependencies (`MainPlainQueryWithPagination`), `from` / `join` variants from its `oneOf` (`FromEntity`). A list's anonymous members are `ListLiteral{T}`, `ListParam{T}` and `ListSubqueryColumn{T}[Nullable]` (one record per declared type of the column).
+- every union → a **flat** `public readonly union`: C# unions only convert from their own cases, so a union lists the records it reaches, never another union (`DecimalNullableRow` holds `AddIntegerRow`, not `DeclaresIntegerRow`). Unions with the same records are one type, named after the definition that is not a `declares.*` group (`integer@row` and `declares.integer@row` are `IntegerRow`). An inline `anyOf` of `declares.*` groups is named after their types (`IntegerNullableOrDecimalNullableRow`), any other after its property (`PaginationSkip`). Only unions reachable from `PureQLQuery` are emitted.
+- `operator` and `type` are implied by the record: `operator` makes it an `IOperator`, `type` becomes `IType Type => new TypeX()`. A nullable literal (`value: null`) has no `Value`. Forbidden properties (`false`) are left out.
+- properties keep the schema's names (`Values`, `Left`, `Param`, `Selector`, …) and order; the constructor takes the required ones first, then the optional ones (`T? x = null`). Enums: `kind` → `JoinKind`, `direction` → `SortDirection` (absent = `Asc`), `over` → `AggregateOver` (absent = `Group`). Literal CLR types: `long`, `decimal`, `string`, `bool`, `DateOnly`, `TimeOnly`, `DateTimeOffset`, `Guid`.
+- interfaces by properties: `IOperator`, `IField` (`source`, `field`), `ISubqueryColumn` (`subquery`, `field`), `IParameter` (`param`), `IKey` (`key`), `ILiteral` (`value`); every typed record has one.
 
-**Contexts:** each expression exists per context — `RowExpressions` (`where`, `join.on`, group keys, aggregate selector / predicate), `ProjectionExpressions` (`select` / `orderBy` of a plain query), `GroupExpressions` (`select` / `having` / `orderBy` with `groupBy`), `TotalExpressions` (`aggregate` of a total query: parameters, literals and aggregates, no fields or keys).
+**Root types:** `PureQLQuery` = the main query variants; subqueries use `Query`. `pagination` requires `orderBy` (`…WithPagination`); in a subquery `orderBy` requires `pagination` or `distinctBy` (`…WithoutPaginationWithOrderBy` has a required `DistinctBy`). A total query has `Aggregate` columns and no `OrderBy`, `DistinctBy`, `Pagination` or `Having`.
 
-**Declared types:** every node declares an exact type, given by its record. Every operator record implements `IOperator` (`IType Type`), as leaves, select items and group keys expose `IType Type`. Per context and per type (`integer`, `decimal`, `string`, `boolean`, `date`, `time`, `datetime`, `uuid`, each non-null and nullable) there is:
-- an **exact union** of everything declaring exactly that type: the leaves of the type, then its operator families. It is named `Exact{T}{Ctx}` (`ExactDecimalRow`, `ExactIntegerNullableGroup`), except where it coincides with the position (below).
-- a **position**, `{T}{Ctx}` / `{T}Nullable{Ctx}`: the union of the exact unions whose type the position accepts (`T → T?`, `integer → decimal`), in the order `T`, `T?`, `integer`, `integer?`: `DecimalNullableRow` = `ExactDecimalRow | ExactDecimalNullableRow | IntegerRow | ExactIntegerNullableRow`. A position that accepts one type is that exact union (`IntegerRow`, `StringRow`, …, `UuidRow`, non-null only).
+**Contexts:** each expression exists per context — `RowExpressions` (`where`, `join.on`, group keys, aggregate selector / predicate), `ProjectionExpressions` (`select` / `orderBy` of a plain query), `GroupExpressions` (`select` / `having` / `orderBy` with `groupBy`), `TotalExpressions` (`aggregate` of a total query). Positions `{T}[Nullable]{Ctx}` hold every expression whose declared type they accept (`T → T?`, `integer → decimal`); `Expr{Ctx}` holds them all and types group keys, select columns and order items; `Declares{T}{Ctx}` and `{A}Or{B}{Ctx}` are the narrower operands the schema asks for.
 
-Operands are typed by the position the schema refers to; group keys and select columns take the exact union, so their `Type` is the type their expression declares. `orderBy` items take `Expr{Ctx}` (`expr@<ctx>`): the union of the seven nullable positions.
+Rules the schema checks beyond types (a multi-operand operator's exact declared type, `and` / `or` with two conditions, at most one non-null `coalesce` operand, `minItems`, patterns, a `TimeOnly` or `DateTimeOffset` finer than a microsecond, a `DateTimeOffset` not in UTC) are not enforced by the model.
 
-**Union grouping:** OneOf supports at most 9 cases, so exact unions group their operators by family: `Logical{Ctx}`, `Comparison{Ctx}` (→ `Equal{Ctx}`, `NotEqual{Ctx}`, `In{Ctx}`, `GreaterThan{Ctx}`, …), `Arithmetic{T}{Ctx}`, `Rounding{T}{Ctx}`, `Difference{T}{Ctx}`, `Conditional{T}{Ctx}`, `Aggregate{T}{Ctx}`, each holding the members that declare `T`. A family with one member is a direct case. Cases follow the schema's operator order: leaves (field or key, param, literal), then add, subtract, multiply, divide, integerDivide, modulo, floor, ceiling, round, concat, dateAddDays, dateDiffDays, timeAddSeconds, timeDiffSeconds, datetimeAddSeconds, datetimeDiffSeconds, and, or, not, equal, notEqual, in, greaterThan, lessThan, greaterThanOrEqual, lessThanOrEqual, if, coalesce, count, sum, average, min, max, any, all. `GroupKey`, `SelectItemGroup`, `SelectItemProjection` and `SelectItemTotal` split into `…NonNullable` / `…Nullable` unions of the 8 per-type records.
+**Namespaces and folders map 1:1:** root (queries, `From`, `Join`, `Subquery`, `Pagination`, `GroupKey`, `SelectItem*`, `OrderItem*`, `IOperator`, enums), `Types`, `Fields`, `Parameters`, `Literals`, `Keys`, `Lists`, `RowExpressions`, `ProjectionExpressions`, `GroupExpressions`, `TotalExpressions`.
 
-**Records:** operator properties use the schema's property names (`Values`, `Left`, `Right`, `Operand`, `Digits`, `Condition`, `Then`, `Else`, `Conditions`, `List`, `Selector`, `Predicate`); `operator` and `type` are implied by the record type. Aggregate `over` is `AggregateOver Over = AggregateOver.Group` in group context only (`Group` is the default and is never written). In projection and group context, `average` / `min` / `max` have a non-null signature with a non-null selector and no `Predicate`, and a nullable one with an optional `Predicate`; in total context they are only nullable. Literal CLR types: `long`, `decimal`, `string`, `bool`, `DateOnly`, `TimeOnly`, `DateTimeOffset`, `Guid`; nullable literals (`LiteralIntegerNullable`) are the typed `null` and carry no value. Group keys are `GroupKey{T}(alias, expression)` and are referenced by alias (`Key{T}(string key)`). Rules the schema checks beyond types (exact declared types such as `AddDecimal…` needing a `decimal` operand, `and` / `or` with two conditions, at most one non-null `coalesce` operand, `pagination` requiring `orderBy`, literal values the CLR type holds but the schema rejects: a `TimeOnly` or `DateTimeOffset` finer than a microsecond, a `DateTimeOffset` not in UTC) are not enforced by the model.
+**Updating to a new spec version:** bump `Program.SchemaTag`, port any change of the TypeScript normalizer, regenerate, review the diff, and update the tests. When the schema uses a pattern the normalizer or emitter does not handle, they throw: extend them rather than editing output.
 
-Every discriminated union is implemented with [OneOf](https://github.com/mcintyre321/OneOf) (`OneOfBase<…>`). Each concrete case type is a separate sealed record.
+**Target framework:** net11.0 only (C# 15 unions need .NET 11's `UnionAttribute` / `IUnion`). The model must remain AOT-compatible (`IsAotCompatible = true`).
 
-**Namespaces and folders map 1:1:** root (queries, `From`, `Join`, `Subquery`, `Pagination`, `OrderItem*`, `IOperator`, enums), `Types`, `Fields`, `Parameters`, `Literals`, `Keys`, `Lists`, `RowExpressions`, `ProjectionExpressions`, `GroupExpressions`, `TotalExpressions`, `GroupKeys`, `SelectItems`.
-
-**Updating to a new spec version:** the expression types were generated from the schema with a one-off script that is not part of the repository; the rules above are what it implements. Small spec changes are applied by hand following the same rules; compare with the TypeScript model, which regenerates its types from the pinned schema tag. Generated files are formatted with CSharpier, then `dotnet format` (which CI checks).
-
-**Multi-targeting:** net6.0, net7.0, net8.0, net9.0, net10.0. All types must remain AOT-compatible (`IsAotCompatible = true`).
-
-**Package validation:** `EnablePackageValidation = true` with `PackageValidationBaselineVersion = 0.1.0-preview.10.0.0`. Breaking API changes fail the build.
+**Package validation:** disabled (`EnablePackageValidation = false`) until the first union-based release, which becomes the new baseline.
 
 **Publishing:** triggered by pushing a semver tag (e.g. `1.2.3`). The tag becomes the `PackageVersion`. The workflow publishes to both GitHub Packages and NuGet.org.
 
 ## Tests
 
-There is a test project (`PureQL.CSharp.Model.Tests`) using xunit, targeting net10.0 only. `SampleQueryTests` builds specification samples; `ModelShapeTests` checks every exported type by reflection (union case indices, record properties, declared types, and that every exact union and position holds exactly the declared types it accepts). Run from `./src`:
+There is a test project (`PureQL.CSharp.Model.Tests`) using xunit, targeting net11.0. `SampleQueryTests` builds specification samples; `ModelShapeTests` checks every exported type by reflection (unions hold each case as their `Value` and never nest, records keep their constructor arguments and default optional ones to absent, nodes declare the type their name says, and every position, `Declares*` and `…Or…` union holds exactly the expressions of `Expr{Ctx}` whose declared type it accepts). Run from `./src`:
 
 ```bash
 dotnet test --no-build --verbosity normal --logger trx --collect:"XPlat Code Coverage"
 ```
 
-CI enforces a 0% minimum and 99% warning threshold for code coverage.
+CI enforces a minimum and a 99% warning threshold for code coverage.
 
 ## Code Style
 

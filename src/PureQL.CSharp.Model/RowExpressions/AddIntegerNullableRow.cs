@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>add.integer.nullable@row</c>.</summary>
 public sealed record AddIntegerNullableRow : IOperator
 {
     public AddIntegerNullableRow(IEnumerable<IntegerNullableRow> values)

@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>subtract.decimal@total</c>.</summary>
 public sealed record SubtractDecimalTotal : IOperator
 {
     public SubtractDecimalTotal(IEnumerable<DecimalTotal> values)

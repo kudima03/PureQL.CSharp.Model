@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>modulo.integer.nullable@projection</c>.</summary>
 public sealed record ModuloIntegerNullableProjection : IOperator
 {
     public ModuloIntegerNullableProjection(

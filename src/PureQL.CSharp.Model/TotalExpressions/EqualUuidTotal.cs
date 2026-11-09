@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>equal.uuid@total</c>.</summary>
 public sealed record EqualUuidTotal : IOperator
 {
     public EqualUuidTotal(UuidNullableTotal left, UuidNullableTotal right)

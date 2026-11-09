@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>equal.string@group</c>.</summary>
 public sealed record EqualStringGroup : IOperator
 {
     public EqualStringGroup(StringNullableGroup left, StringNullableGroup right)

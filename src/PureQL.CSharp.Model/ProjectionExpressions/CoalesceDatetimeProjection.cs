@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>coalesce.datetime@projection</c>.</summary>
 public sealed record CoalesceDatetimeProjection : IOperator
 {
     public CoalesceDatetimeProjection(IEnumerable<DatetimeNullableProjection> values)

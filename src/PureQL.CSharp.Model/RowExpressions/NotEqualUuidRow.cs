@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>notEqual.uuid@row</c>.</summary>
 public sealed record NotEqualUuidRow : IOperator
 {
     public NotEqualUuidRow(UuidNullableRow left, UuidNullableRow right)

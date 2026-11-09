@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>multiply.decimal.nullable@total</c>.</summary>
 public sealed record MultiplyDecimalNullableTotal : IOperator
 {
     public MultiplyDecimalNullableTotal(IEnumerable<DecimalNullableTotal> values)

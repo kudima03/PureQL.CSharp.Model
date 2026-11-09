@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>greaterThanOrEqual.uuid@total</c>.</summary>
 public sealed record GreaterThanOrEqualUuidTotal : IOperator
 {
     public GreaterThanOrEqualUuidTotal(UuidNullableTotal left, UuidNullableTotal right)

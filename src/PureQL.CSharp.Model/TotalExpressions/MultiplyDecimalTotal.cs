@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>multiply.decimal@total</c>.</summary>
 public sealed record MultiplyDecimalTotal : IOperator
 {
     public MultiplyDecimalTotal(IEnumerable<DecimalTotal> values)

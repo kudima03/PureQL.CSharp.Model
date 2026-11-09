@@ -2,15 +2,19 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>round.decimal.nullable@group</c>.</summary>
 public sealed record RoundDecimalNullableGroup : IOperator
 {
-    public RoundDecimalNullableGroup(DecimalNullableGroup operand, IntegerGroup digits)
+    public RoundDecimalNullableGroup(
+        IntegerNullableOrDecimalNullableGroup operand,
+        IntegerGroup digits
+    )
     {
         Operand = operand;
         Digits = digits;
     }
 
-    public DecimalNullableGroup Operand { get; }
+    public IntegerNullableOrDecimalNullableGroup Operand { get; }
 
     public IntegerGroup Digits { get; }
 

@@ -1,17 +1,15 @@
-using OneOf;
-using PureQL.CSharp.Model.Parameters;
-
 namespace PureQL.CSharp.Model;
 
+/// <summary>PureQL <c>pagination</c>.</summary>
 public sealed record Pagination
 {
-    public Pagination(OneOf<long, ParamInteger> skip, OneOf<long, ParamInteger> take)
+    public Pagination(PaginationSkip skip, PaginationTake take)
     {
         Skip = skip;
         Take = take;
     }
 
-    public OneOf<long, ParamInteger> Skip { get; }
+    public PaginationSkip Skip { get; }
 
-    public OneOf<long, ParamInteger> Take { get; }
+    public PaginationTake Take { get; }
 }

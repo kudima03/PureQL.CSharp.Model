@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>average.decimal.nullable@projection</c>.</summary>
 public sealed record AverageDecimalNullableProjection : IOperator
 {
     public AverageDecimalNullableProjection(
@@ -10,13 +11,13 @@ public sealed record AverageDecimalNullableProjection : IOperator
         BooleanRow? predicate = null
     )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public DecimalNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public DecimalNullableRow Selector { get; }
 
     public IType Type => new TypeDecimalNullable();
 }

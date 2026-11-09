@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>greaterThanOrEqual.string@projection</c>.</summary>
 public sealed record GreaterThanOrEqualStringProjection : IOperator
 {
     public GreaterThanOrEqualStringProjection(

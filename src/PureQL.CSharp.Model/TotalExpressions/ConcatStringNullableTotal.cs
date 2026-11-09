@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>concat.string.nullable@total</c>.</summary>
 public sealed record ConcatStringNullableTotal : IOperator
 {
     public ConcatStringNullableTotal(IEnumerable<StringNullableTotal> values)

@@ -2,10 +2,11 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>round.decimal.nullable@projection</c>.</summary>
 public sealed record RoundDecimalNullableProjection : IOperator
 {
     public RoundDecimalNullableProjection(
-        DecimalNullableProjection operand,
+        IntegerNullableOrDecimalNullableProjection operand,
         IntegerProjection digits
     )
     {
@@ -13,7 +14,7 @@ public sealed record RoundDecimalNullableProjection : IOperator
         Digits = digits;
     }
 
-    public DecimalNullableProjection Operand { get; }
+    public IntegerNullableOrDecimalNullableProjection Operand { get; }
 
     public IntegerProjection Digits { get; }
 

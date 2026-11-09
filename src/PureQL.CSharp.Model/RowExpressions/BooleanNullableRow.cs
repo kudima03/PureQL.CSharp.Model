@@ -1,15 +1,71 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
-public sealed class BooleanNullableRow : OneOfBase<BooleanRow, ExactBooleanNullableRow>
-{
-    public BooleanNullableRow(BooleanRow value)
-        : this((OneOf<BooleanRow, ExactBooleanNullableRow>)value) { }
-
-    public BooleanNullableRow(ExactBooleanNullableRow value)
-        : this((OneOf<BooleanRow, ExactBooleanNullableRow>)value) { }
-
-    private BooleanNullableRow(OneOf<BooleanRow, ExactBooleanNullableRow> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>boolean.nullable@row</c>.</summary>
+public readonly union BooleanNullableRow(
+    AndRow,
+    OrRow,
+    NotRow,
+    EqualDecimalRow,
+    EqualStringRow,
+    EqualBooleanRow,
+    EqualDateRow,
+    EqualTimeRow,
+    EqualDatetimeRow,
+    EqualUuidRow,
+    NotEqualDecimalRow,
+    NotEqualStringRow,
+    NotEqualBooleanRow,
+    NotEqualDateRow,
+    NotEqualTimeRow,
+    NotEqualDatetimeRow,
+    NotEqualUuidRow,
+    GreaterThanDecimalRow,
+    GreaterThanStringRow,
+    GreaterThanBooleanRow,
+    GreaterThanDateRow,
+    GreaterThanTimeRow,
+    GreaterThanDatetimeRow,
+    GreaterThanUuidRow,
+    LessThanDecimalRow,
+    LessThanStringRow,
+    LessThanBooleanRow,
+    LessThanDateRow,
+    LessThanTimeRow,
+    LessThanDatetimeRow,
+    LessThanUuidRow,
+    GreaterThanOrEqualDecimalRow,
+    GreaterThanOrEqualStringRow,
+    GreaterThanOrEqualBooleanRow,
+    GreaterThanOrEqualDateRow,
+    GreaterThanOrEqualTimeRow,
+    GreaterThanOrEqualDatetimeRow,
+    GreaterThanOrEqualUuidRow,
+    LessThanOrEqualDecimalRow,
+    LessThanOrEqualStringRow,
+    LessThanOrEqualBooleanRow,
+    LessThanOrEqualDateRow,
+    LessThanOrEqualTimeRow,
+    LessThanOrEqualDatetimeRow,
+    LessThanOrEqualUuidRow,
+    InDecimalRow,
+    InStringRow,
+    InBooleanRow,
+    InDateRow,
+    InTimeRow,
+    InDatetimeRow,
+    InUuidRow,
+    IfBooleanRow,
+    CoalesceBooleanRow,
+    LiteralBoolean,
+    ParamBoolean,
+    FieldBoolean,
+    IfBooleanNullableRow,
+    CoalesceBooleanNullableRow,
+    LiteralBooleanNullable,
+    ParamBooleanNullable,
+    FieldBooleanNullable
+);

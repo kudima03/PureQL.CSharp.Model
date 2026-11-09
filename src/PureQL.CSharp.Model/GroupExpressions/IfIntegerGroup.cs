@@ -2,20 +2,21 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>if.integer@group</c>.</summary>
 public sealed record IfIntegerGroup : IOperator
 {
-    public IfIntegerGroup(BooleanGroup condition, IntegerGroup then, IntegerGroup @else)
+    public IfIntegerGroup(IntegerGroup then, IntegerGroup @else, BooleanGroup condition)
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanGroup Condition { get; }
 
     public IntegerGroup Then { get; }
 
     public IntegerGroup Else { get; }
+
+    public BooleanGroup Condition { get; }
 
     public IType Type => new TypeInteger();
 }

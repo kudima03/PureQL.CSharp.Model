@@ -3,20 +3,21 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>max.decimal.nullable@projection</c>.</summary>
 public sealed record MaxDecimalNullableProjection : IOperator
 {
     public MaxDecimalNullableProjection(
-        DecimalNullableRow selector,
+        DecimalOrDecimalNullableRow selector,
         BooleanRow? predicate = null
     )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public DecimalNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public DecimalOrDecimalNullableRow Selector { get; }
 
     public IType Type => new TypeDecimalNullable();
 }

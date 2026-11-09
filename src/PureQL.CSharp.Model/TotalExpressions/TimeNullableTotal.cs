@@ -1,15 +1,21 @@
-using OneOf;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
-public sealed class TimeNullableTotal : OneOfBase<TimeTotal, ExactTimeNullableTotal>
-{
-    public TimeNullableTotal(TimeTotal value)
-        : this((OneOf<TimeTotal, ExactTimeNullableTotal>)value) { }
-
-    public TimeNullableTotal(ExactTimeNullableTotal value)
-        : this((OneOf<TimeTotal, ExactTimeNullableTotal>)value) { }
-
-    private TimeNullableTotal(OneOf<TimeTotal, ExactTimeNullableTotal> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>time.nullable@total</c>.</summary>
+public readonly union TimeNullableTotal(
+    TimeAddSecondsTimeTotal,
+    IfTimeTotal,
+    CoalesceTimeTotal,
+    LiteralTime,
+    ParamTime,
+    TimeAddSecondsTimeNullableTotal,
+    IfTimeNullableTotal,
+    CoalesceTimeNullableTotal,
+    AverageTimeNullableTotal,
+    MinTimeNullableTotal,
+    MaxTimeNullableTotal,
+    LiteralTimeNullable,
+    ParamTimeNullable
+);

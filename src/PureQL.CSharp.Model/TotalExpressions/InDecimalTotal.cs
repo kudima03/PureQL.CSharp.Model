@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>in.decimal@total</c>.</summary>
 public sealed record InDecimalTotal : IOperator
 {
     public InDecimalTotal(DecimalNullableTotal operand, ListDecimal list)

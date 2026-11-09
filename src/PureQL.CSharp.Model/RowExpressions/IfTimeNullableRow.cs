@@ -2,24 +2,25 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>if.time.nullable@row</c>.</summary>
 public sealed record IfTimeNullableRow : IOperator
 {
     public IfTimeNullableRow(
-        BooleanRow condition,
         TimeNullableRow then,
-        TimeNullableRow @else
+        TimeNullableRow @else,
+        BooleanRow condition
     )
     {
-        Condition = condition;
         Then = then;
         Else = @else;
+        Condition = condition;
     }
-
-    public BooleanRow Condition { get; }
 
     public TimeNullableRow Then { get; }
 
     public TimeNullableRow Else { get; }
+
+    public BooleanRow Condition { get; }
 
     public IType Type => new TypeTimeNullable();
 }

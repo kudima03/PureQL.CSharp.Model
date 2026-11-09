@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>datetimeDiffSeconds.decimal.nullable@group</c>.</summary>
 public sealed record DatetimeDiffSecondsDecimalNullableGroup : IOperator
 {
     public DatetimeDiffSecondsDecimalNullableGroup(

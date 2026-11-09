@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFramework>net11.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsAotCompatible>true</IsAotCompatible>
-    <EnablePackageValidation>true</EnablePackageValidation>
-    <PackageValidationBaselineVersion>0.1.0-preview.13.0.0</PackageValidationBaselineVersion>
+    <!-- Re-enable with the first union-based release as the baseline. -->
+    <EnablePackageValidation>false</EnablePackageValidation>
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>PureQL.CSharp.Model</PackageId>
@@ -16,7 +16,4 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/kudima03/PureQL.CSharp.Model</PackageProjectUrl>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="OneOf" Version="3.0.271" />
-  </ItemGroup>
 </Project>

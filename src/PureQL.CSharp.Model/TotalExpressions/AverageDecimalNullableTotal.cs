@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>average.decimal.nullable@total</c>.</summary>
 public sealed record AverageDecimalNullableTotal : IOperator
 {
     public AverageDecimalNullableTotal(
@@ -10,13 +11,13 @@ public sealed record AverageDecimalNullableTotal : IOperator
         BooleanRow? predicate = null
     )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public DecimalNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public DecimalNullableRow Selector { get; }
 
     public IType Type => new TypeDecimalNullable();
 }

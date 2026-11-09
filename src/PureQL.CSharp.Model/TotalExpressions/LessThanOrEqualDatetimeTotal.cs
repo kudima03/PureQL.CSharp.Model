@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>lessThanOrEqual.datetime@total</c>.</summary>
 public sealed record LessThanOrEqualDatetimeTotal : IOperator
 {
     public LessThanOrEqualDatetimeTotal(

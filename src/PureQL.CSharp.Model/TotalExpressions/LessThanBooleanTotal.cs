@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>lessThan.boolean@total</c>.</summary>
 public sealed record LessThanBooleanTotal : IOperator
 {
     public LessThanBooleanTotal(BooleanNullableTotal left, BooleanNullableTotal right)

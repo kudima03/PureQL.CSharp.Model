@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>equal.date@row</c>.</summary>
 public sealed record EqualDateRow : IOperator
 {
     public EqualDateRow(DateNullableRow left, DateNullableRow right)

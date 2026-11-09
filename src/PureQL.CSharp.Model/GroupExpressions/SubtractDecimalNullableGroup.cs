@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>subtract.decimal.nullable@group</c>.</summary>
 public sealed record SubtractDecimalNullableGroup : IOperator
 {
     public SubtractDecimalNullableGroup(IEnumerable<DecimalNullableGroup> values)

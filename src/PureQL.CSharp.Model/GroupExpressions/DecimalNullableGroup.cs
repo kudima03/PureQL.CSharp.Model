@@ -1,70 +1,74 @@
-using OneOf;
+using PureQL.CSharp.Model.Keys;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed class DecimalNullableGroup
-    : OneOfBase<
-        ExactDecimalGroup,
-        ExactDecimalNullableGroup,
-        IntegerGroup,
-        ExactIntegerNullableGroup
-    >
-{
-    public DecimalNullableGroup(ExactDecimalGroup value)
-        : this(
-            (OneOf<
-                ExactDecimalGroup,
-                ExactDecimalNullableGroup,
-                IntegerGroup,
-                ExactIntegerNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableGroup(ExactDecimalNullableGroup value)
-        : this(
-            (OneOf<
-                ExactDecimalGroup,
-                ExactDecimalNullableGroup,
-                IntegerGroup,
-                ExactIntegerNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableGroup(IntegerGroup value)
-        : this(
-            (OneOf<
-                ExactDecimalGroup,
-                ExactDecimalNullableGroup,
-                IntegerGroup,
-                ExactIntegerNullableGroup
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableGroup(ExactIntegerNullableGroup value)
-        : this(
-            (OneOf<
-                ExactDecimalGroup,
-                ExactDecimalNullableGroup,
-                IntegerGroup,
-                ExactIntegerNullableGroup
-            >)
-                value
-        )
-    { }
-
-    private DecimalNullableGroup(
-        OneOf<
-            ExactDecimalGroup,
-            ExactDecimalNullableGroup,
-            IntegerGroup,
-            ExactIntegerNullableGroup
-        > input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>decimal.nullable@group</c>.</summary>
+public readonly union DecimalNullableGroup(
+    AddIntegerGroup,
+    SubtractIntegerGroup,
+    MultiplyIntegerGroup,
+    IntegerDivideIntegerGroup,
+    ModuloIntegerGroup,
+    FloorIntegerGroup,
+    CeilingIntegerGroup,
+    RoundIntegerGroup,
+    DateDiffDaysIntegerGroup,
+    IfIntegerGroup,
+    CoalesceIntegerGroup,
+    CountGroup,
+    SumIntegerGroup,
+    MinIntegerGroup,
+    MaxIntegerGroup,
+    LiteralInteger,
+    ParamInteger,
+    KeyInteger,
+    AddIntegerNullableGroup,
+    SubtractIntegerNullableGroup,
+    MultiplyIntegerNullableGroup,
+    IntegerDivideIntegerNullableGroup,
+    ModuloIntegerNullableGroup,
+    FloorIntegerNullableGroup,
+    CeilingIntegerNullableGroup,
+    RoundIntegerNullableGroup,
+    DateDiffDaysIntegerNullableGroup,
+    IfIntegerNullableGroup,
+    CoalesceIntegerNullableGroup,
+    MinIntegerNullableGroup,
+    MaxIntegerNullableGroup,
+    LiteralIntegerNullable,
+    ParamIntegerNullable,
+    KeyIntegerNullable,
+    AddDecimalGroup,
+    SubtractDecimalGroup,
+    MultiplyDecimalGroup,
+    DivideDecimalGroup,
+    RoundDecimalGroup,
+    TimeDiffSecondsDecimalGroup,
+    DatetimeDiffSecondsDecimalGroup,
+    IfDecimalGroup,
+    CoalesceDecimalGroup,
+    SumDecimalGroup,
+    AverageDecimalGroup,
+    MinDecimalGroup,
+    MaxDecimalGroup,
+    LiteralDecimal,
+    ParamDecimal,
+    KeyDecimal,
+    AddDecimalNullableGroup,
+    SubtractDecimalNullableGroup,
+    MultiplyDecimalNullableGroup,
+    DivideDecimalNullableGroup,
+    RoundDecimalNullableGroup,
+    TimeDiffSecondsDecimalNullableGroup,
+    DatetimeDiffSecondsDecimalNullableGroup,
+    IfDecimalNullableGroup,
+    CoalesceDecimalNullableGroup,
+    AverageDecimalNullableGroup,
+    MinDecimalNullableGroup,
+    MaxDecimalNullableGroup,
+    LiteralDecimalNullable,
+    ParamDecimalNullable,
+    KeyDecimalNullable
+);

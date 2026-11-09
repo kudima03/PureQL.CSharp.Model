@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>lessThanOrEqual.string@row</c>.</summary>
 public sealed record LessThanOrEqualStringRow : IOperator
 {
     public LessThanOrEqualStringRow(StringNullableRow left, StringNullableRow right)

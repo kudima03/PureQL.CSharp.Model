@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>notEqual.date@group</c>.</summary>
 public sealed record NotEqualDateGroup : IOperator
 {
     public NotEqualDateGroup(DateNullableGroup left, DateNullableGroup right)

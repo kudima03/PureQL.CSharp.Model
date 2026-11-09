@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>dateDiffDays.integer@row</c>.</summary>
 public sealed record DateDiffDaysIntegerRow : IOperator
 {
     public DateDiffDaysIntegerRow(DateRow left, DateRow right)

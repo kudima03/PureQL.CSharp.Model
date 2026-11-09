@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>greaterThan.string@row</c>.</summary>
 public sealed record GreaterThanStringRow : IOperator
 {
     public GreaterThanStringRow(StringNullableRow left, StringNullableRow right)

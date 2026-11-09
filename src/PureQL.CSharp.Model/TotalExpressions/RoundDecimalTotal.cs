@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>round.decimal@total</c>.</summary>
 public sealed record RoundDecimalTotal : IOperator
 {
     public RoundDecimalTotal(DecimalTotal operand, IntegerTotal digits)

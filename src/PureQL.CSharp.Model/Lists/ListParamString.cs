@@ -5,12 +5,12 @@ namespace PureQL.CSharp.Model.Lists;
 
 public sealed record ListParamString : IParameter
 {
-    public ListParamString(string name)
+    public ListParamString(string param)
     {
-        Name = name;
+        Param = param;
     }
 
-    public string Name { get; }
+    public string Param { get; }
 
     public IType Type => new TypeStringList();
 }

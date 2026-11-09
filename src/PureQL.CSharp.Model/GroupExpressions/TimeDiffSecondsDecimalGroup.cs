@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>timeDiffSeconds.decimal@group</c>.</summary>
 public sealed record TimeDiffSecondsDecimalGroup : IOperator
 {
     public TimeDiffSecondsDecimalGroup(TimeGroup left, TimeGroup right)

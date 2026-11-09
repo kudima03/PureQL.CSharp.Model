@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Fields;
 
+/// <summary>PureQL <c>field.string.nullable</c>.</summary>
 public sealed record FieldStringNullable : IField
 {
     public FieldStringNullable(string source, string field)

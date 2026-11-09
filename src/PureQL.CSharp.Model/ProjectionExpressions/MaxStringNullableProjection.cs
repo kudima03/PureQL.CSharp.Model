@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>max.string.nullable@projection</c>.</summary>
 public sealed record MaxStringNullableProjection : IOperator
 {
     public MaxStringNullableProjection(
@@ -10,13 +11,13 @@ public sealed record MaxStringNullableProjection : IOperator
         BooleanRow? predicate = null
     )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public StringNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public StringNullableRow Selector { get; }
 
     public IType Type => new TypeStringNullable();
 }

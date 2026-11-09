@@ -1,70 +1,74 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed class DecimalNullableProjection
-    : OneOfBase<
-        ExactDecimalProjection,
-        ExactDecimalNullableProjection,
-        IntegerProjection,
-        ExactIntegerNullableProjection
-    >
-{
-    public DecimalNullableProjection(ExactDecimalProjection value)
-        : this(
-            (OneOf<
-                ExactDecimalProjection,
-                ExactDecimalNullableProjection,
-                IntegerProjection,
-                ExactIntegerNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableProjection(ExactDecimalNullableProjection value)
-        : this(
-            (OneOf<
-                ExactDecimalProjection,
-                ExactDecimalNullableProjection,
-                IntegerProjection,
-                ExactIntegerNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableProjection(IntegerProjection value)
-        : this(
-            (OneOf<
-                ExactDecimalProjection,
-                ExactDecimalNullableProjection,
-                IntegerProjection,
-                ExactIntegerNullableProjection
-            >)
-                value
-        )
-    { }
-
-    public DecimalNullableProjection(ExactIntegerNullableProjection value)
-        : this(
-            (OneOf<
-                ExactDecimalProjection,
-                ExactDecimalNullableProjection,
-                IntegerProjection,
-                ExactIntegerNullableProjection
-            >)
-                value
-        )
-    { }
-
-    private DecimalNullableProjection(
-        OneOf<
-            ExactDecimalProjection,
-            ExactDecimalNullableProjection,
-            IntegerProjection,
-            ExactIntegerNullableProjection
-        > input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>decimal.nullable@projection</c>.</summary>
+public readonly union DecimalNullableProjection(
+    AddIntegerProjection,
+    SubtractIntegerProjection,
+    MultiplyIntegerProjection,
+    IntegerDivideIntegerProjection,
+    ModuloIntegerProjection,
+    FloorIntegerProjection,
+    CeilingIntegerProjection,
+    RoundIntegerProjection,
+    DateDiffDaysIntegerProjection,
+    IfIntegerProjection,
+    CoalesceIntegerProjection,
+    CountProjection,
+    SumIntegerProjection,
+    MinIntegerProjection,
+    MaxIntegerProjection,
+    LiteralInteger,
+    ParamInteger,
+    FieldInteger,
+    AddIntegerNullableProjection,
+    SubtractIntegerNullableProjection,
+    MultiplyIntegerNullableProjection,
+    IntegerDivideIntegerNullableProjection,
+    ModuloIntegerNullableProjection,
+    FloorIntegerNullableProjection,
+    CeilingIntegerNullableProjection,
+    RoundIntegerNullableProjection,
+    DateDiffDaysIntegerNullableProjection,
+    IfIntegerNullableProjection,
+    CoalesceIntegerNullableProjection,
+    MinIntegerNullableProjection,
+    MaxIntegerNullableProjection,
+    LiteralIntegerNullable,
+    ParamIntegerNullable,
+    FieldIntegerNullable,
+    AddDecimalProjection,
+    SubtractDecimalProjection,
+    MultiplyDecimalProjection,
+    DivideDecimalProjection,
+    RoundDecimalProjection,
+    TimeDiffSecondsDecimalProjection,
+    DatetimeDiffSecondsDecimalProjection,
+    IfDecimalProjection,
+    CoalesceDecimalProjection,
+    SumDecimalProjection,
+    AverageDecimalProjection,
+    MinDecimalProjection,
+    MaxDecimalProjection,
+    LiteralDecimal,
+    ParamDecimal,
+    FieldDecimal,
+    AddDecimalNullableProjection,
+    SubtractDecimalNullableProjection,
+    MultiplyDecimalNullableProjection,
+    DivideDecimalNullableProjection,
+    RoundDecimalNullableProjection,
+    TimeDiffSecondsDecimalNullableProjection,
+    DatetimeDiffSecondsDecimalNullableProjection,
+    IfDecimalNullableProjection,
+    CoalesceDecimalNullableProjection,
+    AverageDecimalNullableProjection,
+    MinDecimalNullableProjection,
+    MaxDecimalNullableProjection,
+    LiteralDecimalNullable,
+    ParamDecimalNullable,
+    FieldDecimalNullable
+);

@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>min.integer.nullable@projection</c>.</summary>
 public sealed record MinIntegerNullableProjection : IOperator
 {
     public MinIntegerNullableProjection(
@@ -10,13 +11,13 @@ public sealed record MinIntegerNullableProjection : IOperator
         BooleanRow? predicate = null
     )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public IntegerNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public IntegerNullableRow Selector { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

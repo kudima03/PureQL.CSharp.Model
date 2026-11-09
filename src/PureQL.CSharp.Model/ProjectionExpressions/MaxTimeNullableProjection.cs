@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
+/// <summary>PureQL <c>max.time.nullable@projection</c>.</summary>
 public sealed record MaxTimeNullableProjection : IOperator
 {
     public MaxTimeNullableProjection(
@@ -10,13 +11,13 @@ public sealed record MaxTimeNullableProjection : IOperator
         BooleanRow? predicate = null
     )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public TimeNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public TimeNullableRow Selector { get; }
 
     public IType Type => new TypeTimeNullable();
 }

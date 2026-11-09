@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
+/// <summary>PureQL <c>average.time.nullable@group</c>.</summary>
 public sealed record AverageTimeNullableGroup : IOperator
 {
     public AverageTimeNullableGroup(
@@ -11,16 +12,16 @@ public sealed record AverageTimeNullableGroup : IOperator
         AggregateOver over = AggregateOver.Group
     )
     {
-        Selector = selector;
         Predicate = predicate;
         Over = over;
+        Selector = selector;
     }
-
-    public TimeNullableRow Selector { get; }
 
     public BooleanRow? Predicate { get; }
 
     public AggregateOver Over { get; }
+
+    public TimeNullableRow Selector { get; }
 
     public IType Type => new TypeTimeNullable();
 }

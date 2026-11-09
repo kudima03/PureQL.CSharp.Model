@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>average.datetime.nullable@total</c>.</summary>
 public sealed record AverageDatetimeNullableTotal : IOperator
 {
     public AverageDatetimeNullableTotal(
@@ -10,13 +11,13 @@ public sealed record AverageDatetimeNullableTotal : IOperator
         BooleanRow? predicate = null
     )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public DatetimeNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public DatetimeNullableRow Selector { get; }
 
     public IType Type => new TypeDatetimeNullable();
 }

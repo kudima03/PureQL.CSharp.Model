@@ -1,106 +1,44 @@
 using PureQL.CSharp.Model.Fields;
 using PureQL.CSharp.Model.GroupExpressions;
-using PureQL.CSharp.Model.GroupKeys;
 using PureQL.CSharp.Model.Keys;
 using PureQL.CSharp.Model.Lists;
 using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 using PureQL.CSharp.Model.ProjectionExpressions;
 using PureQL.CSharp.Model.RowExpressions;
-using PureQL.CSharp.Model.SelectItems;
 using PureQL.CSharp.Model.TotalExpressions;
+using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.Tests;
 
 // Each test builds one of the specification samples and checks the shape it ends up in.
+// Every node converts to the unions it may stand in, so a query reads like its JSON.
 public sealed class SampleQueryTests
 {
-    private static From Entity(string entity)
-    {
-        return new From(new FromEntity(entity));
-    }
-
-    private static SelectItemProjection Column(string alias, StringProjection expression)
-    {
-        return new SelectItemProjection(
-            new SelectItemProjectionNonNullable(
-                new SelectItemProjectionString(alias, expression)
-            )
-        );
-    }
-
-    private static SelectItemProjection Column(string alias, UuidProjection expression)
-    {
-        return new SelectItemProjection(
-            new SelectItemProjectionNonNullable(
-                new SelectItemProjectionUuid(alias, expression)
-            )
-        );
-    }
-
-    private static SelectItemProjection Column(
-        string alias,
-        DatetimeProjection expression
-    )
-    {
-        return new SelectItemProjection(
-            new SelectItemProjectionNonNullable(
-                new SelectItemProjectionDatetime(alias, expression)
-            )
-        );
-    }
-
-    private static SelectItemProjection Column(
-        string alias,
-        ExactDecimalProjection expression
-    )
-    {
-        return new SelectItemProjection(
-            new SelectItemProjectionNonNullable(
-                new SelectItemProjectionDecimal(alias, expression)
-            )
-        );
-    }
-
-    private static BooleanRow EqualString(StringRow left, StringRow right)
-    {
-        return new BooleanRow(
-            new ComparisonRow(
-                new EqualRow(
-                    new EqualStringRow(
-                        new StringNullableRow(left),
-                        new StringNullableRow(right)
-                    )
-                )
-            )
-        );
-    }
-
     [Fact]
     public void SelectSingleField()
     {
         // samples/01_select_single_field.json
-        PureQLQuery query = new PureQLQuery(
-            new MainPlainQuery(
-                Entity("users"),
-                [Column("name", new StringProjection(new FieldString("users", "name")))]
-            )
+        PureQLQuery query = new MainPlainQueryWithoutPagination(
+            new FromEntity("users"),
+            [new SelectItemProjection("name", new FieldString("users", "name"))]
         );
 
-        MainPlainQuery plain = query.AsT1;
-        Assert.Equal("users", plain.From.AsT0.Entity);
-        Assert.Null(plain.From.AsT0.Alias);
-        SelectItemProjectionString column = Assert.Single(plain.Select).AsT0.AsT2;
+        MainPlainQueryWithoutPagination plain =
+            Assert.IsType<MainPlainQueryWithoutPagination>(query.Value);
+        FromEntity from = Assert.IsType<FromEntity>(plain.From.Value);
+        Assert.Equal("users", from.Entity);
+        Assert.Null(from.Alias);
+        SelectItemProjection column = Assert.Single(plain.Select);
         Assert.Equal("name", column.Alias);
-        Assert.Equal("string", column.Type.Name);
-        Assert.False(column.Type.Nullable);
-        FieldString field = column.Expression.AsT0;
+        FieldString field = Assert.IsType<FieldString>(column.Expression.Value);
         Assert.Equal("users", field.Source);
         Assert.Equal("name", field.Field);
+        Assert.Equal(new TypeString(), field.Type);
         Assert.Null(plain.Subqueries);
         Assert.Null(plain.Joins);
         Assert.Null(plain.Where);
         Assert.Null(plain.OrderBy);
-        Assert.Null(plain.Pagination);
         Assert.Null(plain.DistinctBy);
     }
 
@@ -109,43 +47,28 @@ public sealed class SampleQueryTests
     {
         // samples/14_distinct_by_first_row.json
         FieldDatetime orderedAt = new FieldDatetime("orders", "ordered_at");
-        MainPlainQuery query = new MainPlainQuery(
-            Entity("orders"),
+        MainPlainQueryWithoutPagination query = new MainPlainQueryWithoutPagination(
+            new FromEntity("orders"),
             [
-                Column("user_id", new UuidProjection(new FieldUuid("orders", "user_id"))),
-                Column("order_id", new UuidProjection(new FieldUuid("orders", "id"))),
-                Column("ordered_at", new DatetimeProjection(orderedAt)),
+                new SelectItemProjection("user_id", new FieldUuid("orders", "user_id")),
+                new SelectItemProjection("order_id", new FieldUuid("orders", "id")),
+                new SelectItemProjection("ordered_at", orderedAt),
             ],
-            subqueries: null,
-            joins: null,
-            where: null,
+            distinctBy: ["user_id"],
             orderBy:
             [
-                new OrderItemProjection(
-                    new ExprProjection(
-                        new DatetimeNullableProjection(new DatetimeProjection(orderedAt))
-                    ),
-                    SortDirection.Desc
-                ),
-                new OrderItemProjection(
-                    new ExprProjection(
-                        new UuidNullableProjection(
-                            new UuidProjection(new FieldUuid("orders", "id"))
-                        )
-                    )
-                ),
-            ],
-            pagination: null,
-            distinctBy: ["user_id"]
+                new OrderItemProjection(orderedAt, SortDirection.Desc),
+                new OrderItemProjection(new FieldUuid("orders", "id")),
+            ]
         );
 
         Assert.Equal("user_id", Assert.Single(query.DistinctBy!));
         OrderItemProjection latest = query.OrderBy!.First();
         Assert.Equal(SortDirection.Desc, latest.Direction);
-        Assert.Same(orderedAt, latest.Expression.AsT5.AsT0.AsT0);
+        Assert.Same(orderedAt, latest.Expression.Value);
         OrderItemProjection byId = query.OrderBy!.Last();
         Assert.Equal(SortDirection.Asc, byId.Direction);
-        Assert.Equal("id", byId.Expression.AsT6.AsT0.AsT0.Field);
+        Assert.Equal("id", Assert.IsType<FieldUuid>(byId.Expression.Value).Field);
     }
 
     [Fact]
@@ -153,296 +76,141 @@ public sealed class SampleQueryTests
     {
         // samples/32_left_join_nullable.json
         FieldUuidNullable couponId = new FieldUuidNullable("orders", "coupon_id");
-        MainPlainQuery query = new MainPlainQuery(
-            Entity("orders"),
+        FieldDecimalNullable discount = new FieldDecimalNullable("coupons", "discount");
+        MainPlainQueryWithoutPagination query = new MainPlainQueryWithoutPagination(
+            new FromEntity("orders"),
             [
-                Column("id", new UuidProjection(new FieldUuid("orders", "id"))),
-                Column(
+                new SelectItemProjection("id", new FieldUuid("orders", "id")),
+                new SelectItemProjection(
                     "coupon_code",
-                    new StringProjection(
-                        new ConditionalStringProjection(
-                            new CoalesceStringProjection([
-                                new StringNullableProjection(
-                                    new ExactStringNullableProjection(
-                                        new FieldStringNullable("coupons", "code")
-                                    )
-                                ),
-                                new StringNullableProjection(
-                                    new StringProjection(new LiteralString("none"))
-                                ),
-                            ])
-                        )
-                    )
+                    new CoalesceStringProjection([
+                        new FieldStringNullable("coupons", "code"),
+                        new LiteralString("none"),
+                    ])
                 ),
                 new SelectItemProjection(
-                    new SelectItemProjectionNullable(
-                        new SelectItemProjectionDecimalNullable(
-                            "total_after_discount",
-                            new ExactDecimalNullableProjection(
-                                new ArithmeticDecimalNullableProjection(
-                                    new SubtractDecimalNullableProjection([
-                                        new DecimalNullableProjection(
-                                            new ExactDecimalProjection(
-                                                new FieldDecimal("orders", "total")
-                                            )
-                                        ),
-                                        new DecimalNullableProjection(
-                                            new ExactDecimalNullableProjection(
-                                                new FieldDecimalNullable(
-                                                    "coupons",
-                                                    "discount"
-                                                )
-                                            )
-                                        ),
-                                    ])
-                                )
-                            )
-                        )
-                    )
+                    "total_after_discount",
+                    new SubtractDecimalNullableProjection([
+                        new FieldDecimal("orders", "total"),
+                        discount,
+                    ])
                 ),
             ],
-            subqueries: null,
             joins:
             [
-                new Join(
-                    new JoinEntity(
-                        JoinKind.Left,
-                        "coupons",
-                        new BooleanRow(
-                            new ComparisonRow(
-                                new EqualRow(
-                                    new EqualUuidRow(
-                                        new UuidNullableRow(
-                                            new ExactUuidNullableRow(couponId)
-                                        ),
-                                        new UuidNullableRow(
-                                            new UuidRow(new FieldUuid("coupons", "id"))
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
+                new JoinEntity(
+                    JoinKind.Left,
+                    "coupons",
+                    new EqualUuidRow(couponId, new FieldUuid("coupons", "id"))
                 ),
             ],
-            where: new BooleanRow(
-                new LogicalRow(
-                    new OrRow([
-                        new BooleanRow(
-                            new ComparisonRow(
-                                new EqualRow(
-                                    new EqualUuidRow(
-                                        new UuidNullableRow(
-                                            new ExactUuidNullableRow(couponId)
-                                        ),
-                                        new UuidNullableRow(
-                                            new ExactUuidNullableRow(
-                                                new LiteralUuidNullable()
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        ),
-                        new BooleanRow(
-                            new ComparisonRow(
-                                new GreaterThanRow(
-                                    new GreaterThanDecimalRow(
-                                        new DecimalNullableRow(
-                                            new ExactDecimalNullableRow(
-                                                new FieldDecimalNullable(
-                                                    "coupons",
-                                                    "discount"
-                                                )
-                                            )
-                                        ),
-                                        new DecimalNullableRow(
-                                            new IntegerRow(new LiteralInteger(10))
-                                        )
-                                    )
-                                )
-                            )
-                        ),
-                    ])
-                )
-            ),
-            orderBy: null,
-            pagination: null,
-            distinctBy: null
+            where: new OrRow([
+                new EqualUuidRow(couponId, new LiteralUuidNullable()),
+                new GreaterThanDecimalRow(discount, new LiteralInteger(10)),
+            ])
         );
 
-        JoinEntity join = Assert.Single(query.Joins!).AsT0;
+        JoinEntity join = Assert.IsType<JoinEntity>(Assert.Single(query.Joins!).Value);
         Assert.Equal(JoinKind.Left, join.Kind);
         Assert.Equal("coupons", join.Entity);
         Assert.Null(join.Alias);
 
-        CoalesceStringProjection coalesce = query
-            .Select.ElementAt(1)
-            .AsT0.AsT2.Expression.AsT4.AsT1;
-        Assert.Equal("string", coalesce.Type.Name);
-        Assert.False(coalesce.Type.Nullable);
+        CoalesceStringProjection coalesce = Assert.IsType<CoalesceStringProjection>(
+            query.Select.ElementAt(1).Expression.Value
+        );
+        Assert.Equal(new TypeString(), coalesce.Type);
+        Assert.Equal(2, coalesce.Values.Count());
 
-        SelectItemProjectionDecimalNullable total = query.Select.Last().AsT1.AsT1;
-        Assert.True(total.Type.Nullable);
-        Assert.Equal("decimal", total.Type.Name);
-        SubtractDecimalNullableProjection subtract = total.Expression.AsT3.AsT1;
-        Assert.Equal(total.Type, subtract.Type);
-        Assert.Equal(2, subtract.Values.Count());
+        SubtractDecimalNullableProjection subtract =
+            Assert.IsType<SubtractDecimalNullableProjection>(
+                query.Select.Last().Expression.Value
+            );
+        Assert.Equal(new TypeDecimalNullable(), subtract.Type);
+        Assert.Same(discount, subtract.Values.Last().Value);
 
-        BooleanRow[] conditions = [.. query.Where!.AsT3.AsT1.Conditions];
+        OrRow or = Assert.IsType<OrRow>(query.Where?.Value);
+        BooleanRow[] conditions = [.. or.Conditions];
         Assert.Equal(2, conditions.Length);
-        EqualUuidRow isNull = conditions[0].AsT4.AsT0.AsT6;
-        Assert.Same(couponId, isNull.Left.AsT1.AsT0);
-        Assert.True(isNull.Right.AsT1.AsT2.Type.Nullable);
-        GreaterThanDecimalRow discount = conditions[1].AsT4.AsT3.AsT0;
-        Assert.Equal("boolean", discount.Type.Name);
-        Assert.Equal(10L, discount.Right.AsT2.AsT2.Value);
+        EqualUuidRow isNull = Assert.IsType<EqualUuidRow>(conditions[0].Value);
+        Assert.Same(couponId, isNull.Left.Value);
+        Assert.True(Assert.IsType<LiteralUuidNullable>(isNull.Right.Value).Type.Nullable);
+        GreaterThanDecimalRow greater = Assert.IsType<GreaterThanDecimalRow>(
+            conditions[1].Value
+        );
+        Assert.Equal(new TypeBoolean(), greater.Type);
+        Assert.Equal(10L, Assert.IsType<LiteralInteger>(greater.Right.Value).Value);
     }
 
     [Fact]
     public void AggregatesOverAllRows()
     {
         // samples/39_aggregates_over_all_rows.json
-        DecimalNullableRow total = new DecimalNullableRow(
-            new ExactDecimalRow(new FieldDecimal("orders", "total"))
-        );
-        PureQLQuery query = new PureQLQuery(
-            new MainTotalQuery(
-                Entity("orders"),
-                [
-                    new SelectItemTotal(
-                        new SelectItemTotalNonNullable(
-                            new SelectItemTotalInteger(
-                                "orders",
-                                new IntegerTotal(
-                                    new AggregateIntegerTotal(new CountTotal())
-                                )
-                            )
+        FieldDecimal total = new FieldDecimal("orders", "total");
+        PureQLQuery query = new MainTotalQuery(
+            new FromEntity("orders"),
+            [
+                new SelectItemTotal("orders", new CountTotal()),
+                new SelectItemTotal("revenue", new SumDecimalTotal(total)),
+                new SelectItemTotal("smallest", new MinDecimalNullableTotal(total)),
+                new SelectItemTotal(
+                    "latest",
+                    new MaxDatetimeNullableTotal(
+                        new FieldDatetime("orders", "ordered_at")
+                    )
+                ),
+                new SelectItemTotal("average", new AverageDecimalNullableTotal(total)),
+                new SelectItemTotal(
+                    "any_refund",
+                    new AnyTotal(
+                        new EqualStringRow(
+                            new FieldString("orders", "status"),
+                            new LiteralString("refunded")
                         )
-                    ),
-                    new SelectItemTotal(
-                        new SelectItemTotalNonNullable(
-                            new SelectItemTotalDecimal(
-                                "revenue",
-                                new ExactDecimalTotal(new SumDecimalTotal(total))
-                            )
-                        )
-                    ),
-                    new SelectItemTotal(
-                        new SelectItemTotalNullable(
-                            new SelectItemTotalDecimalNullable(
-                                "smallest",
-                                new ExactDecimalNullableTotal(
-                                    new AggregateDecimalNullableTotal(
-                                        new MinDecimalNullableTotal(total)
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    new SelectItemTotal(
-                        new SelectItemTotalNullable(
-                            new SelectItemTotalDatetimeNullable(
-                                "latest",
-                                new ExactDatetimeNullableTotal(
-                                    new AggregateDatetimeNullableTotal(
-                                        new MaxDatetimeNullableTotal(
-                                            new DatetimeNullableRow(
-                                                new DatetimeRow(
-                                                    new FieldDatetime(
-                                                        "orders",
-                                                        "ordered_at"
-                                                    )
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    new SelectItemTotal(
-                        new SelectItemTotalNullable(
-                            new SelectItemTotalDecimalNullable(
-                                "average",
-                                new ExactDecimalNullableTotal(
-                                    new AggregateDecimalNullableTotal(
-                                        new AverageDecimalNullableTotal(total)
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    new SelectItemTotal(
-                        new SelectItemTotalNonNullable(
-                            new SelectItemTotalBoolean(
-                                "any_refund",
-                                new BooleanTotal(
-                                    new AggregateBooleanTotal(
-                                        new AnyTotal(
-                                            EqualString(
-                                                new StringRow(
-                                                    new FieldString("orders", "status")
-                                                ),
-                                                new StringRow(
-                                                    new LiteralString("refunded")
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    new SelectItemTotal(
-                        new SelectItemTotalNonNullable(
-                            new SelectItemTotalBoolean(
-                                "all_paid",
-                                new BooleanTotal(
-                                    new AggregateBooleanTotal(
-                                        new AllTotal(
-                                            new BooleanRow(
-                                                new FieldBoolean("orders", "is_paid")
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                ]
-            )
+                    )
+                ),
+                new SelectItemTotal(
+                    "all_paid",
+                    new AllTotal(new FieldBoolean("orders", "is_paid"))
+                ),
+            ]
         );
 
-        MainTotalQuery main = query.AsT2;
+        MainTotalQuery main = Assert.IsType<MainTotalQuery>(query.Value);
         Assert.Null(main.Subqueries);
         Assert.Null(main.Joins);
         Assert.Null(main.Where);
-        SelectItemTotal[] columns = [.. main.Aggregate];
+        object?[] columns = [.. main.Aggregate.Select(c => c.Expression.Value)];
         Assert.Equal(7, columns.Length);
 
-        CountTotal count = columns[0].AsT0.AsT0.Expression.AsT6.AsT0;
+        CountTotal count = Assert.IsType<CountTotal>(columns[0]);
         Assert.Null(count.Predicate);
-        Assert.Equal("integer", count.Type.Name);
+        Assert.Equal(new TypeInteger(), count.Type);
 
-        SumDecimalTotal revenue = columns[1].AsT0.AsT1.Expression.AsT6;
+        SumDecimalTotal revenue = Assert.IsType<SumDecimalTotal>(columns[1]);
         Assert.False(revenue.Type.Nullable);
-        Assert.Same(total, revenue.Selector);
+        Assert.Same(total, revenue.Selector.Value);
 
-        SelectItemTotalDecimalNullable smallest = columns[2].AsT1.AsT1;
-        Assert.True(smallest.Type.Nullable);
-        Assert.Equal(smallest.Type, smallest.Expression.AsT6.AsT1.Type);
-
-        MaxDatetimeNullableTotal latest = columns[3].AsT1.AsT6.Expression.AsT4.AsT2;
-        Assert.Equal("ordered_at", latest.Selector.AsT0.AsT0.Field);
-
-        AnyTotal anyRefund = columns[5].AsT0.AsT3.Expression.AsT5.AsT0;
-        Assert.Equal(
-            "refunded",
-            anyRefund.Predicate.AsT4.AsT0.AsT1.Right.AsT0.AsT2.Value
+        MinDecimalNullableTotal smallest = Assert.IsType<MinDecimalNullableTotal>(
+            columns[2]
         );
-        AllTotal allPaid = columns[6].AsT0.AsT3.Expression.AsT5.AsT1;
-        Assert.Equal("is_paid", allPaid.Predicate.AsT0.Field);
+        Assert.Equal(new TypeDecimalNullable(), smallest.Type);
+
+        MaxDatetimeNullableTotal latest = Assert.IsType<MaxDatetimeNullableTotal>(
+            columns[3]
+        );
+        Assert.Equal(
+            "ordered_at",
+            Assert.IsType<FieldDatetime>(latest.Selector.Value).Field
+        );
+
+        AnyTotal anyRefund = Assert.IsType<AnyTotal>(columns[5]);
+        EqualStringRow status = Assert.IsType<EqualStringRow>(anyRefund.Predicate.Value);
+        Assert.Equal("refunded", Assert.IsType<LiteralString>(status.Right.Value).Value);
+        AllTotal allPaid = Assert.IsType<AllTotal>(columns[6]);
+        Assert.Equal(
+            "is_paid",
+            Assert.IsType<FieldBoolean>(allPaid.Predicate.Value).Field
+        );
     }
 
     [Fact]
@@ -450,74 +218,34 @@ public sealed class SampleQueryTests
     {
         // samples/45_having.json
         CountGroup count = new CountGroup();
-        MainGroupedQuery query = new MainGroupedQuery(
-            Entity("orders"),
+        MainGroupedQueryWithoutPagination query = new MainGroupedQueryWithoutPagination(
+            new FromEntity("orders"),
+            [new GroupKey("user_id", new FieldUuid("orders", "user_id"))],
             [
-                new GroupKey(
-                    new GroupKeyNonNullable(
-                        new GroupKeyUuid(
-                            "user_id",
-                            new UuidRow(new FieldUuid("orders", "user_id"))
-                        )
-                    )
-                ),
+                new SelectItemGroup("user_id", new KeyUuid("user_id")),
+                new SelectItemGroup("orders", new CountGroup()),
             ],
-            [
-                new SelectItemGroup(
-                    new SelectItemGroupNonNullable(
-                        new SelectItemGroupUuid(
-                            "user_id",
-                            new UuidGroup(new KeyUuid("user_id"))
-                        )
-                    )
-                ),
-                new SelectItemGroup(
-                    new SelectItemGroupNonNullable(
-                        new SelectItemGroupInteger(
-                            "orders",
-                            new IntegerGroup(new AggregateIntegerGroup(new CountGroup()))
-                        )
-                    )
-                ),
-            ],
-            subqueries: null,
-            joins: null,
-            where: null,
-            having: new BooleanGroup(
-                new ComparisonGroup(
-                    new GreaterThanOrEqualGroup(
-                        new GreaterThanOrEqualDecimalGroup(
-                            new DecimalNullableGroup(
-                                new IntegerGroup(new AggregateIntegerGroup(count))
-                            ),
-                            new DecimalNullableGroup(
-                                new IntegerGroup(new LiteralInteger(5))
-                            )
-                        )
-                    )
-                )
-            ),
-            orderBy: null,
-            pagination: null,
-            distinctBy: null
+            having: new GreaterThanOrEqualDecimalGroup(count, new LiteralInteger(5))
         );
 
-        GroupKeyUuid key = Assert.Single(query.GroupBy).AsT0.AsT7;
+        GroupKey key = Assert.Single(query.GroupBy);
         Assert.Equal("user_id", key.Alias);
-        Assert.Equal("uuid", key.Type.Name);
-        Assert.Equal("user_id", key.Expression.AsT0.Field);
+        Assert.Equal("user_id", Assert.IsType<FieldUuid>(key.Expression.Value).Field);
 
         Assert.Equal(2, query.Select.Count());
-        KeyUuid reference = query.Select.First().AsT0.AsT7.Expression.AsT0;
+        KeyUuid reference = Assert.IsType<KeyUuid>(query.Select.First().Expression.Value);
         Assert.Equal(key.Alias, reference.Key);
-        Assert.Equal(key.Type, reference.Type);
-        CountGroup selectedCount = query.Select.Last().AsT0.AsT0.Expression.AsT7.AsT0;
+        Assert.Equal(new TypeUuid(), reference.Type);
+        CountGroup selectedCount = Assert.IsType<CountGroup>(
+            query.Select.Last().Expression.Value
+        );
         Assert.Null(selectedCount.Predicate);
         Assert.Equal(AggregateOver.Group, selectedCount.Over);
 
-        GreaterThanOrEqualDecimalGroup having = query.Having!.AsT4.AsT5.AsT0;
-        Assert.Same(count, having.Left.AsT2.AsT7.AsT0);
-        Assert.Equal(5L, having.Right.AsT2.AsT2.Value);
+        GreaterThanOrEqualDecimalGroup having =
+            Assert.IsType<GreaterThanOrEqualDecimalGroup>(query.Having?.Value);
+        Assert.Same(count, having.Left.Value);
+        Assert.Equal(5L, Assert.IsType<LiteralInteger>(having.Right.Value).Value);
     }
 
     [Fact]
@@ -526,61 +254,81 @@ public sealed class SampleQueryTests
         // samples/54_in_subquery.json
         Subquery vipUsers = new Subquery(
             "vip_users",
-            new Query(
-                new PlainQuery(
-                    Entity("users"),
-                    [Column("id", new UuidProjection(new FieldUuid("users", "id")))],
-                    joins: null,
-                    where: EqualString(
-                        new StringRow(new FieldString("users", "tier")),
-                        new StringRow(new LiteralString("vip"))
-                    ),
-                    orderBy: null,
-                    pagination: null,
-                    distinctBy: null
+            new PlainQueryWithoutPaginationWithoutOrderBy(
+                new FromEntity("users"),
+                [new SelectItemProjection("id", new FieldUuid("users", "id"))],
+                where: new EqualStringRow(
+                    new FieldString("users", "tier"),
+                    new LiteralString("vip")
                 )
             )
         );
-        MainPlainQuery query = new MainPlainQuery(
-            Entity("orders"),
+        MainPlainQueryWithoutPagination query = new MainPlainQueryWithoutPagination(
+            new FromEntity("orders"),
             [
-                Column("id", new UuidProjection(new FieldUuid("orders", "id"))),
-                Column(
-                    "total",
-                    new ExactDecimalProjection(new FieldDecimal("orders", "total"))
-                ),
+                new SelectItemProjection("id", new FieldUuid("orders", "id")),
+                new SelectItemProjection("total", new FieldDecimal("orders", "total")),
             ],
             subqueries: [vipUsers],
-            joins: null,
-            where: new BooleanRow(
-                new ComparisonRow(
-                    new InRow(
-                        new InUuidRow(
-                            new UuidNullableRow(
-                                new UuidRow(new FieldUuid("orders", "user_id"))
-                            ),
-                            new ListUuid(new ListSubqueryColumnUuid("vip_users", "id"))
-                        )
-                    )
-                )
-            ),
-            orderBy: null,
-            pagination: null,
-            distinctBy: null
+            where: new InUuidRow(
+                new FieldUuid("orders", "user_id"),
+                new ListSubqueryColumnUuid("vip_users", "id")
+            )
         );
 
         Subquery subquery = Assert.Single(query.Subqueries!);
         Assert.Equal("vip_users", subquery.Name);
-        Assert.True(subquery.Query.IsT1);
-        EqualStringRow tier = subquery.Query.AsT1.Where!.AsT4.AsT0.AsT1;
-        Assert.Equal("vip", tier.Right.AsT0.AsT2.Value);
+        PlainQueryWithoutPaginationWithoutOrderBy plain =
+            Assert.IsType<PlainQueryWithoutPaginationWithoutOrderBy>(
+                subquery.Query.Value
+            );
+        EqualStringRow tier = Assert.IsType<EqualStringRow>(plain.Where?.Value);
+        Assert.Equal("vip", Assert.IsType<LiteralString>(tier.Right.Value).Value);
 
-        InUuidRow inVip = query.Where!.AsT4.AsT2.AsT6;
-        Assert.Equal("user_id", inVip.Operand.AsT0.AsT0.Field);
-        ListSubqueryColumnUuid column = inVip.List.AsT2;
+        InUuidRow inVip = Assert.IsType<InUuidRow>(query.Where?.Value);
+        Assert.Equal("user_id", Assert.IsType<FieldUuid>(inVip.Operand.Value).Field);
+        ListSubqueryColumnUuid column = Assert.IsType<ListSubqueryColumnUuid>(
+            inVip.List.Value
+        );
         Assert.Equal("vip_users", column.Subquery);
         Assert.Equal("id", column.Field);
-        Assert.False(column.Nullable);
-        Assert.Equal("uuid", column.Type.Name);
+        Assert.Equal(new TypeUuid(), column.Type);
+    }
+
+    [Fact]
+    public void PaginationRequiresOrderBy()
+    {
+        // Paginating a plain query is a variant of its own, with a required `orderBy`.
+        MainPlainQueryWithPagination query = new MainPlainQueryWithPagination(
+            new FromEntity("users"),
+            new Pagination(new ParamInteger("skip"), 20),
+            [new SelectItemProjection("name", new FieldString("users", "name"))],
+            [new OrderItemProjection(new FieldString("users", "name"))]
+        );
+
+        Assert.Equal(
+            "skip",
+            Assert.IsType<ParamInteger>(query.Pagination.Skip.Value).Param
+        );
+        Assert.Equal(20L, query.Pagination.Take.Value);
+        _ = Assert.Single(query.OrderBy);
+    }
+
+    [Fact]
+    public void UnionsSwitchExhaustively()
+    {
+        // A union's cases are known to the compiler: no discard arm is needed.
+        static string Describe(From from)
+        {
+            return from switch
+            {
+                FromEntity entity => "entity " + entity.Entity,
+                FromSubquery subquery => "subquery " + subquery.Subquery,
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        Assert.Equal("entity users", Describe(new FromEntity("users")));
+        Assert.Equal("subquery vip_users", Describe(new FromSubquery("vip_users", "v")));
     }
 }

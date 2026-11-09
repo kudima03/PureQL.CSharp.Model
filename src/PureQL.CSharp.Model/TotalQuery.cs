@@ -1,31 +1,28 @@
 using PureQL.CSharp.Model.RowExpressions;
-using PureQL.CSharp.Model.SelectItems;
 
 namespace PureQL.CSharp.Model;
 
+/// <summary>PureQL <c>totalQuery</c>.</summary>
 public sealed record TotalQuery
 {
-    public TotalQuery(From from, IEnumerable<SelectItemTotal> aggregate)
-        : this(from, aggregate, null, null) { }
-
     public TotalQuery(
         From from,
         IEnumerable<SelectItemTotal> aggregate,
-        IEnumerable<Join>? joins,
-        BooleanRow? where
+        IEnumerable<Join>? joins = null,
+        BooleanRow? where = null
     )
     {
         From = from;
-        Aggregate = aggregate;
         Joins = joins;
         Where = where;
+        Aggregate = aggregate;
     }
 
     public From From { get; }
 
-    public IEnumerable<SelectItemTotal> Aggregate { get; }
-
     public IEnumerable<Join>? Joins { get; }
 
     public BooleanRow? Where { get; }
+
+    public IEnumerable<SelectItemTotal> Aggregate { get; }
 }

@@ -1,18 +1,23 @@
-using OneOf;
+using PureQL.CSharp.Model.Fields;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.ProjectionExpressions;
 
-public sealed class UuidNullableProjection
-    : OneOfBase<UuidProjection, ExactUuidNullableProjection>
-{
-    public UuidNullableProjection(UuidProjection value)
-        : this((OneOf<UuidProjection, ExactUuidNullableProjection>)value) { }
-
-    public UuidNullableProjection(ExactUuidNullableProjection value)
-        : this((OneOf<UuidProjection, ExactUuidNullableProjection>)value) { }
-
-    private UuidNullableProjection(
-        OneOf<UuidProjection, ExactUuidNullableProjection> input
-    )
-        : base(input) { }
-}
+/// <summary>PureQL <c>uuid.nullable@projection</c>.</summary>
+public readonly union UuidNullableProjection(
+    IfUuidProjection,
+    CoalesceUuidProjection,
+    MinUuidProjection,
+    MaxUuidProjection,
+    LiteralUuid,
+    ParamUuid,
+    FieldUuid,
+    IfUuidNullableProjection,
+    CoalesceUuidNullableProjection,
+    MinUuidNullableProjection,
+    MaxUuidNullableProjection,
+    LiteralUuidNullable,
+    ParamUuidNullable,
+    FieldUuidNullable
+);

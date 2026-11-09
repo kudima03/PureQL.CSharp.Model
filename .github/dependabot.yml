@@ -3,6 +3,7 @@ updates:
 - package-ecosystem: nuget
   directories:
     - "src/PureQL.CSharp.Model"
+    - "src/PureQL.CSharp.Model.Generator"
     - "src/Tests/PureQL.CSharp.Model.Tests"
   schedule:
     interval: daily

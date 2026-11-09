@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>max.integer.nullable@total</c>.</summary>
 public sealed record MaxIntegerNullableTotal : IOperator
 {
     public MaxIntegerNullableTotal(
@@ -10,13 +11,13 @@ public sealed record MaxIntegerNullableTotal : IOperator
         BooleanRow? predicate = null
     )
     {
-        Selector = selector;
         Predicate = predicate;
+        Selector = selector;
     }
 
-    public IntegerNullableRow Selector { get; }
-
     public BooleanRow? Predicate { get; }
+
+    public IntegerNullableRow Selector { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

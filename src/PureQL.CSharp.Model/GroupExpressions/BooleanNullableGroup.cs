@@ -1,16 +1,77 @@
-using OneOf;
+using PureQL.CSharp.Model.Keys;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
 
 namespace PureQL.CSharp.Model.GroupExpressions;
 
-public sealed class BooleanNullableGroup
-    : OneOfBase<BooleanGroup, ExactBooleanNullableGroup>
-{
-    public BooleanNullableGroup(BooleanGroup value)
-        : this((OneOf<BooleanGroup, ExactBooleanNullableGroup>)value) { }
-
-    public BooleanNullableGroup(ExactBooleanNullableGroup value)
-        : this((OneOf<BooleanGroup, ExactBooleanNullableGroup>)value) { }
-
-    private BooleanNullableGroup(OneOf<BooleanGroup, ExactBooleanNullableGroup> input)
-        : base(input) { }
-}
+/// <summary>PureQL <c>boolean.nullable@group</c>.</summary>
+public readonly union BooleanNullableGroup(
+    AndGroup,
+    OrGroup,
+    NotGroup,
+    EqualDecimalGroup,
+    EqualStringGroup,
+    EqualBooleanGroup,
+    EqualDateGroup,
+    EqualTimeGroup,
+    EqualDatetimeGroup,
+    EqualUuidGroup,
+    NotEqualDecimalGroup,
+    NotEqualStringGroup,
+    NotEqualBooleanGroup,
+    NotEqualDateGroup,
+    NotEqualTimeGroup,
+    NotEqualDatetimeGroup,
+    NotEqualUuidGroup,
+    GreaterThanDecimalGroup,
+    GreaterThanStringGroup,
+    GreaterThanBooleanGroup,
+    GreaterThanDateGroup,
+    GreaterThanTimeGroup,
+    GreaterThanDatetimeGroup,
+    GreaterThanUuidGroup,
+    LessThanDecimalGroup,
+    LessThanStringGroup,
+    LessThanBooleanGroup,
+    LessThanDateGroup,
+    LessThanTimeGroup,
+    LessThanDatetimeGroup,
+    LessThanUuidGroup,
+    GreaterThanOrEqualDecimalGroup,
+    GreaterThanOrEqualStringGroup,
+    GreaterThanOrEqualBooleanGroup,
+    GreaterThanOrEqualDateGroup,
+    GreaterThanOrEqualTimeGroup,
+    GreaterThanOrEqualDatetimeGroup,
+    GreaterThanOrEqualUuidGroup,
+    LessThanOrEqualDecimalGroup,
+    LessThanOrEqualStringGroup,
+    LessThanOrEqualBooleanGroup,
+    LessThanOrEqualDateGroup,
+    LessThanOrEqualTimeGroup,
+    LessThanOrEqualDatetimeGroup,
+    LessThanOrEqualUuidGroup,
+    InDecimalGroup,
+    InStringGroup,
+    InBooleanGroup,
+    InDateGroup,
+    InTimeGroup,
+    InDatetimeGroup,
+    InUuidGroup,
+    IfBooleanGroup,
+    CoalesceBooleanGroup,
+    MinBooleanGroup,
+    MaxBooleanGroup,
+    AnyGroup,
+    AllGroup,
+    LiteralBoolean,
+    ParamBoolean,
+    KeyBoolean,
+    IfBooleanNullableGroup,
+    CoalesceBooleanNullableGroup,
+    MinBooleanNullableGroup,
+    MaxBooleanNullableGroup,
+    LiteralBooleanNullable,
+    ParamBooleanNullable,
+    KeyBooleanNullable
+);

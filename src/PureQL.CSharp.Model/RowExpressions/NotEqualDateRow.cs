@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.RowExpressions;
 
+/// <summary>PureQL <c>notEqual.date@row</c>.</summary>
 public sealed record NotEqualDateRow : IOperator
 {
     public NotEqualDateRow(DateNullableRow left, DateNullableRow right)

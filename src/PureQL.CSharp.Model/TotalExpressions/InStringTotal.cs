@@ -3,6 +3,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>in.string@total</c>.</summary>
 public sealed record InStringTotal : IOperator
 {
     public InStringTotal(StringNullableTotal operand, ListString list)

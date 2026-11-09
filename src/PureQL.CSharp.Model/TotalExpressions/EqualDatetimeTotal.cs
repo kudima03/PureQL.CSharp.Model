@@ -2,6 +2,7 @@ using PureQL.CSharp.Model.Types;
 
 namespace PureQL.CSharp.Model.TotalExpressions;
 
+/// <summary>PureQL <c>equal.datetime@total</c>.</summary>
 public sealed record EqualDatetimeTotal : IOperator
 {
     public EqualDatetimeTotal(DatetimeNullableTotal left, DatetimeNullableTotal right)
