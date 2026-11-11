@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-All `dotnet` commands must be run from the `./src` directory. The SDK is pinned by `global.json` (.NET 11; C# 15 unions).
+All `dotnet` commands must be run from the `./src` directory. The projects need the .NET 11 SDK (C# 15 unions).
 
 ```bash
 dotnet restore
