@@ -7,6 +7,16 @@ Versioning mirrors the PureQL specification with a `-csharp.N` suffix where need
 
 ---
 
+## [0.1.0-preview.14.1.0] - 2026-11-11 — spec 0.1.0-preview.2.0.1
+
+No API changes. Build and release tooling only.
+
+### Changed
+
+- CI and publish workflows install the .NET 11 SDK by version (`11.x.x`) instead of pinning it with `global.json`, which is removed.
+
+---
+
 ## [0.1.0-preview.14.0.0] - 2026-11-09 — spec 0.1.0-preview.2.0.1
 
 Rewrites the model with C# 15 unions on .NET 11. The model is now generated
