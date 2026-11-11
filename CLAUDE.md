@@ -43,7 +43,7 @@ Rules the schema checks beyond types (a multi-operand operator's exact declared 
 
 **Target framework:** net11.0 only (C# 15 unions need .NET 11's `UnionAttribute` / `IUnion`). The model must remain AOT-compatible (`IsAotCompatible = true`).
 
-**Package validation:** enabled against `PackageValidationBaselineVersion` `0.1.0-preview.14.0.0`, the first union-based release.
+**Package validation:** enabled against `PackageValidationBaselineVersion` `0.1.0-0.1.0-preview.14.1.0`.
 
 **Publishing:** triggered by pushing a semver tag (e.g. `1.2.3`). The tag becomes the `PackageVersion`. The workflow publishes to both GitHub Packages and NuGet.org.
 
