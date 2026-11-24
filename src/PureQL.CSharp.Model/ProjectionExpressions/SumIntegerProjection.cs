@@ -6,13 +6,20 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>sum.integer@projection</c>.</summary>
 public sealed record SumIntegerProjection : IOperator
 {
-    public SumIntegerProjection(IntegerNullableRow selector, BooleanRow? predicate = null)
+    public SumIntegerProjection(
+        IntegerNullableRow selector,
+        BooleanRow? predicate = null,
+        Window? over = null
+    )
     {
         Predicate = predicate;
+        Over = over;
         Selector = selector;
     }
 
     public BooleanRow? Predicate { get; }
+
+    public Window? Over { get; }
 
     public IntegerNullableRow Selector { get; }
 

@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>timeAddSeconds.time@projection</c>.</summary>
 public sealed record TimeAddSecondsTimeProjection : IOperator
 {
-    public TimeAddSecondsTimeProjection(TimeProjection left, DecimalProjection right)
+    public TimeAddSecondsTimeProjection(TimeProjection operand, DecimalProjection seconds)
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Seconds = seconds;
     }
 
-    public TimeProjection Left { get; }
+    public TimeProjection Operand { get; }
 
-    public DecimalProjection Right { get; }
+    public DecimalProjection Seconds { get; }
 
     public IType Type => new TypeTime();
 }

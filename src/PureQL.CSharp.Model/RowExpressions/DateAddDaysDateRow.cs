@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.RowExpressions;
 /// <summary>PureQL <c>dateAddDays.date@row</c>.</summary>
 public sealed record DateAddDaysDateRow : IOperator
 {
-    public DateAddDaysDateRow(DateRow left, IntegerRow right)
+    public DateAddDaysDateRow(DateRow operand, IntegerRow days)
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Days = days;
     }
 
-    public DateRow Left { get; }
+    public DateRow Operand { get; }
 
-    public IntegerRow Right { get; }
+    public IntegerRow Days { get; }
 
     public IType Type => new TypeDate();
 }

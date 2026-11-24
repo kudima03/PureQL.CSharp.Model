@@ -6,10 +6,20 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 
 /// <summary>PureQL <c>declares.uuid.nullable@group</c>.</summary>
 public readonly union DeclaresUuidNullableGroup(
+    AsUuidUuidNullableGroup,
+    AsNullableUuidNullableGroup,
+    TryAsUuidGroup,
     IfUuidNullableGroup,
     CoalesceUuidNullableGroup,
+    NullIfEqualUuidNullableGroup,
+    GreatestUuidNullableGroup,
+    LeastUuidNullableGroup,
     MinUuidNullableGroup,
     MaxUuidNullableGroup,
+    FirstUuidNullableGroup,
+    LastUuidNullableGroup,
+    PercentileDiscreteUuidNullableGroup,
+    ModeUuidNullableGroup,
     LiteralUuidNullable,
     ParamUuidNullable,
     KeyUuidNullable

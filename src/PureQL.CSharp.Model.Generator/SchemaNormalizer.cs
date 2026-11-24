@@ -43,6 +43,17 @@ internal static class SchemaNormalizer
         "maxContains",
     ];
 
+    // Keywords of a rule on a literal's value (a regex pattern, a fraction).
+    private static readonly string[] ValueKeywords =
+    [
+        "type",
+        "pattern",
+        "not",
+        "minimum",
+        "maximum",
+        "enum",
+    ];
+
     // Array keywords kept when merging array constraints.
     private static readonly string[] ArrayKeywords =
     [
@@ -233,13 +244,23 @@ internal static class SchemaNormalizer
             p => Strings(p.Value)
         );
         Dictionary<string, List<List<string>>> alternativesOf = [];
+        // Dependencies with `oneOf`: exactly one alternative, so it forbids the others.
+        HashSet<string> exclusive = [];
         foreach (KeyValuePair<string, object?> entry in dependentSchemas)
         {
+            string combinator =
+                entry.Value is JsonMap { } one && HasOnlyKeys(one, "oneOf")
+                    ? "oneOf"
+                    : "anyOf";
             if (
                 entry.Value is not JsonMap schema
-                || !HasOnlyKeys(schema, "anyOf")
-                || schema["anyOf"] is not List<object?> anyOf
+                || !HasOnlyKeys(schema, combinator)
+                || schema[combinator] is not List<object?> anyOf
                 || !anyOf.All(b => b is JsonMap map && HasOnlyKeys(map, "required"))
+                || (
+                    combinator == "oneOf"
+                    && !anyOf.All(b => Strings(((JsonMap)b!)["required"]).Count == 1)
+                )
             )
             {
                 throw Fail("Unsupported dependent schema", entry.Value);
@@ -248,6 +269,10 @@ internal static class SchemaNormalizer
             [
                 .. anyOf.Select(b => Strings(((JsonMap)b!)["required"])),
             ];
+            if (combinator == "oneOf")
+            {
+                _ = exclusive.Add(entry.Key);
+            }
         }
         List<string> baseRequired = Strings(baseSchema["required"]);
         JsonMap baseProperties = baseSchema["properties"] as JsonMap ?? [];
@@ -282,40 +307,64 @@ internal static class SchemaNormalizer
                 },
                 dependentKeys.GetValueOrDefault(key) ?? []
             );
-            return !alternativesOf.TryGetValue(key, out List<List<string>>? alternatives)
-                ? withKey
-                : withKey.SelectMany(w =>
+            if (!alternativesOf.TryGetValue(key, out List<List<string>>? alternatives))
+            {
+                return withKey;
+            }
+            if (!exclusive.Contains(key))
+            {
+                return withKey.SelectMany(w =>
                     alternatives.Any(alt => alt.All(w.Required.Contains))
                         ? [w]
                         : alternatives.SelectMany(alt => RequireAll(w, alt))
                 );
+            }
+            // One alternative, and every other one absent.
+            List<string> keys = [.. alternatives.Select(alt => alt[0])];
+            return withKey.SelectMany(w =>
+                keys.SelectMany(chosen =>
+                    RequireAll(w, [chosen])
+                        .Where(s => keys.All(k => k == chosen || !s.Required.Contains(k)))
+                        .Select(s =>
+                            s with
+                            {
+                                Forbidden = Unique([
+                                    .. s.Forbidden,
+                                    .. keys.Where(k => k != chosen),
+                                ]),
+                            }
+                        )
+                )
+            );
         }
 
         List<string> triggers = Unique([.. dependentKeys.Keys, .. alternativesOf.Keys]);
         List<Presence> states = RequireAll(new Presence([], [], []), baseRequired);
+        IEnumerable<Presence> Split(Presence s, string trigger)
+        {
+            if (s.Forbidden.Contains(trigger) || s.Required.Contains(trigger))
+            {
+                return [s];
+            }
+            List<Presence> present = RequireAll(
+                s with
+                {
+                    Name = [.. s.Name, (trigger, true)],
+                },
+                [trigger]
+            );
+            // A trigger that cannot be present here is absent without a name.
+            Presence absent = s with
+            {
+                Forbidden = [.. s.Forbidden, trigger],
+                Name = present.Count == 0 ? s.Name : [.. s.Name, (trigger, false)],
+            };
+            return present.Prepend(absent);
+        }
+
         foreach (string trigger in triggers)
         {
-            states =
-            [
-                .. states.SelectMany(s =>
-                    s.Forbidden.Contains(trigger) || s.Required.Contains(trigger)
-                        ? [s]
-                        : RequireAll(
-                                s with
-                                {
-                                    Name = [.. s.Name, (trigger, true)],
-                                },
-                                [trigger]
-                            )
-                            .Prepend(
-                                s with
-                                {
-                                    Forbidden = [.. s.Forbidden, trigger],
-                                    Name = [.. s.Name, (trigger, false)],
-                                }
-                            )
-                ),
-            ];
+            states = [.. states.SelectMany(s => Split(s, trigger))];
         }
 
         List<object?> variants = [];
@@ -328,9 +377,25 @@ internal static class SchemaNormalizer
                     state.Forbidden.Contains(p.Key) ? false : p.Value
                 )),
             ];
+            List<string> variantRequired = Unique([.. baseRequired, .. state.Required]);
+            // `minProperties: 1` with one property left: that property is required (a
+            // window over a partition only).
+            List<string> allowed =
+            [
+                .. properties.Where(p => p.Value is not false).Select(p => p.Key),
+            ];
+            if (
+                baseSchema["minProperties"] is double min
+                && min >= 1
+                && allowed.Count == 1
+                && !variantRequired.Contains(allowed[0])
+            )
+            {
+                variantRequired.Add(allowed[0]);
+            }
             JsonMap variant = new JsonMap(baseWithoutTitle)
             {
-                ["required"] = ToList(Unique([.. baseRequired, .. state.Required])),
+                ["required"] = ToList(variantRequired),
                 ["properties"] = properties,
             };
             if (baseTitle is not null)
@@ -513,13 +578,22 @@ internal static class SchemaNormalizer
 
     /// <summary>
     /// <c>{ if: { required }, then, else }</c> or
-    /// <c>{ anyOf: [{ required }], allOf: [{ if: { required }, then }] }</c>.
+    /// <c>{ anyOf: [{ required }], allOf: [{ if: { required }, then }] }</c>; a key check
+    /// may also be an <c>anyOf</c> of them (a set operation names one of four keys).
     /// </summary>
     private static bool IsKeyDispatch(object? node)
     {
         static bool IsKeyCheck(object? n)
         {
-            return n is JsonMap map && HasOnlyKeys(map, "required");
+            return n is JsonMap map
+                && (
+                    HasOnlyKeys(map, "required")
+                    || (
+                        HasOnlyKeys(map, "anyOf")
+                        && map["anyOf"] is List<object?> keys
+                        && keys.All(k => k is JsonMap key && HasOnlyKeys(key, "required"))
+                    )
+                );
         }
         static bool IsIfElse(JsonMap map)
         {
@@ -602,6 +676,19 @@ internal static class SchemaNormalizer
 
     private sealed record DeclaredRule(HashSet<string> Types, JsonMap Then);
 
+    /// <summary><c>year@row</c> + <c>date</c> → <c>year.date@row</c></summary>
+    private static string Refine(string key, string part)
+    {
+        int at = key.IndexOf('@', StringComparison.Ordinal);
+        return at < 0 ? $"{key}.{part}" : $"{key[..at]}.{part}{key[at..]}";
+    }
+
+    private static string BaseOf(string key)
+    {
+        int at = key.IndexOf('@', StringComparison.Ordinal);
+        return at < 0 ? key : key[..at];
+    }
+
     // ===== Type-directed normalization =====
 
     private sealed class Normalizer
@@ -625,6 +712,15 @@ internal static class SchemaNormalizer
         > _grouped = [];
 
         private readonly JsonMap _defs;
+
+        // Rule definitions merged into the variants they were split into: a signature
+        // split by its operand's family (`asString.string@row`), the family itself
+        // (`asString.decimal@row`).
+        private readonly HashSet<string> _consumed = [];
+
+        // Objects derived from a definition by a refinement of one of its properties:
+        // the sort key of a range window (`orderItem.integer@row`).
+        private readonly JsonMap _derived = [];
 
         public Normalizer(JsonMap defs)
         {
@@ -827,8 +923,15 @@ internal static class SchemaNormalizer
             ];
             List<DeclaredRule> declared = [];
             List<JsonMap> operand = [];
+            // Rules of the one signature of an operator, next to its shape.
+            List<JsonMap> common = [];
             foreach (object? item in allOf)
             {
+                if (item is JsonMap rule && !rule.Has("if") && !rule.Has("then"))
+                {
+                    common.Add(rule);
+                    continue;
+                }
                 if (
                     item is not JsonMap branch
                     || !HasOnlyKeys(branch, "if", "then")
@@ -853,6 +956,10 @@ internal static class SchemaNormalizer
             }
 
             List<Variant> variants;
+            if (common.Count > 0 && (declared.Count > 0 || allowed.Count != 1))
+            {
+                throw Fail("Rules of one signature on an object of several", key);
+            }
             if (operand.Count > 0)
             {
                 // `equal`: one variant per operand type, all declaring the same result type.
@@ -877,7 +984,7 @@ internal static class SchemaNormalizer
             {
                 variants =
                     declared.Count == 0 && allowed.Count == 1
-                        ? [new Variant(key, allowed[0], [])]
+                        ? [new Variant(key, allowed[0], common)]
                         :
                         [
                             .. allowed.Select(t =>
@@ -900,12 +1007,196 @@ internal static class SchemaNormalizer
                             }),
                         ];
             }
+            variants = [.. variants.SelectMany(v => Expand(key, v, true))];
             foreach (Variant variant in variants)
             {
                 _variantTypes[variant.Key] = variant.Type.Key;
             }
             _plans[key] = variants;
             return variants;
+        }
+
+        /// <summary>
+        /// <c>{ if: { required: [operand], properties: { operand: accepts.date.nullable }
+        /// }, then: year.date@row }</c> — one family of an operand.
+        /// </summary>
+        private bool IsFamilyBranch(object? node)
+        {
+            return node is JsonMap map
+                && HasOnlyKeys(map, "if", "then")
+                && IsOperandCondition(map["if"])
+                && OneRefKey(map["then"]) is not null;
+        }
+
+        /// <summary>
+        /// <c>{ if: { required: [digits] }, then, else }</c> — a rule by presence.
+        /// </summary>
+        private static bool IsPresenceBranch(object? node)
+        {
+            return node is JsonMap map
+                && HasOnlyKeys(map, "if", "then", "else")
+                && map["if"] is JsonMap condition
+                && HasOnlyKeys(condition, "required")
+                && Strings(condition["required"]).Count == 1
+                && map["then"] is JsonMap
+                && map["else"] is JsonMap;
+        }
+
+        /// <summary>
+        /// Splits a signature whose rules still choose by an operand: by the family its
+        /// operand declares (<c>asString</c> of a decimal:
+        /// <c>asString.decimal.string@row</c>) or by the presence of an operand
+        /// (<c>round</c> with digits: <c>round.withDigits.integer@row</c>). The declared
+        /// type stays last in the name.
+        /// </summary>
+        private IEnumerable<Variant> Expand(string stem, Variant variant, bool top)
+        {
+            for (int i = 0; i < variant.Parts.Count; i++)
+            {
+                JsonMap part = variant.Parts[i];
+                if (part["allOf"] is not List<object?> rules)
+                {
+                    continue;
+                }
+                List<JsonMap> families = [.. rules.Where(IsFamilyBranch).Cast<JsonMap>()];
+                JsonMap? presence = rules.FirstOrDefault(IsPresenceBranch) as JsonMap;
+                if (families.Count == 0 && presence is null)
+                {
+                    continue;
+                }
+                JsonMap? choice = families.Count > 0 ? null : presence;
+                List<object?> rest =
+                [
+                    .. rules.Where(r =>
+                        choice is null
+                            ? !families.Contains(r)
+                            : !ReferenceEquals(r, choice)
+                    ),
+                ];
+                JsonMap remaining =
+                    rest.Count == 0
+                        ? part.Without("allOf")
+                        : new JsonMap(part) { ["allOf"] = rest };
+                List<JsonMap> others =
+                [
+                    .. variant.Parts.Select((p, j) => j == i ? remaining : p),
+                ];
+                if (top && _defs.Has(variant.Key))
+                {
+                    _ = _consumed.Add(variant.Key);
+                }
+                List<(string Stem, List<JsonMap> Parts)> splits = [];
+                if (choice is null)
+                {
+                    string root = BaseOf(stem) + ".";
+                    foreach (JsonMap family in families)
+                    {
+                        string target = OneRefKey(family["then"])!;
+                        _ = _consumed.Add(target);
+                        string name = BaseOf(target);
+                        if (!name.StartsWith(root, StringComparison.Ordinal))
+                        {
+                            throw Fail("A family not named after its operator", target);
+                        }
+                        splits.Add(
+                            (
+                                Refine(stem, name[root.Length..]),
+                                [.. others, (JsonMap)family["if"]!, Def(target)]
+                            )
+                        );
+                    }
+                }
+                else
+                {
+                    string property = Strings(((JsonMap)choice["if"]!)["required"])[0];
+                    splits.Add(
+                        (
+                            Refine(stem, "with" + Capitalize(property)),
+                            [
+                                .. others,
+                                (JsonMap)choice["if"]!,
+                                Deref((JsonMap)choice["then"]!),
+                            ]
+                        )
+                    );
+                    JsonMap absent = new JsonMap
+                    {
+                        ["allOf"] = new List<object?>
+                        {
+                            new JsonMap
+                            {
+                                ["not"] = new JsonMap
+                                {
+                                    ["required"] = new List<object?> { property },
+                                },
+                            },
+                        },
+                    };
+                    splits.Add(
+                        (
+                            Refine(stem, "without" + Capitalize(property)),
+                            [.. others, absent, Deref((JsonMap)choice["else"]!)]
+                        )
+                    );
+                }
+                foreach ((string split, List<JsonMap> parts) in splits)
+                {
+                    Variant refined = new Variant(
+                        VariantKey(split, variant.Type),
+                        variant.Type,
+                        parts
+                    );
+                    foreach (Variant expanded in Expand(split, refined, false))
+                    {
+                        yield return expanded;
+                    }
+                }
+                yield break;
+            }
+            yield return variant;
+        }
+
+        /// <summary>
+        /// A check of a literal's value only:
+        /// <c>{ properties: { value: { pattern } } }</c> (a regex literal, a fraction) or
+        /// <c>zoneName</c>, which holds a literal zone to the names. Like a pattern, it
+        /// rejects values a type cannot tell apart.
+        /// </summary>
+        private bool IsValueRule(object? node)
+        {
+            if (node is not JsonMap map)
+            {
+                return false;
+            }
+            string? key = OneRefKey(map);
+            return key is not null ? key != TypeDef && IsValueRule(Def(key))
+                : HasOnlyKeys(map, "if", "then") && map.Has("then")
+                    ? map["if"] is JsonMap && IsValueRule(map["then"])
+                : HasOnlyKeys(map, "properties")
+                    && map["properties"] is JsonMap properties
+                    && properties.Count == 1
+                    && properties["value"] is JsonMap value
+                    && HasOnlyKeys(value, ValueKeywords);
+        }
+
+        /// <summary><c>{ if, then: { $ref } }</c> — one branch of a dispatch.</summary>
+        private static bool IsDispatchBranch(object? node)
+        {
+            return node is JsonMap branch
+                && HasOnlyKeys(branch, "if", "then")
+                && OneRefKey(branch["then"]) is not null;
+        }
+
+        /// <summary>
+        /// <c>operator.arithmetic@row</c>: an <c>allOf</c> of dispatch branches only.
+        /// </summary>
+        public static bool IsSectionDispatch(object? node)
+        {
+            return node is JsonMap map
+                && HasOnlyKeys(map, "allOf")
+                && map["allOf"] is List<object?> branches
+                && branches.Count > 0
+                && branches.All(IsDispatchBranch);
         }
 
         /// <summary><c>{ required: [left], properties: { left: accepts.decimal.nullable } }</c></summary>
@@ -962,22 +1253,38 @@ internal static class SchemaNormalizer
             {
                 return Concat([map["then"], map["else"]]);
             }
+            // A literal or a parameter of one type: `regexPattern`, `separator`.
+            if (
+                HasOnlyKeys(map, "type", "allOf", "if", "then", "else")
+                && map.Has("if")
+                && map.Has("else")
+                && map["allOf"] is List<object?> checks
+                && checks.All(c => TypeCheck(c) is not null)
+            )
+            {
+                return Filter([
+                    .. checks,
+                    new JsonMap
+                    {
+                        ["anyOf"] = new List<object?> { map["then"], map["else"] },
+                    },
+                ]);
+            }
             if (map["anyOf"] is List<object?> anyOf && HasOnlyKeys(map, "anyOf"))
             {
                 return Concat(anyOf);
             }
             if (map["allOf"] is List<object?> allOf)
             {
+                // A dispatch on `operator` or on the leaf's key: each branch selects a
+                // schema.
+                bool isDispatch = allOf.All(IsDispatchBranch);
                 if (HasOnlyKeys(map, "allOf"))
                 {
-                    return Filter(allOf);
+                    return isDispatch
+                        ? Concat([.. allOf.Select(b => ((JsonMap)b!)["then"])])
+                        : Filter(allOf);
                 }
-                // A dispatch on `operator` or on the leaf's key: each branch selects a schema.
-                bool isDispatch = allOf.All(b =>
-                    b is JsonMap branch
-                    && HasOnlyKeys(branch, "if", "then")
-                    && OneRefKey(branch["then"]) is not null
-                );
                 bool restIsSelector =
                     HasOnlyKeys(map, "allOf", "properties", "anyOf")
                     && (
@@ -1028,6 +1335,10 @@ internal static class SchemaNormalizer
             HashSet<string>? types = null;
             foreach (object? item in items)
             {
+                if (IsValueRule(item))
+                {
+                    continue;
+                }
                 HashSet<string>? check = TypeCheck(item);
                 if (check is not null)
                 {
@@ -1112,7 +1423,9 @@ internal static class SchemaNormalizer
         {
             List<object?> parts =
             [
-                .. schemas.Where(s => s is not true and not JsonMap { Count: 0 }),
+                .. schemas.Where(s =>
+                    s is not true and not JsonMap { Count: 0 } && !IsValueRule(s)
+                ),
             ];
             if (parts.Count == 0)
             {
@@ -1216,6 +1529,7 @@ internal static class SchemaNormalizer
                 constraints[entry.Key] = [entry.Value];
             }
             HashSet<string> forbidden = [];
+            List<List<object?>> disjunctions = [];
             void Merge(JsonMap part)
             {
                 foreach (KeyValuePair<string, object?> entry in part)
@@ -1254,10 +1568,18 @@ internal static class SchemaNormalizer
                             {
                                 Merge(rule);
                             }
-                            else if (!HasOnlyKeys(rule, "anyOf"))
+                            else if (
+                                HasOnlyKeys(rule, "anyOf")
+                                && rule["anyOf"] is List<object?> branches
+                            )
                             {
-                                // `anyOf` here is a disjunction across operands ("one of
-                                // them is nullable"): validation-only, like `contains`.
+                                // A disjunction across operands ("one of them is
+                                // nullable"): validation-only, like `contains`, unless
+                                // the variant forbids every operand but one.
+                                disjunctions.Add(branches);
+                            }
+                            else
+                            {
                                 throw Fail("Unsupported rule of a typed object", rule);
                             }
                         }
@@ -1272,11 +1594,47 @@ internal static class SchemaNormalizer
                 }
             }
             variant.Parts.ForEach(Merge);
+            bool IsAbsent(string property)
+            {
+                return forbidden.Contains(property)
+                    || (
+                        constraints.GetValueOrDefault(property)?.Contains(false) ?? false
+                    );
+            }
+            foreach (List<object?> branches in disjunctions)
+            {
+                // `asDate` of a string has no zone, so its operand is the nullable one.
+                List<JsonMap> live =
+                [
+                    .. branches
+                        .Cast<JsonMap>()
+                        .Where(b =>
+                            !(
+                                HasOnlyKeys(b, "required", "properties")
+                                && Strings(b["required"]) is [string property]
+                                && IsAbsent(property)
+                            )
+                        ),
+                ];
+                if (live.Count == 0)
+                {
+                    throw Fail("A disjunction that no operand can meet", branches);
+                }
+                if (
+                    live.Count == 1
+                    && live.Count < branches.Count
+                    && HasOnlyKeys(live[0], "required", "properties")
+                )
+                {
+                    Merge(live[0]);
+                }
+            }
 
             JsonMap properties = [];
             foreach (KeyValuePair<string, List<object?>> entry in constraints)
             {
-                if (forbidden.Contains(entry.Key))
+                // `false`: a family that takes no zone (`asDate` of a string).
+                if (forbidden.Contains(entry.Key) || entry.Value.Contains(false))
                 {
                     if (required.Contains(entry.Key))
                     {
@@ -1338,8 +1696,11 @@ internal static class SchemaNormalizer
                     }
                     continue;
                 }
-                result[entry.Key] = entry.Key is "properties" or "dependentSchemas"
-                    ? new JsonMap(
+                // Dependent schemas only require keys: they are read as they are.
+                result[entry.Key] =
+                    entry.Key == "dependentSchemas" ? entry.Value
+                    : entry.Key == "properties"
+                        ? new JsonMap(
                         ((JsonMap)entry.Value!).Select(p => new KeyValuePair<
                             string,
                             object?
@@ -1361,11 +1722,258 @@ internal static class SchemaNormalizer
             {
                 result = RewriteDependencies(result);
             }
+            if (result["anyOf"] is List<object?> variants && variants.Any(IsRefined))
+            {
+                result = new JsonMap(result)
+                {
+                    ["anyOf"] = variants
+                        .SelectMany(v =>
+                            IsRefined(v) ? RefineByPresence((JsonMap)v!) : [v]
+                        )
+                        .ToList(),
+                };
+            }
             if (result["anyOf"] is List<object?>)
             {
                 result = FlattenAnyOf(result);
             }
             return result;
+        }
+
+        /// <summary>
+        /// A variant of an object with rules for when a property is present:
+        /// <c>allOf: [{ if: { required: [range] }, then: rangeWindow }]</c>.
+        /// </summary>
+        private static bool IsRefined(object? node)
+        {
+            return node is JsonMap map
+                && map["properties"] is JsonMap
+                && map["allOf"] is List<object?> rules
+                && rules.All(r =>
+                    r is JsonMap rule
+                    && HasOnlyKeys(rule, "if", "then")
+                    && rule["if"] is JsonMap condition
+                    && HasOnlyKeys(condition, "required")
+                    && Strings(condition["required"]).Count == 1
+                    && rule["then"] is JsonMap
+                );
+        }
+
+        /// <summary>
+        /// Applies the rules of the properties a variant has, and drops those of the ones
+        /// it forbids. A rule may choose by the type a property's items declare (a range
+        /// window by the type of its sort key): the variant is then split, one per type,
+        /// named after it (<c>WindowWithoutFrameWithRangeInteger</c>), with its items
+        /// narrowed to an object derived for that type (<c>orderItem.integer@row</c>).
+        /// </summary>
+        private IEnumerable<object?> RefineByPresence(JsonMap variant)
+        {
+            JsonMap properties = (JsonMap)variant["properties"]!;
+            List<string> required = Strings(variant["required"]);
+            List<JsonMap> applied = [];
+            foreach (JsonMap rule in ((List<object?>)variant["allOf"]!).Cast<JsonMap>())
+            {
+                string property = Strings(((JsonMap)rule["if"]!)["required"])[0];
+                if (properties[property] is false)
+                {
+                    continue;
+                }
+                if (!required.Contains(property))
+                {
+                    throw Fail("A rule for a property neither present nor absent", rule);
+                }
+                applied.Add(Deref((JsonMap)rule["then"]!));
+            }
+            JsonMap baseVariant = variant.Without("allOf");
+            if (applied.Count == 0)
+            {
+                return [baseVariant];
+            }
+            if (applied.Count > 1)
+            {
+                throw Fail("Several rules by presence on one variant", variant);
+            }
+            JsonMap refinement = applied[0];
+            if (!HasOnlyKeys(refinement, "properties", "allOf"))
+            {
+                throw Fail("Unsupported rule by presence", refinement);
+            }
+            List<object?> branches = refinement["allOf"] as List<object?> ?? [];
+            if (
+                branches.Count == 0
+                || !branches.All(b =>
+                    b is JsonMap branch
+                    && HasOnlyKeys(branch, "if", "then")
+                    && branch["if"] is JsonMap condition
+                    && HasOnlyKeys(condition, "required", "properties")
+                    && branch["then"] is JsonMap then
+                    && HasOnlyKeys(then, "properties")
+                )
+            )
+            {
+                throw Fail("Unsupported rule by presence", refinement);
+            }
+            List<object?> result = [];
+            foreach (JsonMap branch in branches.Cast<JsonMap>())
+            {
+                JsonMap condition = (JsonMap)branch["if"]!;
+                string suffix =
+                    CheckedName(condition["properties"])
+                    ?? throw Fail("A rule by presence that checks no one type", branch);
+                OrderedDictionary<string, List<JsonMap>> rules = [];
+                foreach (
+                    JsonMap source in new[]
+                    {
+                        refinement["properties"] as JsonMap ?? [],
+                        (JsonMap)condition["properties"]!,
+                        (JsonMap)((JsonMap)branch["then"]!)["properties"]!,
+                    }
+                )
+                {
+                    foreach (KeyValuePair<string, object?> entry in source)
+                    {
+                        rules[entry.Key] =
+                        [
+                            .. rules.GetValueOrDefault(entry.Key) ?? [],
+                            (JsonMap)entry.Value!,
+                        ];
+                    }
+                }
+                JsonMap refined = [];
+                foreach (KeyValuePair<string, object?> entry in properties)
+                {
+                    refined[entry.Key] = rules.TryGetValue(
+                        entry.Key,
+                        out List<JsonMap>? constraints
+                    )
+                        ? RefineProperty(entry.Value, constraints, suffix)
+                        : entry.Value;
+                }
+                JsonMap split = new JsonMap(baseVariant) { ["properties"] = refined };
+                if (baseVariant["title"] is string title)
+                {
+                    split["title"] = title + Capitalize(suffix);
+                }
+                result.Add(split);
+            }
+            return result;
+        }
+
+        /// <summary>The one type name a nested type check admits.</summary>
+        private string? CheckedName(object? node)
+        {
+            if (node is not JsonMap map)
+            {
+                return null;
+            }
+            HashSet<string>? types = TypeCheck(map);
+            if (types is not null)
+            {
+                List<string> names =
+                [
+                    .. _types
+                        .Where(t => types.Contains(t.Key))
+                        .Select(t => t.Name)
+                        .Distinct(),
+                ];
+                return names.Count == 1 ? names[0] : null;
+            }
+            return map.Values.Select(CheckedName).FirstOrDefault(n => n is not null);
+        }
+
+        /// <summary>A property of a variant under the rules of one branch.</summary>
+        private object? RefineProperty(object? schema, List<JsonMap> rules, string suffix)
+        {
+            if (schema is true)
+            {
+                return rules.Count == 1 && OneRefKey(rules[0]) is not null
+                    ? Rewrite(rules[0])
+                    : throw Fail("Unsupported refinement of a property", rules);
+            }
+            if (
+                schema is not JsonMap array
+                || array["type"] is not "array"
+                || OneRefKey(array["items"]) is not string item
+            )
+            {
+                throw Fail("Unsupported refinement of a property", schema);
+            }
+            JsonMap result = [.. array];
+            List<JsonMap> itemRules = [];
+            foreach (JsonMap rule in rules)
+            {
+                foreach (KeyValuePair<string, object?> entry in rule)
+                {
+                    if (entry.Key == "maxItems")
+                    {
+                        result["maxItems"] = entry.Value;
+                    }
+                    else if (entry.Key == "items" && entry.Value is JsonMap items)
+                    {
+                        itemRules.Add(items);
+                    }
+                    else
+                    {
+                        throw Fail("Unsupported refinement of an array", rule);
+                    }
+                }
+            }
+            if (itemRules.Count > 0)
+            {
+                result["items"] = Ref(DeriveObject(item, itemRules, suffix));
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// <c>orderItem@row</c> with its <c>expression</c> narrowed:
+        /// <c>orderItem.integer@row</c>.
+        /// </summary>
+        private string DeriveObject(string key, List<JsonMap> rules, string suffix)
+        {
+            string derived = Refine(key, suffix);
+            if (_derived.Has(derived))
+            {
+                return derived;
+            }
+            JsonMap def = Def(key);
+            if (def["properties"] is not JsonMap properties || IsTyped(def))
+            {
+                throw Fail("Cannot derive from a definition", key);
+            }
+            OrderedDictionary<string, List<object?>> constraints = [];
+            foreach (KeyValuePair<string, object?> entry in properties)
+            {
+                constraints[entry.Key] = [entry.Value];
+            }
+            foreach (JsonMap rule in rules)
+            {
+                if (
+                    !HasOnlyKeys(rule, "properties")
+                    || rule["properties"] is not JsonMap own
+                )
+                {
+                    throw Fail("Unsupported refinement of an object", rule);
+                }
+                foreach (KeyValuePair<string, object?> entry in own)
+                {
+                    (
+                        constraints.GetValueOrDefault(entry.Key)
+                        ?? throw Fail("Rule for an unknown property", entry.Key)
+                    ).Add(entry.Value);
+                }
+            }
+            JsonMap narrowed = [];
+            foreach (KeyValuePair<string, List<object?>> entry in constraints)
+            {
+                narrowed[entry.Key] =
+                    entry.Value.Count == 1
+                        ? Rewrite(entry.Value[0])
+                        : Combine(entry.Value);
+            }
+            _derived[derived] = (JsonMap)
+                Rewrite(new JsonMap(def) { ["properties"] = narrowed })!;
+            return derived;
         }
 
         /// <summary>
@@ -1392,15 +2000,23 @@ internal static class SchemaNormalizer
                 }
                 // Dispatch-only definitions (`operator@row`, `leaf@row`) are spliced.
                 bool isDispatch =
-                    def is JsonMap dispatch
-                    && dispatch["allOf"] is List<object?>
-                    && !HasOnlyKeys(dispatch, "allOf");
+                    (
+                        def is JsonMap dispatch
+                        && dispatch["allOf"] is List<object?>
+                        && !HasOnlyKeys(dispatch, "allOf")
+                    ) || IsSectionDispatch(def);
                 if (!IsTyped(def) && isDispatch)
                 {
                     continue;
                 }
                 _ = _namedUnions.TryAdd(SortedKey(variants), key);
-                if (def is JsonMap conditional && conditional.Has("if"))
+                // Only an expression dispatch (`expr@row`) is grouped by type: a literal
+                // or a parameter (`cell`) is no expression of a context.
+                if (
+                    def is JsonMap conditional
+                    && conditional.Has("if")
+                    && key.Contains('@', StringComparison.Ordinal)
+                )
                 {
                     OrderedDictionary<string, List<string>> groups = [];
                     foreach (string variant in variants)
@@ -1449,7 +2065,7 @@ internal static class SchemaNormalizer
                         Add(variant.Key, (JsonMap)Rewrite(Materialize(typed, variant))!);
                     }
                 }
-                else if (variantKeys.Contains(key))
+                else if (variantKeys.Contains(key) || _consumed.Contains(key))
                 {
                     continue;
                 }
@@ -1523,6 +2139,10 @@ internal static class SchemaNormalizer
                                 )!
                     );
                 }
+            }
+            foreach (KeyValuePair<string, object?> derived in _derived)
+            {
+                Add(derived.Key, (JsonMap)derived.Value!);
             }
             return result;
         }

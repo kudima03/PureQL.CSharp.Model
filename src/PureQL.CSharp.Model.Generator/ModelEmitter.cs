@@ -74,6 +74,16 @@ internal sealed class ModelEmitter(JsonMap normalized)
         ),
         ["direction"] = new EnumDeclaration("SortDirection", "asc", ["desc"]),
         ["over"] = new EnumDeclaration("AggregateOver", "group", ["all"]),
+        ["form"] = new EnumDeclaration(
+            "NormalizationForm",
+            null,
+            ["NFC", "NFD", "NFKC", "NFKD"]
+        ),
+        ["mode"] = new EnumDeclaration(
+            "RoundingMode",
+            "halfAwayFromZero",
+            ["halfEven"]
+        ),
     };
 
     private static readonly HashSet<string> Keywords =
@@ -168,6 +178,13 @@ internal sealed class ModelEmitter(JsonMap normalized)
 
     // The C# name of the union of a set of records, by their sorted names.
     private readonly Dictionary<string, string> _unionNames = [];
+
+    // The C# name of each union definition: its own, or that of the definition it shares
+    // its records with.
+    private readonly Dictionary<string, string> _defUnionNames = [];
+
+    // The records of constant union members (`"all"`), by their value.
+    private readonly Dictionary<string, JsonMap> _constants = [];
 
     /// <summary>
     /// The interfaces of a typed record, by the properties it has: an operator, a field
@@ -329,6 +346,7 @@ internal sealed class ModelEmitter(JsonMap normalized)
         if (
             key.StartsWith("selectItem@", StringComparison.Ordinal)
             || key.StartsWith("orderItem@", StringComparison.Ordinal)
+            || key.StartsWith("orderItem.", StringComparison.Ordinal)
         )
         {
             return "";
@@ -389,6 +407,22 @@ internal sealed class ModelEmitter(JsonMap normalized)
                 : owner;
             return Unique(anyOf.SelectMany(member => Members(member, nested)));
         }
+        if (map["const"] is string constant && HasOnlyKeys(map, "const"))
+        {
+            // `"all"` → `All`: a record without properties, as a value of a union.
+            if (!_constants.TryGetValue(constant, out JsonMap? record))
+            {
+                record = new JsonMap
+                {
+                    ["type"] = "object",
+                    ["required"] = new List<object?>(),
+                    ["properties"] = new JsonMap(),
+                    ["additionalProperties"] = false,
+                };
+                _constants[constant] = record;
+            }
+            return Records(record, Capitalize(constant), "", null);
+        }
         return map["type"] is "integer"
             ? ["long"]
             : map["type"] is "object"
@@ -403,11 +437,22 @@ internal sealed class ModelEmitter(JsonMap normalized)
 
     /// <summary>
     /// A list's anonymous members are named after what they hold:
-    /// <c>ListLiteralDecimal</c>, <c>ListParamDecimal</c>, <c>ListSubqueryColumnDecimal</c>.
+    /// <c>ListLiteralDecimal</c>, <c>ListParamDecimal</c>,
+    /// <c>ListSubqueryColumnDecimal</c>; any other one after its only property:
+    /// <c>DistanceDateDays</c>.
     /// </summary>
     private static string AnonymousName(JsonMap node, Owner owner)
     {
         List<string> required = Strings(node["required"]);
+        if (
+            !owner.Title.StartsWith("List", StringComparison.Ordinal)
+            && required.Count == 1
+            && node["properties"] is JsonMap properties
+            && properties.Count == 1
+        )
+        {
+            return owner.Title + Capitalize(required[0]);
+        }
         string kind = required switch
         {
             _ when required.Contains("value") => "Literal",
@@ -497,26 +542,31 @@ internal sealed class ModelEmitter(JsonMap normalized)
             [
                 .. keys.Where(k => !k.StartsWith("declares.", StringComparison.Ordinal)),
             ];
-            if (preferred.Count > 1)
+            // Definitions that are no `declares.*` group each keep their name, though
+            // they admit the same records (`regexPattern` and `separator`: a string
+            // literal or parameter); the groups take the first one's.
+            List<string> named = preferred.Count > 0 ? preferred : [keys[0]];
+            foreach (string key in named)
             {
-                throw Fail(
-                    "Definitions with the same members",
-                    string.Join(", ", preferred)
+                string name = ToTypeName(key);
+                if (_declarations.ContainsKey(name))
+                {
+                    throw Fail("Two declarations with one name", name);
+                }
+                _declarations[name] = new UnionDeclaration(
+                    name,
+                    NamespaceOf(key),
+                    key,
+                    _unionMembers[key]
                 );
+                _defUnionNames[key] = name;
             }
-            string key = preferred.Count == 1 ? preferred[0] : keys[0];
-            string name = ToTypeName(key);
-            _unionNames[group.Key] = name;
-            if (_declarations.ContainsKey(name))
+            string shared = ToTypeName(named[0]);
+            _unionNames[group.Key] = shared;
+            foreach (string key in keys.Where(k => !named.Contains(k)))
             {
-                throw Fail("Two declarations with one name", name);
+                _defUnionNames[key] = shared;
             }
-            _declarations[name] = new UnionDeclaration(
-                name,
-                NamespaceOf(key),
-                key,
-                _unionMembers[key]
-            );
         }
     }
 
@@ -596,7 +646,8 @@ internal sealed class ModelEmitter(JsonMap normalized)
             }
             if (def.Has("anyOf"))
             {
-                return _unionNames[SetKey(UnionDefMembers(key))];
+                _ = UnionDefMembers(key);
+                return _defUnionNames[key];
             }
             List<string> records = Records(
                 def,
@@ -611,6 +662,11 @@ internal sealed class ModelEmitter(JsonMap normalized)
         if (map.Has("anyOf"))
         {
             return InlineUnion(map, record.Name, record.Namespace, property);
+        }
+        // `distinct: true`, never false: a flag whose absence is false.
+        if (map["const"] is true && HasOnlyKeys(map, "const"))
+        {
+            return "bool";
         }
         if (map.Has("enum"))
         {
@@ -711,7 +767,14 @@ internal sealed class ModelEmitter(JsonMap normalized)
             }
             bool isRequired = required.Contains(entry.Key);
             string type = PropertyType(entry.Value, record, entry.Key);
-            string? absent = Enums.Values.FirstOrDefault(e => e.Name == type)?.Absent;
+            bool isFlag = entry.Value is JsonMap { } flag && flag["const"] is true;
+            string? absent = isFlag
+                ? "false"
+                : Enums
+                    .Values.FirstOrDefault(e => e.Name == type)
+                    ?.Absent is string member
+                    ? $"{type}.{Capitalize(member)}"
+                : null;
             if (!isRequired && absent is null)
             {
                 type += "?";
@@ -721,9 +784,7 @@ internal sealed class ModelEmitter(JsonMap normalized)
                     entry.Key,
                     type,
                     isRequired,
-                    isRequired ? null
-                        : absent is null ? "null"
-                        : $"{type}.{Capitalize(absent)}"
+                    isRequired ? null : absent ?? "null"
                 )
             );
         }

@@ -8,14 +8,18 @@ public sealed record MinDateNullableProjection : IOperator
 {
     public MinDateNullableProjection(
         DateNullableRow selector,
-        BooleanRow? predicate = null
+        BooleanRow? predicate = null,
+        Window? over = null
     )
     {
         Predicate = predicate;
+        Over = over;
         Selector = selector;
     }
 
     public BooleanRow? Predicate { get; }
+
+    public Window? Over { get; }
 
     public DateNullableRow Selector { get; }
 

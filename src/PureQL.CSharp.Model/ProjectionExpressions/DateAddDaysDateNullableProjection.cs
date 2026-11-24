@@ -6,17 +6,17 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 public sealed record DateAddDaysDateNullableProjection : IOperator
 {
     public DateAddDaysDateNullableProjection(
-        DateNullableProjection left,
-        IntegerNullableProjection right
+        DateNullableProjection operand,
+        IntegerNullableProjection days
     )
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Days = days;
     }
 
-    public DateNullableProjection Left { get; }
+    public DateNullableProjection Operand { get; }
 
-    public IntegerNullableProjection Right { get; }
+    public IntegerNullableProjection Days { get; }
 
     public IType Type => new TypeDateNullable();
 }

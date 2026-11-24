@@ -6,17 +6,17 @@ namespace PureQL.CSharp.Model.TotalExpressions;
 public sealed record TimeAddSecondsTimeNullableTotal : IOperator
 {
     public TimeAddSecondsTimeNullableTotal(
-        TimeNullableTotal left,
-        DecimalNullableTotal right
+        TimeNullableTotal operand,
+        DecimalNullableTotal seconds
     )
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Seconds = seconds;
     }
 
-    public TimeNullableTotal Left { get; }
+    public TimeNullableTotal Operand { get; }
 
-    public DecimalNullableTotal Right { get; }
+    public DecimalNullableTotal Seconds { get; }
 
     public IType Type => new TypeTimeNullable();
 }

@@ -6,17 +6,17 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 public sealed record DatetimeAddSecondsDatetimeNullableGroup : IOperator
 {
     public DatetimeAddSecondsDatetimeNullableGroup(
-        DatetimeNullableGroup left,
-        DecimalNullableGroup right
+        DatetimeNullableGroup operand,
+        DecimalNullableGroup seconds
     )
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Seconds = seconds;
     }
 
-    public DatetimeNullableGroup Left { get; }
+    public DatetimeNullableGroup Operand { get; }
 
-    public DecimalNullableGroup Right { get; }
+    public DecimalNullableGroup Seconds { get; }
 
     public IType Type => new TypeDatetimeNullable();
 }

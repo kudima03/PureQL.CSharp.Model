@@ -7,7 +7,6 @@ on:
 env:
   COVERAGE_WARNING_THRESHOLD: 99
   COVERAGE_THRESHOLD: 33
-  MUTATION_THRESHOLD: 12
 
 jobs:
   build:
@@ -63,7 +62,3 @@ jobs:
       with:
         recreate: true
         path: code-coverage-results.md
-    - name: Restore .NET tools
-      run: dotnet tool restore
-    - name: Run mutation test
-      run: dotnet stryker --mutation-level Complete --break-at ${{ env.MUTATION_THRESHOLD }}

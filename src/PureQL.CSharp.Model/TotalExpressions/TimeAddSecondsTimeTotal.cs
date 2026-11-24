@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.TotalExpressions;
 /// <summary>PureQL <c>timeAddSeconds.time@total</c>.</summary>
 public sealed record TimeAddSecondsTimeTotal : IOperator
 {
-    public TimeAddSecondsTimeTotal(TimeTotal left, DecimalTotal right)
+    public TimeAddSecondsTimeTotal(TimeTotal operand, DecimalTotal seconds)
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Seconds = seconds;
     }
 
-    public TimeTotal Left { get; }
+    public TimeTotal Operand { get; }
 
-    public DecimalTotal Right { get; }
+    public DecimalTotal Seconds { get; }
 
     public IType Type => new TypeTime();
 }

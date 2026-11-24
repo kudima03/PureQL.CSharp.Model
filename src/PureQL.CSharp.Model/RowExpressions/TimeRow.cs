@@ -7,8 +7,16 @@ namespace PureQL.CSharp.Model.RowExpressions;
 /// <summary>PureQL <c>time@row</c>.</summary>
 public readonly union TimeRow(
     TimeAddSecondsTimeRow,
+    TimeFromPartsTimeRow,
+    StartOfHourTimeRow,
+    StartOfMinuteTimeRow,
+    StartOfSecondTimeRow,
+    AsTimeDatetimeTimeRow,
+    AsTimeStringTimeRow,
     IfTimeRow,
     CoalesceTimeRow,
+    GreatestTimeRow,
+    LeastTimeRow,
     LiteralTime,
     ParamTime,
     FieldTime

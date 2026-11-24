@@ -6,17 +6,17 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 public sealed record IntegerDivideIntegerNullableGroup : IOperator
 {
     public IntegerDivideIntegerNullableGroup(
-        IntegerNullableGroup left,
-        IntegerNullableGroup right
+        DecimalNullableGroup left,
+        DecimalNullableGroup right
     )
     {
         Left = left;
         Right = right;
     }
 
-    public IntegerNullableGroup Left { get; }
+    public DecimalNullableGroup Left { get; }
 
-    public IntegerNullableGroup Right { get; }
+    public DecimalNullableGroup Right { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

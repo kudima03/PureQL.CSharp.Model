@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.RowExpressions;
 /// <summary>PureQL <c>timeAddSeconds.time@row</c>.</summary>
 public sealed record TimeAddSecondsTimeRow : IOperator
 {
-    public TimeAddSecondsTimeRow(TimeRow left, DecimalRow right)
+    public TimeAddSecondsTimeRow(TimeRow operand, DecimalRow seconds)
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Seconds = seconds;
     }
 
-    public TimeRow Left { get; }
+    public TimeRow Operand { get; }
 
-    public DecimalRow Right { get; }
+    public DecimalRow Seconds { get; }
 
     public IType Type => new TypeTime();
 }

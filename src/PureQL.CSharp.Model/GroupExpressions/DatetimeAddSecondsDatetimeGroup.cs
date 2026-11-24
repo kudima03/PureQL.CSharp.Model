@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 /// <summary>PureQL <c>datetimeAddSeconds.datetime@group</c>.</summary>
 public sealed record DatetimeAddSecondsDatetimeGroup : IOperator
 {
-    public DatetimeAddSecondsDatetimeGroup(DatetimeGroup left, DecimalGroup right)
+    public DatetimeAddSecondsDatetimeGroup(DatetimeGroup operand, DecimalGroup seconds)
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Seconds = seconds;
     }
 
-    public DatetimeGroup Left { get; }
+    public DatetimeGroup Operand { get; }
 
-    public DecimalGroup Right { get; }
+    public DecimalGroup Seconds { get; }
 
     public IType Type => new TypeDatetime();
 }

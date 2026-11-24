@@ -6,10 +6,22 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 
 /// <summary>PureQL <c>declares.uuid.nullable@projection</c>.</summary>
 public readonly union DeclaresUuidNullableProjection(
+    AsUuidUuidNullableProjection,
+    AsNullableUuidNullableProjection,
+    TryAsUuidProjection,
     IfUuidNullableProjection,
     CoalesceUuidNullableProjection,
+    NullIfEqualUuidNullableProjection,
+    GreatestUuidNullableProjection,
+    LeastUuidNullableProjection,
     MinUuidNullableProjection,
     MaxUuidNullableProjection,
+    FirstUuidNullableProjection,
+    LastUuidNullableProjection,
+    PercentileDiscreteUuidNullableProjection,
+    ModeUuidNullableProjection,
+    PreviousUuidNullableProjection,
+    NextUuidNullableProjection,
     LiteralUuidNullable,
     ParamUuidNullable,
     FieldUuidNullable

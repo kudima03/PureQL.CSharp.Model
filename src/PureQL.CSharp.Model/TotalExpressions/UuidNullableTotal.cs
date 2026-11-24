@@ -5,14 +5,27 @@ namespace PureQL.CSharp.Model.TotalExpressions;
 
 /// <summary>PureQL <c>uuid.nullable@total</c>.</summary>
 public readonly union UuidNullableTotal(
+    AsUuidUuidTotal,
     IfUuidTotal,
     CoalesceUuidTotal,
+    GreatestUuidTotal,
+    LeastUuidTotal,
     LiteralUuid,
     ParamUuid,
+    AsUuidUuidNullableTotal,
+    AsNullableUuidNullableTotal,
+    TryAsUuidTotal,
     IfUuidNullableTotal,
     CoalesceUuidNullableTotal,
+    NullIfEqualUuidNullableTotal,
+    GreatestUuidNullableTotal,
+    LeastUuidNullableTotal,
     MinUuidNullableTotal,
     MaxUuidNullableTotal,
+    FirstUuidNullableTotal,
+    LastUuidNullableTotal,
+    PercentileDiscreteUuidNullableTotal,
+    ModeUuidNullableTotal,
     LiteralUuidNullable,
     ParamUuidNullable
 );

@@ -6,17 +6,21 @@ namespace PureQL.CSharp.Model.TotalExpressions;
 public sealed record RoundDecimalNullableTotal : IOperator
 {
     public RoundDecimalNullableTotal(
-        IntegerNullableOrDecimalNullableTotal operand,
-        IntegerTotal digits
+        DecimalOrDecimalNullableTotal operand,
+        IntegerNullableTotal digits,
+        RoundingMode mode = RoundingMode.HalfAwayFromZero
     )
     {
         Operand = operand;
         Digits = digits;
+        Mode = mode;
     }
 
-    public IntegerNullableOrDecimalNullableTotal Operand { get; }
+    public DecimalOrDecimalNullableTotal Operand { get; }
 
-    public IntegerTotal Digits { get; }
+    public IntegerNullableTotal Digits { get; }
+
+    public RoundingMode Mode { get; }
 
     public IType Type => new TypeDecimalNullable();
 }

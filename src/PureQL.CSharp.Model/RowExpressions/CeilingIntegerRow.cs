@@ -5,12 +5,12 @@ namespace PureQL.CSharp.Model.RowExpressions;
 /// <summary>PureQL <c>ceiling.integer@row</c>.</summary>
 public sealed record CeilingIntegerRow : IOperator
 {
-    public CeilingIntegerRow(DecimalRow operand)
+    public CeilingIntegerRow(DeclaresDecimalRow operand)
     {
         Operand = operand;
     }
 
-    public DecimalRow Operand { get; }
+    public DeclaresDecimalRow Operand { get; }
 
     public IType Type => new TypeInteger();
 }

@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 /// <summary>PureQL <c>integerDivide.integer@group</c>.</summary>
 public sealed record IntegerDivideIntegerGroup : IOperator
 {
-    public IntegerDivideIntegerGroup(IntegerGroup left, IntegerGroup right)
+    public IntegerDivideIntegerGroup(DecimalGroup left, DecimalGroup right)
     {
         Left = left;
         Right = right;
     }
 
-    public IntegerGroup Left { get; }
+    public DecimalGroup Left { get; }
 
-    public IntegerGroup Right { get; }
+    public DecimalGroup Right { get; }
 
     public IType Type => new TypeInteger();
 }

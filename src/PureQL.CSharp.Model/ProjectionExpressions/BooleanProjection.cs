@@ -6,6 +6,8 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 
 /// <summary>PureQL <c>boolean@projection</c>.</summary>
 public readonly union BooleanProjection(
+    MatchesRegexProjection,
+    AsBooleanBooleanProjection,
     AndProjection,
     OrProjection,
     NotProjection,
@@ -51,6 +53,9 @@ public readonly union BooleanProjection(
     LessThanOrEqualTimeProjection,
     LessThanOrEqualDatetimeProjection,
     LessThanOrEqualUuidProjection,
+    ContainsProjection,
+    StartsWithProjection,
+    EndsWithProjection,
     InDecimalProjection,
     InStringProjection,
     InBooleanProjection,
@@ -60,10 +65,18 @@ public readonly union BooleanProjection(
     InUuidProjection,
     IfBooleanProjection,
     CoalesceBooleanProjection,
+    GreatestBooleanProjection,
+    LeastBooleanProjection,
     MinBooleanProjection,
     MaxBooleanProjection,
+    FirstBooleanProjection,
+    LastBooleanProjection,
     AnyProjection,
     AllProjection,
+    PercentileDiscreteBooleanProjection,
+    ModeBooleanProjection,
+    PreviousBooleanProjection,
+    NextBooleanProjection,
     LiteralBoolean,
     ParamBoolean,
     FieldBoolean

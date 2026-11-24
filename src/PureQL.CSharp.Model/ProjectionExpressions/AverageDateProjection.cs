@@ -6,10 +6,13 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>average.date@projection</c>.</summary>
 public sealed record AverageDateProjection : IOperator
 {
-    public AverageDateProjection(DateRow selector)
+    public AverageDateProjection(DateRow selector, Window? over = null)
     {
+        Over = over;
         Selector = selector;
     }
+
+    public Window? Over { get; }
 
     public DateRow Selector { get; }
 

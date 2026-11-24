@@ -6,6 +6,8 @@ namespace PureQL.CSharp.Model.RowExpressions;
 
 /// <summary>PureQL <c>boolean.nullable@row</c>.</summary>
 public readonly union BooleanNullableRow(
+    MatchesRegexRow,
+    AsBooleanBooleanRow,
     AndRow,
     OrRow,
     NotRow,
@@ -51,6 +53,9 @@ public readonly union BooleanNullableRow(
     LessThanOrEqualTimeRow,
     LessThanOrEqualDatetimeRow,
     LessThanOrEqualUuidRow,
+    ContainsRow,
+    StartsWithRow,
+    EndsWithRow,
     InDecimalRow,
     InStringRow,
     InBooleanRow,
@@ -60,11 +65,19 @@ public readonly union BooleanNullableRow(
     InUuidRow,
     IfBooleanRow,
     CoalesceBooleanRow,
+    GreatestBooleanRow,
+    LeastBooleanRow,
     LiteralBoolean,
     ParamBoolean,
     FieldBoolean,
+    AsBooleanBooleanNullableRow,
+    AsNullableBooleanNullableRow,
+    TryAsBooleanRow,
     IfBooleanNullableRow,
     CoalesceBooleanNullableRow,
+    NullIfEqualBooleanNullableRow,
+    GreatestBooleanNullableRow,
+    LeastBooleanNullableRow,
     LiteralBooleanNullable,
     ParamBooleanNullable,
     FieldBooleanNullable

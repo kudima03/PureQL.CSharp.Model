@@ -6,10 +6,13 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>min.string@projection</c>.</summary>
 public sealed record MinStringProjection : IOperator
 {
-    public MinStringProjection(StringRow selector)
+    public MinStringProjection(StringRow selector, Window? over = null)
     {
+        Over = over;
         Selector = selector;
     }
+
+    public Window? Over { get; }
 
     public StringRow Selector { get; }
 

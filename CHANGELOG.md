@@ -7,6 +7,82 @@ Versioning mirrors the PureQL specification with a `-csharp.N` suffix where need
 
 ---
 
+## [0.1.0-preview.15.0.0] - 2026-11-24 — spec 0.1.0-preview.3.0.0
+
+Adapts the model to PureQL specification `0.1.0-preview.3.0.0`: strings and
+regular expressions, exact math, calendar parts and time zones, conversions,
+statistics, window functions, set operations, inline rows and recursive
+subqueries. The model stays as strict as the schema: a window function exists
+only in the `select` of a plain query, a date has no `Zone`, a range window's
+distances match its sort key, and rounding to a whole number takes a decimal.
+
+### Added
+
+- **Operators** of the specification's new sections, in every context:
+  `abs`, `sign`, `truncate`, `greatest` / `least`, `power`, `sqrt`, `exp`,
+  `ln`, `log10`, `log`, trigonometry and `pi`; the string operators,
+  `contains` / `startsWith` / `endsWith`, `matchesRegex` / `extractRegex` /
+  `replaceRegex`, `foldCase`, `normalize`, `removeDiacritics`, `concatWith`;
+  `dateAddMonths` / `datetimeAddMonths`, `dateDiffMonths` /
+  `datetimeDiffMonths`, `dateFromParts` / `timeFromParts` /
+  `datetimeFromParts`, the parts (`year` … `microsecond`) and `startOf…`;
+  `as<Type>`, `tryAs<Type>`, `asNullable`; `nullIfEqual`.
+- **Operand families in names** — an operator that reads several families of
+  operand has one record per family, the declared type last:
+  `YearDateIntegerRow` (no `Zone`) and `YearDatetimeIntegerRow` (optional
+  `Zone`), `AsStringDecimalStringRow`, `AsDateStringDateRow`,
+  `AsDecimalIntegerDecimalRow`, ….
+- **Aggregates** — `countDistinct`, `first` / `last` and `concatAll` with
+  their own `OrderBy` of `OrderItemRow`, the statistics (`median`,
+  percentiles, `mode`, variance, standard deviation, covariance,
+  `correlation`, `regression…`).
+- **Windows** — `Over` of an aggregate in a plain query is a `Window`:
+  `WindowWithoutFrameWithoutRange` (a partition), `WindowWithFrame`
+  (`Frame` of `FrameRows`: `All`, a number or a parameter) or
+  `WindowWithoutFrameWithRange{Integer,Decimal,Date,Datetime}`, whose one sort
+  key (`OrderItemDateRow`, …) declares the type its `Range{T}` distances are
+  written for (`DistanceDateDays`, `DistanceDatetimeSeconds`, …). Ranking
+  functions and `previous` / `next` take an `OrderedWindow`.
+- **Queries** — combined queries (`MainCombinedQueryUnionAll`, …,
+  `CombinedQueryExcept`), `orderBy` by a `select` alias
+  (`OrderItemProjectionColumn`, `OrderItemGroupColumn`), inline rows
+  (`SubqueryRows` of `RowItem` cells) and recursive subqueries
+  (`SubqueryRecursive`, `Recursion`, `PlainNextQuery` / `GroupedNextQuery`).
+- **Enums and flags** — `NormalizationForm`, `RoundingMode` (absent:
+  `HalfAwayFromZero`); `ConcatAll….Distinct` is a `bool` that defaults to
+  `false`. `All` is the constant `"all"` of a frame or a range.
+- **Literal-or-parameter unions** — `RegexPattern`, `RegexGroup`,
+  `Separator`, `Fraction`, `Offset`, `Buckets`, `Cell`.
+- The generator's `--normalized <file>` option writes the normalized schema.
+
+### Changed
+
+- **`OrderItemProjection` / `OrderItemGroup` are unions** of
+  `…Expression(expression, direction)` and `…Column(column, direction)`.
+- **`Subquery` is a union** of `SubqueryQuery(name, query)`, `SubqueryRows`
+  and `SubqueryRecursive`.
+- **`Query` and `PureQLQuery`** also hold the combined queries.
+- **Add operators name their amount**: `DateAddDays…(operand, days)`,
+  `TimeAddSeconds…` / `DatetimeAddSeconds…(operand, seconds)` instead of
+  `(left, right)`.
+- **`Pagination(skip?, take?)`** — both optional, each from 1: a first page
+  has no `Skip`.
+- **Rounding** — `RoundInteger…` is split into `RoundWithDigitsInteger…` (an
+  `integer` operand, kept an integer) and `RoundWithoutDigitsInteger…` (a
+  `decimal` operand); `RoundDecimal…`, `Floor…` and `Ceiling…` take a
+  `DeclaresDecimal…` operand, so an integer is no longer accepted where it is
+  whole already. `Round…` takes an optional `RoundingMode`.
+- **Aggregates in a plain query** take `Window? over`.
+- CI no longer runs mutation testing: the Stryker step, its configuration and
+  the local tool manifest are removed.
+
+### Removed
+
+- `RoundInteger{Row,Projection,Group,Total}` and their nullable forms (see
+  Changed).
+
+---
+
 ## [0.1.0-preview.14.1.0] - 2026-11-11 — spec 0.1.0-preview.2.0.1
 
 No API changes. Build and release tooling only.

@@ -5,15 +5,18 @@ namespace PureQL.CSharp.Model.RowExpressions;
 /// <summary>PureQL <c>timeAddSeconds.time.nullable@row</c>.</summary>
 public sealed record TimeAddSecondsTimeNullableRow : IOperator
 {
-    public TimeAddSecondsTimeNullableRow(TimeNullableRow left, DecimalNullableRow right)
+    public TimeAddSecondsTimeNullableRow(
+        TimeNullableRow operand,
+        DecimalNullableRow seconds
+    )
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Seconds = seconds;
     }
 
-    public TimeNullableRow Left { get; }
+    public TimeNullableRow Operand { get; }
 
-    public DecimalNullableRow Right { get; }
+    public DecimalNullableRow Seconds { get; }
 
     public IType Type => new TypeTimeNullable();
 }

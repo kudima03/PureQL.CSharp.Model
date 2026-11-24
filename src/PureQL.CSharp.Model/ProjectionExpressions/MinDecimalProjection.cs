@@ -6,10 +6,13 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>min.decimal@projection</c>.</summary>
 public sealed record MinDecimalProjection : IOperator
 {
-    public MinDecimalProjection(DeclaresDecimalRow selector)
+    public MinDecimalProjection(DeclaresDecimalRow selector, Window? over = null)
     {
+        Over = over;
         Selector = selector;
     }
+
+    public Window? Over { get; }
 
     public DeclaresDecimalRow Selector { get; }
 

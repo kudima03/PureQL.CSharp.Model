@@ -1,0 +1,20 @@
+using PureQL.CSharp.Model.RowExpressions;
+using PureQL.CSharp.Model.Types;
+
+namespace PureQL.CSharp.Model.GroupExpressions;
+
+/// <summary>PureQL <c>mode.string@group</c>.</summary>
+public sealed record ModeStringGroup : IOperator
+{
+    public ModeStringGroup(StringRow selector, AggregateOver over = AggregateOver.Group)
+    {
+        Over = over;
+        Selector = selector;
+    }
+
+    public AggregateOver Over { get; }
+
+    public StringRow Selector { get; }
+
+    public IType Type => new TypeString();
+}

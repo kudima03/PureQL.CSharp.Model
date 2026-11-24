@@ -3,14 +3,16 @@ namespace PureQL.CSharp.Model.Generator;
 // Generates the PureQL.CSharp.Model sources from the pinned PureQL specification.
 //
 //   dotnet run --project PureQL.CSharp.Model.Generator
-//       [-- [--schema <PureQL-Specification.json>] [--output <project directory>]]
+//       [-- [--schema <PureQL-Specification.json>] [--output <project directory>]
+//           [--normalized <file>]]
 //
 // Without --schema the schema is fetched from SchemaUrl. Every .cs file of the output
-// directory is replaced: the model project holds only generated code.
+// directory is replaced: the model project holds only generated code. --normalized also
+// writes the normalized schema, to compare with the TypeScript model's.
 internal static class Program
 {
     /// <summary>The PureQL specification tag the model mirrors.</summary>
-    public const string SchemaTag = "0.1.0-preview.2.0.1";
+    public const string SchemaTag = "0.1.0-preview.3.0.0";
 
     public const string SchemaUrl =
         "https://raw.githubusercontent.com/kudima03/PureQL-Specification/"
@@ -49,9 +51,14 @@ internal static class Program
             return 1;
         }
 
-        SortedDictionary<string, string> files = new ModelEmitter(
-            SchemaNormalizer.Normalize(schema)
-        ).Emit();
+        JsonMap normalized = SchemaNormalizer.Normalize(schema);
+        string? normalizedPath = Option(args, "--normalized");
+        if (normalizedPath is not null)
+        {
+            await File.WriteAllTextAsync(normalizedPath, Json.Write(normalized))
+                .ConfigureAwait(false);
+        }
+        SortedDictionary<string, string> files = new ModelEmitter(normalized).Emit();
 
         foreach (string stale in Sources(output))
         {

@@ -6,17 +6,21 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 public sealed record RoundDecimalNullableGroup : IOperator
 {
     public RoundDecimalNullableGroup(
-        IntegerNullableOrDecimalNullableGroup operand,
-        IntegerGroup digits
+        DecimalOrDecimalNullableGroup operand,
+        IntegerNullableGroup digits,
+        RoundingMode mode = RoundingMode.HalfAwayFromZero
     )
     {
         Operand = operand;
         Digits = digits;
+        Mode = mode;
     }
 
-    public IntegerNullableOrDecimalNullableGroup Operand { get; }
+    public DecimalOrDecimalNullableGroup Operand { get; }
 
-    public IntegerGroup Digits { get; }
+    public IntegerNullableGroup Digits { get; }
+
+    public RoundingMode Mode { get; }
 
     public IType Type => new TypeDecimalNullable();
 }

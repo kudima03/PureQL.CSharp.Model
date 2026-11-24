@@ -7,8 +7,19 @@ namespace PureQL.CSharp.Model.RowExpressions;
 /// <summary>PureQL <c>declares.time.nullable@row</c>.</summary>
 public readonly union DeclaresTimeNullableRow(
     TimeAddSecondsTimeNullableRow,
+    TimeFromPartsTimeNullableRow,
+    StartOfHourTimeNullableRow,
+    StartOfMinuteTimeNullableRow,
+    StartOfSecondTimeNullableRow,
+    AsTimeDatetimeTimeNullableRow,
+    AsTimeStringTimeNullableRow,
+    AsNullableTimeNullableRow,
+    TryAsTimeRow,
     IfTimeNullableRow,
     CoalesceTimeNullableRow,
+    NullIfEqualTimeNullableRow,
+    GreatestTimeNullableRow,
+    LeastTimeNullableRow,
     LiteralTimeNullable,
     ParamTimeNullable,
     FieldTimeNullable

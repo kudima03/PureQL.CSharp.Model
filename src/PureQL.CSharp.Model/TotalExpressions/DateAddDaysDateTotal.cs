@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.TotalExpressions;
 /// <summary>PureQL <c>dateAddDays.date@total</c>.</summary>
 public sealed record DateAddDaysDateTotal : IOperator
 {
-    public DateAddDaysDateTotal(DateTotal left, IntegerTotal right)
+    public DateAddDaysDateTotal(DateTotal operand, IntegerTotal days)
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Days = days;
     }
 
-    public DateTotal Left { get; }
+    public DateTotal Operand { get; }
 
-    public IntegerTotal Right { get; }
+    public IntegerTotal Days { get; }
 
     public IType Type => new TypeDate();
 }
