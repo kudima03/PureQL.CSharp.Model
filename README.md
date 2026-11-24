@@ -9,9 +9,9 @@ Typed C# AST for building PureQL queries — immutable, AOT-compatible records a
 
 ## Overview
 
-`PureQL.CSharp.Model` defines the abstract syntax tree (AST) used across the PureQL ecosystem to represent database queries in C#. It is generated from the [PureQL specification](https://github.com/kudima03/PureQL-Specification) `0.1.0-preview.2.0.1` and mirrors its nodes strictly: every node of the JSON Schema is a sealed record named after its `$defs` key in PascalCase (`add.integer.nullable@row` → `AddIntegerNullableRow`, `equal.string@group` → `EqualStringGroup`), and every choice between nodes is a C# 15 [`union`](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/union). The names are those of the TypeScript model ([`@elegant-soft/pureql-typescript-model`](https://github.com/kudima03/PureQL.TypeScript.Model)). Query builders construct instances of these types; serializers and translators live in separate packages.
+`PureQL.CSharp.Model` defines the abstract syntax tree (AST) used across the PureQL ecosystem to represent database queries in C#. It is generated from the [PureQL specification](https://github.com/kudima03/PureQL-Specification) `0.1.0-preview.3.0.0` and mirrors its nodes strictly: every node of the JSON Schema is a sealed record named after its `$defs` key in PascalCase (`add.integer.nullable@row` → `AddIntegerNullableRow`, `equal.string@group` → `EqualStringGroup`), and every choice between nodes is a C# 15 [`union`](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/union). The names are those of the TypeScript model ([`@elegant-soft/pureql-typescript-model`](https://github.com/kudima03/PureQL.TypeScript.Model)). Query builders construct instances of these types; serializers and translators live in separate packages.
 
-Because the specification enforces its type system in the schema, so does this model. Every node has an exact declared type, given by its record type, and positions accept only the declared types the schema allows. So a nullable value cannot be used as a condition, a field cannot appear in `having`, an aggregate cannot appear in `where`, and a paginated query cannot leave out `orderBy`: such queries do not compile.
+Because the specification enforces its type system in the schema, so does this model. Every node has an exact declared type, given by its record type, and positions accept only the declared types the schema allows. So a nullable value cannot be used as a condition, a field cannot appear in `having`, an aggregate cannot appear in `where`, a window function cannot appear outside the `select` of a plain query, a date cannot be read in a time zone, and a paginated query cannot leave out `orderBy`: such queries do not compile.
 
 Value rules are left to serializers: the schema holds `time` and `datetime` to microseconds and `datetime` to UTC, while `TimeOnly` and `DateTimeOffset` can carry 100-nanosecond ticks and any offset. Dates start at `0001-01-01` in both.
 
@@ -30,18 +30,20 @@ string Describe(From from) => from switch
 };
 ```
 
-A union's `Value` is the record it holds. Optional properties are nullable (`BooleanRow? Where`), absent enum properties are their first member (`SortDirection.Asc`, `AggregateOver.Group`).
+A union's `Value` is the record it holds. Optional properties are nullable (`BooleanRow? Where`), absent enum properties are their first member (`SortDirection.Asc`, `AggregateOver.Group`, `RoundingMode.HalfAwayFromZero`), and a flag that is only ever written as `true` is a `bool` whose absence is `false` (`ConcatAllGroup.Distinct`). The constant `"all"` of a frame or a range is the record `All`.
 
 ## Query Model
 
-`PureQLQuery` is the root union. A query is grouped (with `groupBy`), total (`aggregate` instead of `select`: exactly one row) or plain (one row per row), and the schema's dependencies between clauses split each kind into variants:
+`PureQLQuery` is the root union. A query is combined (a set operation over two or more queries), grouped (with `groupBy`), total (`aggregate` instead of `select`: exactly one row) or plain (one row per row), and the schema's dependencies between clauses split each kind into variants:
 
 | Union | Variants |
 |-------|----------|
-| `PureQLQuery` | `MainGroupedQueryWithoutPagination`, `MainGroupedQueryWithPagination`, `MainTotalQuery`, `MainPlainQueryWithoutPagination`, `MainPlainQueryWithPagination` |
-| `Query` (subqueries) | `GroupedQueryWithoutPaginationWithoutOrderBy`, `GroupedQueryWithoutPaginationWithOrderBy`, `GroupedQueryWithPagination`, `TotalQuery`, `PlainQueryWithoutPaginationWithoutOrderBy`, `PlainQueryWithoutPaginationWithOrderBy`, `PlainQueryWithPagination` |
+| `PureQLQuery` | `MainCombinedQueryUnionAll`, `MainCombinedQueryUnion`, `MainCombinedQueryIntersect`, `MainCombinedQueryExcept`, `MainGroupedQueryWithoutPagination`, `MainGroupedQueryWithPagination`, `MainTotalQuery`, `MainPlainQueryWithoutPagination`, `MainPlainQueryWithPagination` |
+| `Query` (subqueries, set operands, recursive seeds) | `CombinedQueryUnionAll`, `CombinedQueryUnion`, `CombinedQueryIntersect`, `CombinedQueryExcept`, `GroupedQueryWithoutPaginationWithoutOrderBy`, `GroupedQueryWithoutPaginationWithOrderBy`, `GroupedQueryWithPagination`, `TotalQuery`, `PlainQueryWithoutPaginationWithoutOrderBy`, `PlainQueryWithoutPaginationWithOrderBy`, `PlainQueryWithPagination` |
+| `Subquery` | `SubqueryQuery(name, Query)`, `SubqueryRows(name, rows)` (inline rows: `RowItem(alias, Cell)`, a `Cell` being a literal or a parameter), `SubqueryRecursive(name, Recursion)` |
+| `NextQuery` | `PlainNextQuery`, `GroupedNextQuery`: the step of a `Recursion(seed, next, maxDepth)` |
 
-`pagination` requires `orderBy`, so a `…WithPagination` query has a required `OrderBy`; in a subquery `orderBy` also requires `pagination` or `distinctBy`, so `…WithoutPaginationWithOrderBy` has a required `DistinctBy`. Subqueries have no `Subqueries`.
+A combined query names exactly one operation (`CombinedQueryUnionAll.UnionAll`, …) and has no other clause. `pagination` requires `orderBy`, so a `…WithPagination` query has a required `OrderBy`; in a subquery `orderBy` also requires `pagination` or `distinctBy`, so `…WithoutPaginationWithOrderBy` has a required `DistinctBy`. Subqueries have no `Subqueries`.
 
 | Property | Type | Description |
 |----------|------|-------------|
@@ -53,9 +55,9 @@ A union's `Value` is the record it holds. Optional properties are nullable (`Boo
 | `Having` | `BooleanGroup?` | Group filter, grouped queries only |
 | `Select` | `IEnumerable<SelectItemProjection>` / `IEnumerable<SelectItemGroup>` | Columns: alias and expression; a column has the type its expression declares |
 | `Aggregate` | `IEnumerable<SelectItemTotal>` | Columns of a total query |
-| `OrderBy` | `IEnumerable<OrderItemProjection>` / `IEnumerable<OrderItemGroup>` | Sort expression + `SortDirection` (default `Asc`) |
+| `OrderBy` | `IEnumerable<OrderItemProjection>` / `IEnumerable<OrderItemGroup>` | `OrderItemProjectionExpression(expression)` or `OrderItemProjectionColumn(column)` (a `select` alias), + `SortDirection` (default `Asc`) |
 | `DistinctBy` | `IEnumerable<string>` | `select` aliases: of the rows equal on them, the first in `orderBy` order is kept |
-| `Pagination` | `Pagination` | `Skip` / `Take`, each a number or an `integer` parameter (`PaginationSkip` = `long` \| `ParamInteger`) |
+| `Pagination` | `Pagination` | Optional `Skip` / `Take` (at least one), each a number from 1 or an `integer` parameter (`PaginationSkip` = `long` \| `ParamInteger`); a first page has no `Skip` |
 
 Total queries have no `OrderBy`, `DistinctBy`, `Pagination` or `Having`.
 
@@ -65,18 +67,23 @@ Each expression exists once per **context**, which fixes what it may reference:
 
 | Context | Namespace | Used in | Leaves |
 |---------|-----------|---------|--------|
-| row | `RowExpressions` | `where`, `join.on`, group keys, aggregate selector / predicate | fields, parameters, literals |
-| projection | `ProjectionExpressions` | `select` / `orderBy` of a plain query | fields, parameters, literals, aggregates over all rows |
-| group | `GroupExpressions` | `select` / `having` / `orderBy` with `groupBy` | group keys, parameters, literals, aggregates |
+| row | `RowExpressions` | `where`, `join.on`, group keys, aggregate selector / predicate / `orderBy`, window `partitionBy` / `orderBy`, `previous` / `next` operand, `select` of a `PlainNextQuery` | fields, parameters, literals |
+| projection | `ProjectionExpressions` | `select` / `orderBy` of a plain query | fields, parameters, literals, aggregates over all rows or over a `Window`, ranking functions, `previous` / `next` |
+| group | `GroupExpressions` | `select` / `having` / `orderBy` with `groupBy`, `select` / `having` of a `GroupedNextQuery` | group keys, parameters, literals, aggregates |
 | total | `TotalExpressions` | `aggregate` of a total query | parameters, literals, aggregates over all rows |
 
-Every operator record implements `IOperator` and exposes its exact declared type as `IType Type`: `AddIntegerRow` is `integer`, `AddDecimalNullableRow` is `decimal?`, `EqualStringRow` is `boolean`. Operators whose type the schema fixes (`and`, `or`, `not`, `count`, `any`, `all`) carry no type in their name. `equal`, `notEqual`, `in` and the comparisons have one record per family of operands (`EqualDecimalRow`, …, `EqualUuidRow`).
+Every operator record implements `IOperator` and exposes its exact declared type as `IType Type`: `AddIntegerRow` is `integer`, `AddDecimalNullableRow` is `decimal?`, `EqualStringRow` is `boolean`. Operators whose type the schema fixes (`and`, `or`, `not`, `count`, `any`, `all`, `contains`, `concatWith`, `rowNumber`, `tryAsDate`, `varianceSample`, …) carry no type in their name. `equal`, `notEqual`, `in` and the comparisons have one record per family of operands (`EqualDecimalRow`, …, `EqualUuidRow`).
+
+Where a signature still depends on its operand, it is split further, and the declared type stays last in the name:
+
+- by the family its operand declares: `YearDateIntegerRow` (the year of a `date`, no `Zone`) and `YearDatetimeIntegerRow` (of a `datetime`, with an optional `Zone`); `AsStringDecimalStringRow`, `AsDateStringDateRow`, `AsDecimalIntegerDecimalRow`, …;
+- by the presence of an operand: `RoundWithDigitsIntegerRow` (an `integer` rounded to `Digits`), `RoundWithoutDigitsIntegerRow` (a `decimal` rounded to a whole number), and `RoundDecimalRow`, which requires `Digits`; `truncate` likewise. `floor`, `ceiling`, and `round` / `truncate` without digits take only a `DeclaresDecimal…` operand.
 
 Per context, the expression unions are (types `integer`, `decimal`, `string`, `boolean`, `date`, `time`, `datetime`, `uuid`):
 
 - **Positions** (`IntegerRow`, `DecimalNullableGroup`, `BooleanNullableProjection`, …), the operand types of the schema. Each one holds every expression whose declared type it accepts under the implicit conversions `T` → `T?` and `integer` → `decimal`: `DecimalNullableRow` holds the expressions declaring `integer`, `integer?`, `decimal` and `decimal?`.
 - **`Expr{Ctx}`** (`ExprRow`, …), every expression of the context: group keys, select columns and `orderBy` items take it, so their type is the type their expression declares.
-- **Narrower operands** where the schema asks for them: `DeclaresDecimalRow` (exactly `decimal`: the selector of `MaxDecimalGroup`), `DeclaresStringNullableRow` (the operands of `CoalesceStringNullableRow`), `DecimalOrDecimalNullableRow` (the selector of `SumDecimalTotal`), `IntegerNullableOrDecimalNullableRow` (the operand of `RoundIntegerNullableRow`).
+- **Narrower operands** where the schema asks for them: `DeclaresDecimalRow` (exactly `decimal`: the selector of `MaxDecimalGroup`, the operand of `FloorIntegerRow`), `DeclaresStringNullableRow` (the operands of `CoalesceStringNullableRow`), `DecimalOrDecimalNullableRow` (the selector of `SumDecimalTotal`), `IntegerNullableOrDecimalNullableRow` (the operand of `SqrtDecimalNullableRow`).
 
 ### Leaves
 
@@ -91,12 +98,27 @@ Per context, the expression unions are (types `integer`, `decimal`, `string`, `b
 
 ### Aggregates
 
-Aggregates take a row `Selector` (except `count`), an optional row `Predicate` (required for `any` / `all`) and, in grouped queries, `Over` (`AggregateOver.Group` by default, or `All`). In a plain or grouped query, `average`, `min` and `max` are non-null with a non-null selector and no predicate (`MinDecimalGroup` has no `Predicate`), and nullable otherwise. In a total query they are always nullable.
+Aggregates take a row `Selector` (except `count`; two operands for `covariance…` / `correlation` and `y` / `x` for `regression…`), an optional row `Predicate` (required for `any` / `all`) and `Over`: in grouped queries an `AggregateOver` (`Group` by default, or `All`), in plain queries an optional `Window`. `first`, `last` and `concatAll` also take their own `OrderBy` of `OrderItemRow`. In a plain or grouped query, `average`, `min`, `max`, `first`, `last`, `median`, the percentiles, `mode` and the population statistics are non-null with a non-null selector and no predicate (`MinDecimalGroup` has no `Predicate`), and nullable otherwise. In a total query they are always nullable.
+
+### Windows
+
+A `Window` is the `Over` of an aggregate in a plain query, split by its frame:
+
+| Variant | Holds |
+|---------|-------|
+| `WindowWithoutFrameWithoutRange` | `PartitionBy` only: the whole partition |
+| `WindowWithFrame` | `OrderBy` + `Frame(preceding?, following?)` of rows, each `All`, a number or an integer parameter (`FrameRows`) |
+| `WindowWithoutFrameWithRange{Integer,Decimal,Date,Datetime}` | one sort key of that type (`OrderItemDateRow`, …) + `Range{T}` of distances for it: a number, `DistanceDateDays` / `DistanceDateMonths`, `DistanceDatetimeSeconds` / `DistanceDatetimeMonths`, or `All` |
+
+The ranking functions (`RankProjection`, …) and `previous` / `next` take an `OrderedWindow` (required `OrderBy`, no frame). `PreviousDecimalProjection` has a required `Default`; `PreviousDecimalNullableProjection` has none or a nullable operand.
+
+### Rules left to validation
 
 The schema also checks a few rules that the C# types do not express. Write queries so that they hold:
 
-- An operator with several operands declares its type exactly: `AddDecimalRow` needs at least one `decimal` operand, and a nullable signature needs a nullable operand.
-- `and` / `or` take at least two conditions; `coalesce` has at most one non-null operand; arrays such as `values`, `joins` or `select` are not empty.
+- An operator with several operands declares its type exactly: `AddDecimalRow` needs at least one `decimal` operand, and a nullable signature needs a nullable operand (`YearDatetimeIntegerNullableRow`: a nullable operand or a nullable zone).
+- `and` / `or` take at least two conditions; `coalesce` has at most one non-null operand; arrays such as `values`, `joins` or `select` are not empty; `Pagination`, `Frame` and `Range{T}` name at least one side, and a frame or a range is never `All` on both sides.
+- Literal values: a literal `zone` is a name of the IANA time zone database, a regex `pattern` is in the specification's dialect, a `fraction` is from 0 to 1, an `offset` is from 2, `buckets`, `group` and row counts are from 1.
 
 ## Design Principles
 
@@ -118,7 +140,7 @@ dotnet add package PureQL.CSharp.Model
 
 ## Usage
 
-Count orders per user and keep users with at least five orders (`samples/45_having.json`):
+Count orders per user and keep users with at least five orders (`samples/valid/085_having.json`):
 
 ```csharp
 using PureQL.CSharp.Model;
