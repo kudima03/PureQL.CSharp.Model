@@ -73,6 +73,8 @@ distances match its sort key, and rounding to a whole number takes a decimal.
   `DeclaresDecimal…` operand, so an integer is no longer accepted where it is
   whole already. `Round…` takes an optional `RoundingMode`.
 - **Aggregates in a plain query** take `Window? over`.
+- CI no longer runs mutation testing: the Stryker step, its configuration and
+  the local tool manifest are removed.
 
 ### Removed
 
