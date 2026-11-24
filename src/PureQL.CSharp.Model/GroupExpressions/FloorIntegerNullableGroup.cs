@@ -5,12 +5,12 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 /// <summary>PureQL <c>floor.integer.nullable@group</c>.</summary>
 public sealed record FloorIntegerNullableGroup : IOperator
 {
-    public FloorIntegerNullableGroup(IntegerNullableOrDecimalNullableGroup operand)
+    public FloorIntegerNullableGroup(DeclaresDecimalNullableGroup operand)
     {
         Operand = operand;
     }
 
-    public IntegerNullableOrDecimalNullableGroup Operand { get; }
+    public DeclaresDecimalNullableGroup Operand { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

@@ -6,10 +6,13 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>average.decimal@projection</c>.</summary>
 public sealed record AverageDecimalProjection : IOperator
 {
-    public AverageDecimalProjection(DecimalRow selector)
+    public AverageDecimalProjection(DecimalRow selector, Window? over = null)
     {
+        Over = over;
         Selector = selector;
     }
+
+    public Window? Over { get; }
 
     public DecimalRow Selector { get; }
 

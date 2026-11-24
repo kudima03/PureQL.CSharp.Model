@@ -5,6 +5,8 @@ namespace PureQL.CSharp.Model.TotalExpressions;
 
 /// <summary>PureQL <c>boolean@total</c>.</summary>
 public readonly union BooleanTotal(
+    MatchesRegexTotal,
+    AsBooleanBooleanTotal,
     AndTotal,
     OrTotal,
     NotTotal,
@@ -50,6 +52,9 @@ public readonly union BooleanTotal(
     LessThanOrEqualTimeTotal,
     LessThanOrEqualDatetimeTotal,
     LessThanOrEqualUuidTotal,
+    ContainsTotal,
+    StartsWithTotal,
+    EndsWithTotal,
     InDecimalTotal,
     InStringTotal,
     InBooleanTotal,
@@ -59,6 +64,8 @@ public readonly union BooleanTotal(
     InUuidTotal,
     IfBooleanTotal,
     CoalesceBooleanTotal,
+    GreatestBooleanTotal,
+    LeastBooleanTotal,
     AnyTotal,
     AllTotal,
     LiteralBoolean,

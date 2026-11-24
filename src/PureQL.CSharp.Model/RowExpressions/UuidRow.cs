@@ -6,8 +6,11 @@ namespace PureQL.CSharp.Model.RowExpressions;
 
 /// <summary>PureQL <c>uuid@row</c>.</summary>
 public readonly union UuidRow(
+    AsUuidUuidRow,
     IfUuidRow,
     CoalesceUuidRow,
+    GreatestUuidRow,
+    LeastUuidRow,
     LiteralUuid,
     ParamUuid,
     FieldUuid

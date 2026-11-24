@@ -6,17 +6,17 @@ namespace PureQL.CSharp.Model.TotalExpressions;
 public sealed record DateAddDaysDateNullableTotal : IOperator
 {
     public DateAddDaysDateNullableTotal(
-        DateNullableTotal left,
-        IntegerNullableTotal right
+        DateNullableTotal operand,
+        IntegerNullableTotal days
     )
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Days = days;
     }
 
-    public DateNullableTotal Left { get; }
+    public DateNullableTotal Operand { get; }
 
-    public IntegerNullableTotal Right { get; }
+    public IntegerNullableTotal Days { get; }
 
     public IType Type => new TypeDateNullable();
 }

@@ -6,17 +6,17 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 public sealed record IntegerDivideIntegerNullableProjection : IOperator
 {
     public IntegerDivideIntegerNullableProjection(
-        IntegerNullableProjection left,
-        IntegerNullableProjection right
+        DecimalNullableProjection left,
+        DecimalNullableProjection right
     )
     {
         Left = left;
         Right = right;
     }
 
-    public IntegerNullableProjection Left { get; }
+    public DecimalNullableProjection Left { get; }
 
-    public IntegerNullableProjection Right { get; }
+    public DecimalNullableProjection Right { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

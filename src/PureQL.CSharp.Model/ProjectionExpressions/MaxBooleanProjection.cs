@@ -6,10 +6,13 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>max.boolean@projection</c>.</summary>
 public sealed record MaxBooleanProjection : IOperator
 {
-    public MaxBooleanProjection(BooleanRow selector)
+    public MaxBooleanProjection(BooleanRow selector, Window? over = null)
     {
+        Over = over;
         Selector = selector;
     }
+
+    public Window? Over { get; }
 
     public BooleanRow Selector { get; }
 

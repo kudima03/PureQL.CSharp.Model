@@ -6,10 +6,17 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 
 /// <summary>PureQL <c>uuid@group</c>.</summary>
 public readonly union UuidGroup(
+    AsUuidUuidGroup,
     IfUuidGroup,
     CoalesceUuidGroup,
+    GreatestUuidGroup,
+    LeastUuidGroup,
     MinUuidGroup,
     MaxUuidGroup,
+    FirstUuidGroup,
+    LastUuidGroup,
+    PercentileDiscreteUuidGroup,
+    ModeUuidGroup,
     LiteralUuid,
     ParamUuid,
     KeyUuid

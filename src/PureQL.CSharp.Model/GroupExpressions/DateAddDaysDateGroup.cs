@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 /// <summary>PureQL <c>dateAddDays.date@group</c>.</summary>
 public sealed record DateAddDaysDateGroup : IOperator
 {
-    public DateAddDaysDateGroup(DateGroup left, IntegerGroup right)
+    public DateAddDaysDateGroup(DateGroup operand, IntegerGroup days)
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Days = days;
     }
 
-    public DateGroup Left { get; }
+    public DateGroup Operand { get; }
 
-    public IntegerGroup Right { get; }
+    public IntegerGroup Days { get; }
 
     public IType Type => new TypeDate();
 }

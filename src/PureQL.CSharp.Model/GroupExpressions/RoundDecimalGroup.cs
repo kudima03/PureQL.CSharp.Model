@@ -5,15 +5,22 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 /// <summary>PureQL <c>round.decimal@group</c>.</summary>
 public sealed record RoundDecimalGroup : IOperator
 {
-    public RoundDecimalGroup(DecimalGroup operand, IntegerGroup digits)
+    public RoundDecimalGroup(
+        DeclaresDecimalGroup operand,
+        IntegerGroup digits,
+        RoundingMode mode = RoundingMode.HalfAwayFromZero
+    )
     {
         Operand = operand;
         Digits = digits;
+        Mode = mode;
     }
 
-    public DecimalGroup Operand { get; }
+    public DeclaresDecimalGroup Operand { get; }
 
     public IntegerGroup Digits { get; }
+
+    public RoundingMode Mode { get; }
 
     public IType Type => new TypeDecimal();
 }

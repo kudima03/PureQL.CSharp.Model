@@ -6,17 +6,21 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 public sealed record RoundDecimalNullableProjection : IOperator
 {
     public RoundDecimalNullableProjection(
-        IntegerNullableOrDecimalNullableProjection operand,
-        IntegerProjection digits
+        DecimalOrDecimalNullableProjection operand,
+        IntegerNullableProjection digits,
+        RoundingMode mode = RoundingMode.HalfAwayFromZero
     )
     {
         Operand = operand;
         Digits = digits;
+        Mode = mode;
     }
 
-    public IntegerNullableOrDecimalNullableProjection Operand { get; }
+    public DecimalOrDecimalNullableProjection Operand { get; }
 
-    public IntegerProjection Digits { get; }
+    public IntegerNullableProjection Digits { get; }
+
+    public RoundingMode Mode { get; }
 
     public IType Type => new TypeDecimalNullable();
 }

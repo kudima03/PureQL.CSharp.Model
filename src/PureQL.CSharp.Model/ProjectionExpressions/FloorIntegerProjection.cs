@@ -5,12 +5,12 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>floor.integer@projection</c>.</summary>
 public sealed record FloorIntegerProjection : IOperator
 {
-    public FloorIntegerProjection(DecimalProjection operand)
+    public FloorIntegerProjection(DeclaresDecimalProjection operand)
     {
         Operand = operand;
     }
 
-    public DecimalProjection Operand { get; }
+    public DeclaresDecimalProjection Operand { get; }
 
     public IType Type => new TypeInteger();
 }

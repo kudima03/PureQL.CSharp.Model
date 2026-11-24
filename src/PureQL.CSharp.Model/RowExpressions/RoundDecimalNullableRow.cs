@@ -6,17 +6,21 @@ namespace PureQL.CSharp.Model.RowExpressions;
 public sealed record RoundDecimalNullableRow : IOperator
 {
     public RoundDecimalNullableRow(
-        IntegerNullableOrDecimalNullableRow operand,
-        IntegerRow digits
+        DecimalOrDecimalNullableRow operand,
+        IntegerNullableRow digits,
+        RoundingMode mode = RoundingMode.HalfAwayFromZero
     )
     {
         Operand = operand;
         Digits = digits;
+        Mode = mode;
     }
 
-    public IntegerNullableOrDecimalNullableRow Operand { get; }
+    public DecimalOrDecimalNullableRow Operand { get; }
 
-    public IntegerRow Digits { get; }
+    public IntegerNullableRow Digits { get; }
+
+    public RoundingMode Mode { get; }
 
     public IType Type => new TypeDecimalNullable();
 }

@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>dateAddDays.date@projection</c>.</summary>
 public sealed record DateAddDaysDateProjection : IOperator
 {
-    public DateAddDaysDateProjection(DateProjection left, IntegerProjection right)
+    public DateAddDaysDateProjection(DateProjection operand, IntegerProjection days)
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Days = days;
     }
 
-    public DateProjection Left { get; }
+    public DateProjection Operand { get; }
 
-    public IntegerProjection Right { get; }
+    public IntegerProjection Days { get; }
 
     public IType Type => new TypeDate();
 }

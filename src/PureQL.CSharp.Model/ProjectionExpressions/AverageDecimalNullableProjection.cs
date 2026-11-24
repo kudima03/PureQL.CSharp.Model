@@ -8,14 +8,18 @@ public sealed record AverageDecimalNullableProjection : IOperator
 {
     public AverageDecimalNullableProjection(
         DecimalNullableRow selector,
-        BooleanRow? predicate = null
+        BooleanRow? predicate = null,
+        Window? over = null
     )
     {
         Predicate = predicate;
+        Over = over;
         Selector = selector;
     }
 
     public BooleanRow? Predicate { get; }
+
+    public Window? Over { get; }
 
     public DecimalNullableRow Selector { get; }
 

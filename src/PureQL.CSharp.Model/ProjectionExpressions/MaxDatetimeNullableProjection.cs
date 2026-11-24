@@ -8,14 +8,18 @@ public sealed record MaxDatetimeNullableProjection : IOperator
 {
     public MaxDatetimeNullableProjection(
         DatetimeNullableRow selector,
-        BooleanRow? predicate = null
+        BooleanRow? predicate = null,
+        Window? over = null
     )
     {
         Predicate = predicate;
+        Over = over;
         Selector = selector;
     }
 
     public BooleanRow? Predicate { get; }
+
+    public Window? Over { get; }
 
     public DatetimeNullableRow Selector { get; }
 

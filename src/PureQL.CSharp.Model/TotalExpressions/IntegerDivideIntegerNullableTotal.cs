@@ -6,17 +6,17 @@ namespace PureQL.CSharp.Model.TotalExpressions;
 public sealed record IntegerDivideIntegerNullableTotal : IOperator
 {
     public IntegerDivideIntegerNullableTotal(
-        IntegerNullableTotal left,
-        IntegerNullableTotal right
+        DecimalNullableTotal left,
+        DecimalNullableTotal right
     )
     {
         Left = left;
         Right = right;
     }
 
-    public IntegerNullableTotal Left { get; }
+    public DecimalNullableTotal Left { get; }
 
-    public IntegerNullableTotal Right { get; }
+    public DecimalNullableTotal Right { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

@@ -6,10 +6,13 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>min.time@projection</c>.</summary>
 public sealed record MinTimeProjection : IOperator
 {
-    public MinTimeProjection(TimeRow selector)
+    public MinTimeProjection(TimeRow selector, Window? over = null)
     {
+        Over = over;
         Selector = selector;
     }
+
+    public Window? Over { get; }
 
     public TimeRow Selector { get; }
 

@@ -271,11 +271,13 @@ public sealed partial class ModelShapeTests
                             | BindingFlags.IgnoreCase
                     )!
                     .GetValue(instance);
-                // An absent enum property is its first member: `asc`, `group`.
+                // An absent enum property is its first member: `asc`, `group`; an
+                // absent flag is false: `distinct`.
                 Assert.Equal(
                     parameter.ParameterType.IsEnum
                         ? Enum.GetValues(parameter.ParameterType).GetValue(0)
-                        : null,
+                    : parameter.ParameterType == typeof(bool) ? false
+                    : null,
                     value
                 );
             }
@@ -358,32 +360,145 @@ public sealed partial class ModelShapeTests
         "floor",
         "ceiling",
         "round",
+        "truncate",
+        "abs",
+        "sign",
+        "power",
+        "sqrt",
+        "exp",
+        "ln",
+        "log10",
+        "log",
+        "sin",
+        "cos",
+        "tan",
+        "asin",
+        "acos",
+        "atan",
+        "atan2",
+        "pi",
         "concat",
+        "length",
+        "upper",
+        "lower",
+        "foldCase",
+        "normalize",
+        "removeDiacritics",
+        "trim",
+        "trimStart",
+        "trimEnd",
+        "substring",
+        "replace",
+        "position",
+        "splitPart",
+        "padStart",
+        "padEnd",
+        "repeat",
+        "reverse",
+        "concatWith",
+        "matchesRegex",
+        "extractRegex",
+        "replaceRegex",
         "dateAddDays",
         "dateDiffDays",
         "timeAddSeconds",
         "timeDiffSeconds",
         "datetimeAddSeconds",
         "datetimeDiffSeconds",
+        "dateAddMonths",
+        "datetimeAddMonths",
+        "dateDiffMonths",
+        "datetimeDiffMonths",
+        "dateFromParts",
+        "timeFromParts",
+        "datetimeFromParts",
+        "year",
+        "quarter",
+        "month",
+        "day",
+        "dayOfWeek",
+        "dayOfYear",
+        "week",
+        "weekYear",
+        "hour",
+        "minute",
+        "second",
+        "microsecond",
+        "startOfYear",
+        "startOfQuarter",
+        "startOfMonth",
+        "startOfWeek",
+        "startOfDay",
+        "startOfHour",
+        "startOfMinute",
+        "startOfSecond",
+        "asString",
+        "asDate",
+        "asTime",
+        "asDatetime",
+        "asInteger",
+        "asBoolean",
+        "asUuid",
+        "asDecimal",
+        "asNullable",
+        "tryAsInteger",
+        "tryAsDecimal",
+        "tryAsBoolean",
+        "tryAsDate",
+        "tryAsTime",
+        "tryAsDatetime",
+        "tryAsUuid",
         "and",
         "or",
         "not",
         "equal",
         "notEqual",
-        "in",
         "greaterThan",
         "lessThan",
         "greaterThanOrEqual",
         "lessThanOrEqual",
+        "contains",
+        "startsWith",
+        "endsWith",
+        "in",
         "if",
         "coalesce",
+        "nullIfEqual",
+        "greatest",
+        "least",
         "count",
+        "countDistinct",
         "sum",
         "average",
         "min",
         "max",
+        "first",
+        "last",
+        "median",
+        "percentileContinuous",
+        "percentileDiscrete",
+        "mode",
+        "variancePopulation",
+        "standardDeviationPopulation",
+        "varianceSample",
+        "standardDeviationSample",
+        "covariancePopulation",
+        "covarianceSample",
+        "correlation",
+        "regressionSlope",
+        "regressionIntercept",
+        "regressionRSquared",
+        "concatAll",
         "any",
         "all",
+        "rowNumber",
+        "rank",
+        "denseRank",
+        "percentRank",
+        "cumulativeDistribution",
+        "ntile",
+        "previous",
+        "next",
     ];
 
     private static readonly string[] Predicates =
@@ -397,6 +512,63 @@ public sealed partial class ModelShapeTests
         "lessThanOrEqual",
     ];
 
+    // Operators with one result type carry no type in their name. The population
+    // statistics have one only in a total query, where they are always nullable.
+    private static readonly Dictionary<string, string> FixedTypes = new Dictionary<
+        string,
+        string
+    >
+    {
+        ["and"] = "boolean",
+        ["or"] = "boolean",
+        ["not"] = "boolean",
+        ["any"] = "boolean",
+        ["all"] = "boolean",
+        ["contains"] = "boolean",
+        ["startsWith"] = "boolean",
+        ["endsWith"] = "boolean",
+        ["matchesRegex"] = "boolean",
+        ["count"] = "integer",
+        ["countDistinct"] = "integer",
+        ["rowNumber"] = "integer",
+        ["rank"] = "integer",
+        ["denseRank"] = "integer",
+        ["ntile"] = "integer",
+        ["pi"] = "decimal",
+        ["percentRank"] = "decimal",
+        ["cumulativeDistribution"] = "decimal",
+        ["concatWith"] = "string",
+        ["concatAll"] = "string",
+        ["extractRegex"] = "string?",
+        ["varianceSample"] = "decimal?",
+        ["standardDeviationSample"] = "decimal?",
+        ["covarianceSample"] = "decimal?",
+        ["correlation"] = "decimal?",
+        ["regressionSlope"] = "decimal?",
+        ["regressionIntercept"] = "decimal?",
+        ["regressionRSquared"] = "decimal?",
+        ["variancePopulation"] = "decimal?",
+        ["standardDeviationPopulation"] = "decimal?",
+        ["covariancePopulation"] = "decimal?",
+    };
+
+    private const string TypePattern =
+        "(Integer|Decimal|String|Boolean|Datetime|Date|Time|Uuid)";
+
+    // The token after an operator's name: `round` with or without digits, the family
+    // its operand declares (`YearDateIntegerRow` reads a date), then its declared type.
+    [GeneratedRegex(
+        "^(?<presence>With(out)?[A-Z][a-z]+)?"
+            + "(?<family>"
+            + TypePattern
+            + "(?="
+            + TypePattern
+            + "))?(?<type>"
+            + TypePattern
+            + "(Nullable)?)$"
+    )]
+    private static partial Regex OperatorToken();
+
     // `DecimalNullable` → `decimal?`
     private static string TypeOfToken(string token)
     {
@@ -406,6 +578,25 @@ public sealed partial class ModelShapeTests
         return type + (token.EndsWith("Nullable", StringComparison.Ordinal) ? "?" : "");
     }
 
+    private static (string Op, string Token) OperatorName(Type node)
+    {
+        string context = Assert.Single(
+            Contexts,
+            c => node.Name.EndsWith(c, StringComparison.Ordinal)
+        );
+        string name = node.Name[..^context.Length];
+        string op = Operators
+            .Where(o =>
+                name.StartsWith(
+                    char.ToUpperInvariant(o[0]) + o[1..],
+                    StringComparison.Ordinal
+                )
+            )
+            .MaxBy(o => o.Length)!;
+        Assert.NotNull(op);
+        return (op, name[op.Length..]);
+    }
+
     [Fact]
     public void OperatorsDeclareTheTypeInTheirName()
     {
@@ -413,37 +604,116 @@ public sealed partial class ModelShapeTests
         Assert.NotEmpty(operators);
         foreach (Type node in operators)
         {
-            string context = Assert.Single(
-                Contexts,
-                c => node.Name.EndsWith(c, StringComparison.Ordinal)
-            );
-            string name = node.Name[..^context.Length];
-            string op = Operators
-                .Where(o =>
-                    name.StartsWith(
-                        char.ToUpperInvariant(o[0]) + o[1..],
-                        StringComparison.Ordinal
-                    )
-                )
-                .MaxBy(o => o.Length)!;
-            Assert.NotNull(op);
-            string token = name[op.Length..];
-            string expected = op switch
+            (string op, string token) = OperatorName(node);
+            string expected;
+            if (token.Length == 0)
             {
-                "and" or "or" or "not" or "any" or "all" when token.Length == 0 =>
-                    "boolean",
-                "count" when token.Length == 0 => "integer",
-                _ when Predicates.Contains(op) => "boolean",
-                _ => TypeOfToken(token),
-            };
-            if (Predicates.Contains(op))
+                expected = op.StartsWith("tryAs", StringComparison.Ordinal)
+                    ? char.ToLowerInvariant(op[5]) + op[6..] + "?"
+                    : FixedTypes[op];
+            }
+            else if (Predicates.Contains(op))
             {
                 // `EqualDecimalRow` compares decimals.
                 _ = TypeOfToken(token);
+                expected = "boolean";
+            }
+            else
+            {
+                Match match = OperatorToken().Match(token);
+                Assert.True(match.Success, $"{node.Name} has no type in its name");
+                expected = TypeOfToken(match.Groups["type"].Value);
             }
             Assert.True(
                 expected == Declared(node),
                 $"{node.Name} declares {Declared(node)}, not {expected}"
+            );
+        }
+    }
+
+    // The declared types of the expressions a union holds.
+    private static string[] DeclaredCases(Type union)
+    {
+        return [.. Cases(union).Select(Declared).Distinct()];
+    }
+
+    [Fact]
+    public void OperandsOfAFamilyDeclareIt()
+    {
+        // `YearDateIntegerRow` reads a date, `AsStringDecimalStringRow` a number.
+        int families = 0;
+        foreach (Type node in Records.Where(typeof(IOperator).IsAssignableFrom))
+        {
+            (string op, string token) = OperatorName(node);
+            Match match = OperatorToken().Match(token);
+            if (Predicates.Contains(op) || !match.Groups["family"].Success)
+            {
+                continue;
+            }
+            families++;
+            string family = TypeOfToken(match.Groups["family"].Value);
+            string[] accepted = family == "decimal" ? [family, "integer"] : [family];
+            Type operand = node.GetProperty("Operand")!.PropertyType;
+            Assert.All(
+                DeclaredCases(operand),
+                d => Assert.Contains(d.TrimEnd('?'), accepted)
+            );
+        }
+        Assert.True(families > 0);
+    }
+
+    [Fact]
+    public void RoundingToAWholeNumberTakesADecimal()
+    {
+        // Without digits, `round` and `truncate` read a decimal; with them, the
+        // operand's type is kept.
+        foreach (Type node in Records.Where(typeof(IOperator).IsAssignableFrom))
+        {
+            (string op, string token) = OperatorName(node);
+            if (op is not ("round" or "truncate" or "floor" or "ceiling"))
+            {
+                continue;
+            }
+            string[] operand = DeclaredCases(node.GetProperty("Operand")!.PropertyType);
+            bool withDigits = node.GetProperty("Digits") is not null;
+            Assert.Equal(
+                token.StartsWith("WithDigits", StringComparison.Ordinal)
+                    || (
+                        withDigits
+                        && token.StartsWith("Decimal", StringComparison.Ordinal)
+                    ),
+                withDigits
+            );
+            string expected = !withDigits ? "decimal"
+                : token.StartsWith("Decimal", StringComparison.Ordinal) ? "decimal"
+                : "integer";
+            Assert.All(operand, d => Assert.Equal(expected, d.TrimEnd('?')));
+        }
+    }
+
+    [Fact]
+    public void RangeWindowsSortByTheTypeOfTheirDistances()
+    {
+        Type[] windows =
+        [
+            .. Records.Where(r =>
+                r.Name.StartsWith("WindowWithoutFrameWithRange", StringComparison.Ordinal)
+            ),
+        ];
+        Assert.Equal(4, windows.Length);
+        foreach (Type window in windows)
+        {
+            string type = window.Name["WindowWithoutFrameWithRange".Length..];
+            Assert.Equal("Range" + type, window.GetProperty("Range")!.PropertyType.Name);
+            Type item = window
+                .GetProperty("OrderBy")!
+                .PropertyType.GetGenericArguments()
+                .Single();
+            Assert.Equal("OrderItem" + type + "Row", item.Name);
+            string name = char.ToLowerInvariant(type[0]) + type[1..];
+            Assert.Equal(
+                new[] { name, name + "?" }.Order(),
+                DeclaredCases(item.GetProperty("Expression")!.PropertyType).Order()
             );
         }
     }

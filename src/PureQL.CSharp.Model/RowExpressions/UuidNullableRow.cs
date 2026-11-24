@@ -6,13 +6,22 @@ namespace PureQL.CSharp.Model.RowExpressions;
 
 /// <summary>PureQL <c>uuid.nullable@row</c>.</summary>
 public readonly union UuidNullableRow(
+    AsUuidUuidRow,
     IfUuidRow,
     CoalesceUuidRow,
+    GreatestUuidRow,
+    LeastUuidRow,
     LiteralUuid,
     ParamUuid,
     FieldUuid,
+    AsUuidUuidNullableRow,
+    AsNullableUuidNullableRow,
+    TryAsUuidRow,
     IfUuidNullableRow,
     CoalesceUuidNullableRow,
+    NullIfEqualUuidNullableRow,
+    GreatestUuidNullableRow,
+    LeastUuidNullableRow,
     LiteralUuidNullable,
     ParamUuidNullable,
     FieldUuidNullable

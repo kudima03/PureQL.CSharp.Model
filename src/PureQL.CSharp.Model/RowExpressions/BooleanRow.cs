@@ -6,6 +6,8 @@ namespace PureQL.CSharp.Model.RowExpressions;
 
 /// <summary>PureQL <c>boolean@row</c>.</summary>
 public readonly union BooleanRow(
+    MatchesRegexRow,
+    AsBooleanBooleanRow,
     AndRow,
     OrRow,
     NotRow,
@@ -51,6 +53,9 @@ public readonly union BooleanRow(
     LessThanOrEqualTimeRow,
     LessThanOrEqualDatetimeRow,
     LessThanOrEqualUuidRow,
+    ContainsRow,
+    StartsWithRow,
+    EndsWithRow,
     InDecimalRow,
     InStringRow,
     InBooleanRow,
@@ -60,6 +65,8 @@ public readonly union BooleanRow(
     InUuidRow,
     IfBooleanRow,
     CoalesceBooleanRow,
+    GreatestBooleanRow,
+    LeastBooleanRow,
     LiteralBoolean,
     ParamBoolean,
     FieldBoolean

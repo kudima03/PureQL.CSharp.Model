@@ -6,17 +6,17 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 public sealed record DateAddDaysDateNullableGroup : IOperator
 {
     public DateAddDaysDateNullableGroup(
-        DateNullableGroup left,
-        IntegerNullableGroup right
+        DateNullableGroup operand,
+        IntegerNullableGroup days
     )
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Days = days;
     }
 
-    public DateNullableGroup Left { get; }
+    public DateNullableGroup Operand { get; }
 
-    public IntegerNullableGroup Right { get; }
+    public IntegerNullableGroup Days { get; }
 
     public IType Type => new TypeDateNullable();
 }

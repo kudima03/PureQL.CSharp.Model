@@ -6,6 +6,8 @@ namespace PureQL.CSharp.Model.GroupExpressions;
 
 /// <summary>PureQL <c>boolean@group</c>.</summary>
 public readonly union BooleanGroup(
+    MatchesRegexGroup,
+    AsBooleanBooleanGroup,
     AndGroup,
     OrGroup,
     NotGroup,
@@ -51,6 +53,9 @@ public readonly union BooleanGroup(
     LessThanOrEqualTimeGroup,
     LessThanOrEqualDatetimeGroup,
     LessThanOrEqualUuidGroup,
+    ContainsGroup,
+    StartsWithGroup,
+    EndsWithGroup,
     InDecimalGroup,
     InStringGroup,
     InBooleanGroup,
@@ -60,10 +65,16 @@ public readonly union BooleanGroup(
     InUuidGroup,
     IfBooleanGroup,
     CoalesceBooleanGroup,
+    GreatestBooleanGroup,
+    LeastBooleanGroup,
     MinBooleanGroup,
     MaxBooleanGroup,
+    FirstBooleanGroup,
+    LastBooleanGroup,
     AnyGroup,
     AllGroup,
+    PercentileDiscreteBooleanGroup,
+    ModeBooleanGroup,
     LiteralBoolean,
     ParamBoolean,
     KeyBoolean

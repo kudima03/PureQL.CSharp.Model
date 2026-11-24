@@ -6,17 +6,17 @@ namespace PureQL.CSharp.Model.TotalExpressions;
 public sealed record DatetimeAddSecondsDatetimeNullableTotal : IOperator
 {
     public DatetimeAddSecondsDatetimeNullableTotal(
-        DatetimeNullableTotal left,
-        DecimalNullableTotal right
+        DatetimeNullableTotal operand,
+        DecimalNullableTotal seconds
     )
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Seconds = seconds;
     }
 
-    public DatetimeNullableTotal Left { get; }
+    public DatetimeNullableTotal Operand { get; }
 
-    public DecimalNullableTotal Right { get; }
+    public DecimalNullableTotal Seconds { get; }
 
     public IType Type => new TypeDatetimeNullable();
 }

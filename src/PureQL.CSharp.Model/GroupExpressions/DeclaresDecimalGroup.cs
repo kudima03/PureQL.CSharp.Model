@@ -1,0 +1,55 @@
+using PureQL.CSharp.Model.Keys;
+using PureQL.CSharp.Model.Literals;
+using PureQL.CSharp.Model.Parameters;
+
+namespace PureQL.CSharp.Model.GroupExpressions;
+
+/// <summary>PureQL <c>declares.decimal@group</c>.</summary>
+public readonly union DeclaresDecimalGroup(
+    AddDecimalGroup,
+    SubtractDecimalGroup,
+    MultiplyDecimalGroup,
+    DivideDecimalGroup,
+    ModuloDecimalGroup,
+    RoundDecimalGroup,
+    TruncateDecimalGroup,
+    AbsDecimalGroup,
+    PowerDecimalGroup,
+    SqrtDecimalGroup,
+    ExpDecimalGroup,
+    LnDecimalGroup,
+    Log10DecimalGroup,
+    LogDecimalGroup,
+    SinDecimalGroup,
+    CosDecimalGroup,
+    TanDecimalGroup,
+    AsinDecimalGroup,
+    AcosDecimalGroup,
+    AtanDecimalGroup,
+    Atan2DecimalGroup,
+    PiGroup,
+    TimeDiffSecondsDecimalGroup,
+    DatetimeDiffSecondsDecimalGroup,
+    AsDecimalIntegerDecimalGroup,
+    AsDecimalStringDecimalGroup,
+    IfDecimalGroup,
+    CoalesceDecimalGroup,
+    GreatestDecimalGroup,
+    LeastDecimalGroup,
+    SumDecimalGroup,
+    AverageDecimalGroup,
+    MinDecimalGroup,
+    MaxDecimalGroup,
+    FirstDecimalGroup,
+    LastDecimalGroup,
+    MedianDecimalGroup,
+    PercentileContinuousDecimalGroup,
+    PercentileDiscreteDecimalGroup,
+    ModeDecimalGroup,
+    VariancePopulationDecimalGroup,
+    StandardDeviationPopulationDecimalGroup,
+    CovariancePopulationDecimalGroup,
+    LiteralDecimal,
+    ParamDecimal,
+    KeyDecimal
+);

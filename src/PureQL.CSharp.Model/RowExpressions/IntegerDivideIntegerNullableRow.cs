@@ -6,17 +6,17 @@ namespace PureQL.CSharp.Model.RowExpressions;
 public sealed record IntegerDivideIntegerNullableRow : IOperator
 {
     public IntegerDivideIntegerNullableRow(
-        IntegerNullableRow left,
-        IntegerNullableRow right
+        DecimalNullableRow left,
+        DecimalNullableRow right
     )
     {
         Left = left;
         Right = right;
     }
 
-    public IntegerNullableRow Left { get; }
+    public DecimalNullableRow Left { get; }
 
-    public IntegerNullableRow Right { get; }
+    public DecimalNullableRow Right { get; }
 
     public IType Type => new TypeIntegerNullable();
 }

@@ -5,15 +5,15 @@ namespace PureQL.CSharp.Model.TotalExpressions;
 /// <summary>PureQL <c>datetimeAddSeconds.datetime@total</c>.</summary>
 public sealed record DatetimeAddSecondsDatetimeTotal : IOperator
 {
-    public DatetimeAddSecondsDatetimeTotal(DatetimeTotal left, DecimalTotal right)
+    public DatetimeAddSecondsDatetimeTotal(DatetimeTotal operand, DecimalTotal seconds)
     {
-        Left = left;
-        Right = right;
+        Operand = operand;
+        Seconds = seconds;
     }
 
-    public DatetimeTotal Left { get; }
+    public DatetimeTotal Operand { get; }
 
-    public DecimalTotal Right { get; }
+    public DecimalTotal Seconds { get; }
 
     public IType Type => new TypeDatetime();
 }

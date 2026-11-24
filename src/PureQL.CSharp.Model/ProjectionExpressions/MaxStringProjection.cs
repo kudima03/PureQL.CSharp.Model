@@ -6,10 +6,13 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>max.string@projection</c>.</summary>
 public sealed record MaxStringProjection : IOperator
 {
-    public MaxStringProjection(StringRow selector)
+    public MaxStringProjection(StringRow selector, Window? over = null)
     {
+        Over = over;
         Selector = selector;
     }
+
+    public Window? Over { get; }
 
     public StringRow Selector { get; }
 

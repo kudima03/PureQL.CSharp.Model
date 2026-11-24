@@ -6,10 +6,13 @@ namespace PureQL.CSharp.Model.ProjectionExpressions;
 /// <summary>PureQL <c>max.decimal@projection</c>.</summary>
 public sealed record MaxDecimalProjection : IOperator
 {
-    public MaxDecimalProjection(DeclaresDecimalRow selector)
+    public MaxDecimalProjection(DeclaresDecimalRow selector, Window? over = null)
     {
+        Over = over;
         Selector = selector;
     }
+
+    public Window? Over { get; }
 
     public DeclaresDecimalRow Selector { get; }
 
